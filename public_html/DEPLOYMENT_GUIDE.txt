@@ -1,0 +1,337 @@
+================================================================================
+                  DARFIDEN MANAGEMENT SYSTEM
+              Complete Deployment Guide for Your Domain
+================================================================================
+
+QUICK START CHECKLIST:
+----------------------
+[ ] 1. Upload files to your domain
+[ ] 2. Create MySQL database
+[ ] 3. Import SQL schema
+[ ] 4. Update database credentials in config.php
+[ ] 5. Set folder permissions
+[ ] 6. Run create_admin.php
+[ ] 7. Delete create_admin.php
+[ ] 8. Login and change admin password
+[ ] 9. Enable HTTPS (recommended)
+
+================================================================================
+STEP-BY-STEP DEPLOYMENT INSTRUCTIONS
+================================================================================
+
+STEP 1: UPLOAD FILES TO YOUR DOMAIN
+------------------------------------
+1. Connect to your web server via FTP/SFTP or use your hosting control panel
+2. Upload ALL files from the public_html folder to your domain's public directory
+   Common locations:
+   - cPanel: /public_html/ or /www/
+   - Plesk: /httpdocs/
+   - Other: /var/www/html/ or /htdocs/
+
+3. Verify all folders are uploaded:
+   - assets/ (css, js)
+   - uploads/ (passports, winnings)
+   - includes/
+   - src/ (controllers, config files)
+   - sql/
+   - All PHP files
+
+STEP 2: CREATE MYSQL DATABASE
+------------------------------
+Using cPanel:
+1. Login to cPanel
+2. Go to "MySQL Databases"
+3. Create a new database (e.g., "darfiden_db")
+4. Create a MySQL user with a strong password
+5. Add the user to the database with "ALL PRIVILEGES"
+6. Note down: database name, username, password
+
+Using phpMyAdmin:
+1. Login to phpMyAdmin
+2. Click "New" to create a database
+3. Enter database name and select "utf8mb4_unicode_ci" collation
+4. Click "Create"
+
+STEP 3: IMPORT SQL SCHEMA
+--------------------------
+Using phpMyAdmin:
+1. Login to phpMyAdmin
+2. Select your database
+3. Click "Import" tab
+4. Click "Choose File" and select: sql/darfiden_full_schema.sql
+5. Click "Go" to import
+6. Verify tables are created (users, shops, expenses, etc.)
+
+Using Command Line:
+mysql -u your_username -p your_database_name < sql/darfiden_full_schema.sql
+
+STEP 4: UPDATE DATABASE CREDENTIALS
+------------------------------------
+1. Open file: src/config.php
+2. Update these lines:
+
+   define('DB_HOST', 'localhost');        // Usually 'localhost'
+   define('DB_NAME', 'darfiden_db');      // Your database name
+   define('DB_USER', 'root');             // Your database username
+   define('DB_PASS', '');                 // Your database password
+
+3. Save the file
+
+STEP 5: SET FOLDER PERMISSIONS
+-------------------------------
+Using FTP Client:
+1. Right-click on "uploads" folder
+2. Set permissions to 755
+3. Do the same for:
+   - uploads/passports/
+   - uploads/winnings/
+
+Using Command Line (SSH):
+chmod 755 uploads/
+chmod 755 uploads/passports/
+chmod 755 uploads/winnings/
+
+STEP 6: CREATE ADMIN USER
+--------------------------
+1. Open your browser
+2. Visit: http://yourdomain.com/create_admin.php
+3. You should see "Success!" message
+4. Default admin credentials created:
+   Username: admin
+   Password: admin123
+
+STEP 7: DELETE ADMIN CREATION SCRIPT (IMPORTANT!)
+--------------------------------------------------
+For security, delete the create_admin.php file:
+
+Using FTP:
+- Delete create_admin.php from your root directory
+
+Using SSH:
+rm create_admin.php
+
+STEP 8: LOGIN AND CHANGE PASSWORD
+----------------------------------
+1. Visit: http://yourdomain.com/login.php
+2. Login with:
+   Username: admin
+   Password: admin123
+3. After login, go to "Change Password" in the menu
+4. Change to a strong password immediately
+
+STEP 9: ENABLE HTTPS (RECOMMENDED)
+-----------------------------------
+1. Obtain SSL certificate (Let's Encrypt, cPanel AutoSSL, or purchased)
+2. Install SSL certificate on your domain
+3. Edit .htaccess file
+4. Uncomment these lines (remove # at the start):
+
+   # RewriteCond %{HTTPS} off
+   # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+   To become:
+
+   RewriteCond %{HTTPS} off
+   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+5. Save and test
+
+================================================================================
+TESTING YOUR INSTALLATION
+================================================================================
+
+1. Login Test:
+   - Visit: http://yourdomain.com/login.php
+   - Login with admin credentials
+   - Should redirect to dashboard
+
+2. Dashboard Test:
+   - Should see dashboard with statistics
+   - Navigation menu should be visible
+
+3. Shop Management Test:
+   - Go to "Shops" menu
+   - Click "Add New Shop"
+   - Create a test shop
+
+4. Staff Management Test:
+   - Go to "Staff Management"
+   - Click "Add New Staff"
+   - Create a test staff member
+
+5. File Upload Test:
+   - Go to "Upload Passport"
+   - Try uploading an image
+   - Should show success message
+
+================================================================================
+DEFAULT CREDENTIALS
+================================================================================
+
+Admin Account:
+--------------
+Username: admin
+Password: admin123
+
+⚠️  CRITICAL: Change these credentials immediately after first login!
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Problem: "Database connection failed"
+Solution: 
+- Check src/config.php database credentials
+- Verify MySQL service is running
+- Ensure database user has proper privileges
+
+Problem: "404 Not Found" errors
+Solution:
+- Check .htaccess file is uploaded
+- Verify mod_rewrite is enabled in Apache
+- Contact hosting provider if needed
+
+Problem: "Permission denied" on file uploads
+Solution:
+- Check uploads folder permissions (should be 755)
+- Verify web server can write to uploads folder
+- Check PHP upload_max_filesize setting
+
+Problem: ".htaccess causes 500 error"
+Solution:
+- Rename .htaccess temporarily to .htaccess.bak
+- Contact hosting provider to enable mod_rewrite
+- Check Apache AllowOverride setting
+
+Problem: "Session expired" messages
+Solution:
+- Check session settings in hosting
+- Verify session folder has write permissions
+- Increase session.gc_maxlifetime in php.ini
+
+================================================================================
+IMPORTANT SECURITY NOTES
+================================================================================
+
+1. ✅ Change default admin password immediately
+2. ✅ Delete create_admin.php after creating admin
+3. ✅ Enable HTTPS for production use
+4. ✅ Use strong passwords for all accounts
+5. ✅ Regular database backups
+6. ✅ Keep PHP version updated
+7. ✅ Monitor activity logs regularly
+8. ✅ Set proper file permissions (never 777)
+9. ✅ Keep uploads folder outside public_html if possible
+10. ✅ Limit file upload sizes appropriately
+
+================================================================================
+SYSTEM FEATURES
+================================================================================
+
+Authentication:
+- Login/Logout
+- User registration
+- Password change
+- Role-based access control
+
+Shop Management:
+- Create, edit, delete shops
+- Assign managers to shops
+- Track shop status
+
+Staff Management:
+- Create, edit, delete staff members
+- Assign staff to shops
+- Upload passport photos
+- Manage roles (Admin, Manager, Staff)
+
+Daily Operations:
+- Record daily sales and expenses
+- Track opening/closing balances
+- Generate daily reports
+
+Expense Management:
+- Create expense records
+- Categorize expenses
+- Approval workflow
+- Payment tracking
+
+Winning Management:
+- Upload winning receipts
+- Track winning amounts
+- Verification workflow
+- Customer information
+
+Reporting:
+- Staff performance reports
+- Shop summaries
+- Export capabilities
+
+================================================================================
+SYSTEM REQUIREMENTS
+================================================================================
+
+Minimum Requirements:
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- Apache 2.4+ or Nginx
+- 50 MB disk space minimum
+- mod_rewrite enabled (Apache)
+
+Recommended:
+- PHP 8.0 or higher
+- MySQL 8.0 or higher
+- SSL certificate (HTTPS)
+- 100 MB disk space
+- Regular backups
+
+PHP Extensions Required:
+- PDO
+- PDO_MySQL
+- GD or Imagick (for image processing)
+- mbstring
+- fileinfo
+
+================================================================================
+GETTING HELP
+================================================================================
+
+If you encounter issues:
+
+1. Check the troubleshooting section above
+2. Review PHP error logs
+3. Check MySQL error logs
+4. Verify all installation steps completed
+5. Contact your hosting provider for server-specific issues
+
+================================================================================
+VERSION INFORMATION
+================================================================================
+
+System: Darfiden Management System
+Version: 1.0
+Release Date: 2025
+Database Schema: darfiden_full_schema.sql
+
+================================================================================
+CONGRATULATIONS!
+================================================================================
+
+Your Darfiden Management System should now be fully deployed and ready to use.
+
+Next Steps:
+1. Login as admin
+2. Change the default password
+3. Create your shops
+4. Add managers and staff
+5. Start tracking operations
+
+For best results:
+- Train your staff on using the system
+- Set up regular database backups
+- Monitor system activity regularly
+- Keep the system updated
+
+================================================================================
+END OF DEPLOYMENT GUIDE
+================================================================================
