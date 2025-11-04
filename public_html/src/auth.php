@@ -13,7 +13,7 @@ function require_login() {
     }
 }
 
-function get_current_user() {
+function get_logged_user() {
     if (is_logged_in()) {
         return [
             'id' => $_SESSION['user_id'],
