@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS `daily_operations` (
   `closing_balance` decimal(10,2) DEFAULT 0.00,
   `total_sales` decimal(10,2) DEFAULT 0.00,
   `total_expenses` decimal(10,2) DEFAULT 0.00,
+  `total_winnings` decimal(10,2) DEFAULT 0.00,
+  `cash_balance` decimal(10,2) DEFAULT 0.00,
   `notes` text DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
