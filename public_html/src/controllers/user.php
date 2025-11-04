@@ -69,6 +69,9 @@ class UserController {
             // Hash password
             $hashed_password = hash_password($data['password']);
             
+            // Convert empty string to null for shop_id
+            $shop_id = (!empty($data['shop_id']) && $data['shop_id'] !== '') ? $data['shop_id'] : null;
+            
             // Insert user
             $stmt = $this->pdo->prepare("
                 INSERT INTO users (username, password, full_name, email, phone, role, shop_id, status)
@@ -81,7 +84,7 @@ class UserController {
                 $data['email'] ?? null,
                 $data['phone'] ?? null,
                 $data['role'] ?? 'staff',
-                $data['shop_id'] ?? null,
+                $shop_id,
                 $data['status'] ?? 'active'
             ]);
             
