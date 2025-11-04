@@ -1,0 +1,179 @@
+================================================================================
+                    HOTFIX APPLIED - Version 1.0.2
+                        Darfiden Management System
+================================================================================
+
+Issue Fixed: Foreign Key Constraint Violation
+Date: November 4, 2025
+Severity: Critical
+Status: ✅ RESOLVED
+
+================================================================================
+PROBLEM DESCRIPTION:
+================================================================================
+
+Error Message:
+"Failed to create shop: SQLSTATE[23000]: Integrity constraint violation: 1452 
+Cannot add or update a child row: a foreign key constraint fails 
+(`darfiden_db`.`shops`, CONSTRAINT `shops_manager_fk` FOREIGN KEY 
+(`manager_id`) REFERENCES `users` (`id`) ON DELETE SET NULL)"
+
+Cause:
+When creating a shop without selecting a manager (leaving the dropdown empty),
+the form sends an empty string ('') instead of NULL. MySQL foreign key 
+constraints require either a valid user ID or NULL, not an empty string.
+
+Impact:
+- Could not create shops without assigning a manager
+- Could not create staff without assigning to a shop
+- Foreign key constraint errors when updating records
+
+================================================================================
+SOLUTION APPLIED:
+================================================================================
+
+Updated controllers to properly handle empty foreign key fields:
+
+1. Shop Controller (src/controllers/shop.php)
+   - Create method: Convert empty manager_id to NULL
+   - Update method: Convert empty manager_id to NULL
+
+2. User Controller (src/controllers/user.php)
+   - Create method: Convert empty shop_id to NULL
+   - Update method: Convert empty shop_id to NULL
+
+Fix Logic:
+```php
+// Convert empty string to null
+$manager_id = (!empty($data['manager_id']) && $data['manager_id'] !== '') 
+              ? $data['manager_id'] 
+              : null;
+```
+
+Files Modified:
+✅ src/controllers/shop.php    - Lines 64-76 (create), Lines 100-114 (update)
+✅ src/controllers/user.php    - Lines 69-84 (create), Lines 110-120 (update)
+
+================================================================================
+WHAT THIS FIX DOES:
+================================================================================
+
+Before Fix:
+- Empty dropdown → Empty string ('') → Foreign key error ❌
+
+After Fix:
+- Empty dropdown → NULL value → Allowed by database ✅
+- Valid selection → User/Shop ID → Works as expected ✅
+
+================================================================================
+ACTION REQUIRED:
+================================================================================
+
+If you already deployed version 1.0.1:
+
+Option 1 - RE-UPLOAD (Recommended):
+1. DELETE old controller files:
+   - src/controllers/shop.php
+   - src/controllers/user.php
+2. Upload new versions from updated ZIP
+3. Test shop creation without manager
+4. Test staff creation without shop assignment
+
+Option 2 - MANUAL FIX:
+Edit src/controllers/shop.php:
+1. In create() method (around line 64), add before INSERT:
+   $manager_id = (!empty($data['manager_id']) && $data['manager_id'] !== '') 
+                 ? $data['manager_id'] : null;
+   
+2. In update() method (around line 100), add before UPDATE:
+   $manager_id = (!empty($data['manager_id']) && $data['manager_id'] !== '') 
+                 ? $data['manager_id'] : null;
+   
+3. Replace $data['manager_id'] ?? null with $manager_id in SQL execute
+
+Edit src/controllers/user.php:
+1. In create() method (around line 73), add before INSERT:
+   $shop_id = (!empty($data['shop_id']) && $data['shop_id'] !== '') 
+              ? $data['shop_id'] : null;
+   
+2. In update() method (around line 110), add before UPDATE:
+   $shop_id = (!empty($data['shop_id']) && $data['shop_id'] !== '') 
+              ? $data['shop_id'] : null;
+   
+3. Replace $data['shop_id'] ?? null with $shop_id in SQL execute
+
+================================================================================
+TESTING:
+================================================================================
+
+After applying the fix, verify:
+
+✅ Create shop WITHOUT selecting manager → Success
+✅ Create shop WITH manager selected → Success
+✅ Update shop to remove manager → Success
+✅ Create staff WITHOUT shop assignment → Success
+✅ Create staff WITH shop assigned → Success
+✅ Update staff to remove shop → Success
+✅ No foreign key constraint errors
+
+================================================================================
+VERSION HISTORY:
+================================================================================
+
+v1.0.0 (Initial Release)
+- Complete shop management system
+- Issue: Function naming conflict
+
+v1.0.1 (Hotfix 1)
+- Fixed: Renamed get_current_user() to get_logged_user()
+- Issue: Foreign key constraint errors
+
+v1.0.2 (Current - Hotfix 2)
+- Fixed: Empty string to NULL conversion for foreign keys
+- Status: Fully functional ✅
+
+================================================================================
+ADDITIONAL NOTES:
+================================================================================
+
+This fix ensures:
+- Optional foreign key fields work correctly
+- Database integrity is maintained
+- No manual SQL cleanup needed
+- Existing data is not affected
+
+The fix handles both:
+1. Creating new records without relationships
+2. Updating existing records to remove relationships
+
+================================================================================
+DOWNLOAD UPDATED VERSION:
+================================================================================
+
+The ZIP package has been updated with this fix:
+- File: darfiden_management_system.zip
+- Version: 1.0.2
+- Size: 67 KB
+- Status: Ready for deployment ✅
+
+All previous fixes (v1.0.1) are included.
+
+================================================================================
+SUPPORT:
+================================================================================
+
+If you continue to experience foreign key errors:
+1. Verify PHP version is 7.4 or higher
+2. Check MySQL version is 5.7 or higher
+3. Ensure database was created with correct schema
+4. Verify all foreign key tables exist (users, shops)
+5. Check error logs for specific constraint names
+
+Common Solutions:
+- If users table is empty, create at least one admin user first
+- If shops table references don't work, verify users exist
+- Foreign keys require matching column types (INT)
+
+================================================================================
+END OF HOTFIX NOTES
+================================================================================
