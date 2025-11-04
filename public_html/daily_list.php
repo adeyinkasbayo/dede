@@ -4,7 +4,7 @@ require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/daily.php';
 require_login();
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 $daily_controller = new DailyController($pdo);
 
 $shop_id = is_admin() ? null : $current_user['shop_id'];

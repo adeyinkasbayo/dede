@@ -17,7 +17,7 @@ function can_edit_shop($shop_id) {
         return true;
     }
     
-    $current_user = get_current_user();
+    $current_user = get_logged_user();
     return $current_user['shop_id'] == $shop_id;
 }
 
@@ -35,7 +35,7 @@ function can_manage_user($user_role) {
 }
 
 function get_accessible_shops($pdo) {
-    $current_user = get_current_user();
+    $current_user = get_logged_user();
     
     if (is_admin()) {
         // Admin can access all shops

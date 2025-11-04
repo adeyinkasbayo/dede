@@ -5,7 +5,7 @@ require_once __DIR__ . '/src/controllers/shop.php';
 require_once __DIR__ . '/src/controllers/user.php';
 require_permission(['admin']);
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 $shop_controller = new ShopController($pdo);
 $user_controller = new UserController($pdo);
 

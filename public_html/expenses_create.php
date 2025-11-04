@@ -4,7 +4,7 @@ require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/expenses.php';
 require_login();
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 $expense_controller = new ExpenseController($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

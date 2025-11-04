@@ -4,7 +4,7 @@ require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/auth_controller.php';
 require_login();
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $old_password = $_POST['old_password'] ?? '';

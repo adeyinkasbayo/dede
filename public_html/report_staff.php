@@ -5,7 +5,7 @@ require_once __DIR__ . '/src/controllers/reports.php';
 require_once __DIR__ . '/src/controllers/user.php';
 require_permission(['admin', 'manager']);
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 $report_controller = new ReportController($pdo);
 $user_controller = new UserController($pdo);
 

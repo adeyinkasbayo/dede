@@ -4,7 +4,7 @@ require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/assign.php';
 require_permission(['admin', 'manager']);
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 $assign_controller = new AssignController($pdo);
 
 $shop_id = is_admin() ? null : $current_user['shop_id'];

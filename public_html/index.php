@@ -3,7 +3,7 @@ $page_title = 'Dashboard';
 require_once __DIR__ . '/src/init.php';
 require_login();
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 
 // Get statistics based on role
 $stats = [];

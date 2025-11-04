@@ -3,7 +3,7 @@ if (!is_logged_in()) {
     redirect('login.php');
 }
 
-$current_user = get_current_user();
+$current_user = get_logged_user();
 ?>
 <!DOCTYPE html>
 <html lang="en">
