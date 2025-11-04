@@ -1,0 +1,117 @@
+<?php
+require_once __DIR__ . '/../init.php';
+
+class DailyController {
+    private $pdo;
+    
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+    
+    public function get_all($shop_id = null, $start_date = null, $end_date = null) {
+        try {
+            $sql = "SELECT d.*, s.name as shop_name, u.full_name as staff_name
+                    FROM daily_operations d
+                    LEFT JOIN shops s ON d.shop_id = s.id
+                    LEFT JOIN users u ON d.staff_id = u.id
+                    WHERE 1=1";
+            $params = [];
+            
+            if ($shop_id) {
+                $sql .= " AND d.shop_id = ?";
+                $params[] = $shop_id;
+            }
+            
+            if ($start_date) {
+                $sql .= " AND d.operation_date >= ?";
+                $params[] = $start_date;
+            }
+            
+            if ($end_date) {
+                $sql .= " AND d.operation_date <= ?";
+                $params[] = $end_date;
+            }
+            
+            $sql .= " ORDER BY d.operation_date DESC";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+    
+    public function get_by_id($id) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT d.*, s.name as shop_name, u.full_name as staff_name
+                FROM daily_operations d
+                LEFT JOIN shops s ON d.shop_id = s.id
+                LEFT JOIN users u ON d.staff_id = u.id
+                WHERE d.id = ?
+            ");
+            $stmt->execute([$id]);
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+    
+    public function create($data) {
+        try {
+            if (empty($data['shop_id']) || empty($data['staff_id']) || empty($data['operation_date'])) {
+                return ['success' => false, 'message' => 'Shop, staff, and operation date are required'];
+            }
+            
+            $stmt = $this->pdo->prepare("
+                INSERT INTO daily_operations 
+                (shop_id, staff_id, operation_date, opening_balance, closing_balance, total_sales, total_expenses, notes, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $data['shop_id'],
+                $data['staff_id'],
+                $data['operation_date'],
+                $data['opening_balance'] ?? 0,
+                $data['closing_balance'] ?? 0,
+                $data['total_sales'] ?? 0,
+                $data['total_expenses'] ?? 0,
+                $data['notes'] ?? null,
+                $data['created_by']
+            ]);
+            
+            return ['success' => true, 'message' => 'Daily operation recorded successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to create daily operation: ' . $e->getMessage()];
+        }
+    }
+    
+    public function update($id, $data) {
+        try {
+            $stmt = $this->pdo->prepare("
+                UPDATE daily_operations 
+                SET shop_id = ?, staff_id = ?, operation_date = ?, opening_balance = ?, 
+                    closing_balance = ?, total_sales = ?, total_expenses = ?, notes = ?
+                WHERE id = ?
+            ");
+            $stmt->execute([
+                $data['shop_id'],
+                $data['staff_id'],
+                $data['operation_date'],
+                $data['opening_balance'] ?? 0,
+                $data['closing_balance'] ?? 0,
+                $data['total_sales'] ?? 0,
+                $data['total_expenses'] ?? 0,
+                $data['notes'] ?? null,
+                $id
+            ]);
+            
+            return ['success' => true, 'message' => 'Daily operation updated successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to update daily operation: ' . $e->getMessage()];
+        }
+    }
+}
+?>
