@@ -100,8 +100,8 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="total_sales">Total Sales *</label>
-                        <input type="number" id="total_sales" name="total_sales" class="form-control" 
+                        <label for="closing_balance">Closing Balance *</label>
+                        <input type="number" id="closing_balance" name="closing_balance" class="form-control" 
                                step="0.01" required value="0.00" onchange="calculateDailyTotal()">
                     </div>
                     
@@ -112,10 +112,23 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="closing_balance">Closing Balance *</label>
-                        <input type="number" id="closing_balance" name="closing_balance" class="form-control" 
-                               step="0.01" required value="0.00" readonly>
-                        <small style="color: #64748b;">Auto-calculated: Opening + Sales - Expenses</small>
+                        <label for="total_winnings">Total Winnings *</label>
+                        <input type="number" id="total_winnings" name="total_winnings" class="form-control" 
+                               step="0.01" required value="0.00" onchange="calculateDailyTotal()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="total_sales">Total Sales (Optional)</label>
+                        <input type="number" id="total_sales" name="total_sales" class="form-control" 
+                               step="0.01" value="0.00">
+                        <small style="color: #64748b;">For record keeping purposes</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cash_balance">Cash Balance</label>
+                        <input type="number" id="cash_balance" name="cash_balance" class="form-control" 
+                               step="0.01" value="0.00" readonly>
+                        <small style="color: #64748b;">Auto-calculated: Opening - Closing - Expenses - Winnings</small>
                     </div>
                     
                     <div class="form-group">
