@@ -1,0 +1,205 @@
+================================================================================
+                    UPDATE - Version 1.0.3
+                        Darfiden Management System
+================================================================================
+
+Feature Update: Daily Operations Calculation Formula
+Date: November 4, 2025
+Type: Formula Correction & Feature Enhancement
+Status: ✅ IMPLEMENTED
+
+================================================================================
+CHANGE DESCRIPTION:
+================================================================================
+
+Updated Daily Operations calculation to match business requirements:
+
+OLD Formula (Incorrect):
+- Closing Balance = Opening Balance + Sales - Expenses
+
+NEW Formula (Correct):
+- Cash Balance = Opening Balance - Closing Balance - Expenses - Winnings
+
+================================================================================
+WHAT'S NEW:
+================================================================================
+
+Daily Operations Form Now Includes:
+1. Opening Balance (input)
+2. Closing Balance (input)
+3. Total Expenses (input)
+4. Total Winnings (input) - NEW FIELD
+5. Total Sales (optional input) - for record keeping
+6. Cash Balance (auto-calculated) - NEW FIELD
+
+Calculation Logic:
+The Cash Balance shows the difference/discrepancy between expected and actual
+cash at the end of the day:
+- Positive Cash Balance = Surplus
+- Negative Cash Balance = Shortage
+- Zero Cash Balance = Balanced
+
+================================================================================
+DATABASE CHANGES:
+================================================================================
+
+Added to daily_operations table:
+- total_winnings (decimal 10,2) - Amount paid out to winners
+- cash_balance (decimal 10,2) - Calculated discrepancy
+
+================================================================================
+FILES MODIFIED:
+================================================================================
+
+✅ sql/darfiden_full_schema.sql          - Updated table structure
+✅ sql/migration_v1.0.3_*.sql            - Migration for existing DBs
+✅ src/controllers/daily.php             - Updated calculation logic
+✅ daily_create.php                      - Updated form fields
+✅ daily_list.php                        - Updated table columns
+✅ assets/js/app.js                      - Updated JavaScript calculation
+
+================================================================================
+DEPLOYMENT INSTRUCTIONS:
+================================================================================
+
+FOR NEW INSTALLATIONS:
+1. Use the updated schema (sql/darfiden_full_schema.sql)
+2. Follow normal installation steps
+3. No migration needed ✅
+
+FOR EXISTING INSTALLATIONS:
+Choose ONE option:
+
+Option A - Run Migration Script (Recommended):
+1. Backup your database first!
+2. Run: sql/migration_v1.0.3_add_winnings_cashbalance.sql
+3. Upload updated files:
+   - src/controllers/daily.php
+   - daily_create.php
+   - daily_list.php
+   - assets/js/app.js
+4. Test daily operations
+
+Option B - Manual Database Update:
+1. Backup your database
+2. Run these SQL commands:
+
+   ALTER TABLE `daily_operations` 
+   ADD COLUMN `total_winnings` decimal(10,2) DEFAULT 0.00 AFTER `total_expenses`,
+   ADD COLUMN `cash_balance` decimal(10,2) DEFAULT 0.00 AFTER `total_winnings`;
+   
+   UPDATE `daily_operations` 
+   SET `cash_balance` = `opening_balance` - `closing_balance` - `total_expenses` - `total_winnings`;
+
+3. Upload updated PHP and JS files
+4. Test daily operations
+
+================================================================================
+TESTING:
+================================================================================
+
+After applying the update, test:
+
+✅ Create new daily operation with all fields
+✅ Verify Cash Balance calculates correctly:
+   Example:
+   - Opening: $1000
+   - Closing: $800
+   - Expenses: $50
+   - Winnings: $100
+   - Cash Balance = 1000 - 800 - 50 - 100 = $50 (surplus)
+
+✅ Check daily operations list shows new columns
+✅ Verify existing records display correctly (if using migration)
+
+================================================================================
+FORMULA EXAMPLES:
+================================================================================
+
+Example 1 - Surplus:
+Opening: $1000, Closing: $700, Expenses: $100, Winnings: $150
+Cash Balance = 1000 - 700 - 100 - 150 = $50 (surplus)
+
+Example 2 - Shortage:
+Opening: $1000, Closing: $900, Expenses: $80, Winnings: $50
+Cash Balance = 1000 - 900 - 80 - 50 = -$30 (shortage)
+
+Example 3 - Balanced:
+Opening: $1000, Closing: $750, Expenses: $150, Winnings: $100
+Cash Balance = 1000 - 750 - 150 - 100 = $0 (balanced)
+
+================================================================================
+FIELD DESCRIPTIONS:
+================================================================================
+
+Opening Balance:
+- Cash at the start of the day
+
+Closing Balance:
+- Physical cash counted at end of day
+
+Total Expenses:
+- Money spent during the day (bills, purchases, etc.)
+
+Total Winnings:
+- Money paid out to lottery/game winners
+
+Total Sales:
+- Optional field for record keeping
+- Not used in cash balance calculation
+
+Cash Balance:
+- Difference between expected and actual cash
+- Indicates surplus, shortage, or balanced
+
+================================================================================
+VERSION HISTORY:
+================================================================================
+
+v1.0.0 - Initial Release
+v1.0.1 - Fixed function naming conflict
+v1.0.2 - Fixed foreign key constraints
+v1.0.3 - Updated daily operations formula (Current)
+
+================================================================================
+BACKWARD COMPATIBILITY:
+================================================================================
+
+This update maintains compatibility with existing data:
+- Old records will show $0.00 for new fields
+- Migration script calculates cash_balance for old records
+- No data loss
+- Existing functionality unchanged
+
+================================================================================
+SUPPORT:
+================================================================================
+
+If you encounter issues after update:
+1. Check migration script ran successfully
+2. Verify new columns exist in database
+3. Clear browser cache
+4. Check PHP error logs
+5. Verify all files were uploaded
+
+Common Issues:
+- "Unknown column" error → Run migration script
+- Old form still showing → Clear browser cache
+- Calculation not working → Check app.js uploaded
+
+================================================================================
+DOWNLOAD:
+================================================================================
+
+Updated package includes all fixes:
+- v1.0.1: Function rename
+- v1.0.2: Foreign key fixes
+- v1.0.3: Daily operations formula (Current)
+
+File: darfiden_management_system.zip
+Version: 1.0.3
+Status: Ready ✅
+
+================================================================================
+END OF UPDATE NOTES
+================================================================================
