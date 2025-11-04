@@ -88,13 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // Calculate totals in forms
 function calculateDailyTotal() {
     const opening = parseFloat(document.getElementById('opening_balance')?.value || 0);
-    const sales = parseFloat(document.getElementById('total_sales')?.value || 0);
+    const closing = parseFloat(document.getElementById('closing_balance')?.value || 0);
     const expenses = parseFloat(document.getElementById('total_expenses')?.value || 0);
+    const winnings = parseFloat(document.getElementById('total_winnings')?.value || 0);
     
-    const closing = opening + sales - expenses;
-    const closingField = document.getElementById('closing_balance');
-    if (closingField) {
-        closingField.value = closing.toFixed(2);
+    // Cash Balance = Opening - Closing - Expenses - Winnings
+    const cashBalance = opening - closing - expenses - winnings;
+    const cashBalanceField = document.getElementById('cash_balance');
+    if (cashBalanceField) {
+        cashBalanceField.value = cashBalance.toFixed(2);
     }
 }
 
