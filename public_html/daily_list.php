@@ -47,9 +47,10 @@ include __DIR__ . '/includes/sidebar.php';
                                 <th>Shop</th>
                                 <th>Staff</th>
                                 <th>Opening</th>
-                                <th>Sales</th>
-                                <th>Expenses</th>
                                 <th>Closing</th>
+                                <th>Expenses</th>
+                                <th>Winnings</th>
+                                <th>Cash Balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,9 +60,10 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td><?php echo htmlspecialchars($operation['shop_name']); ?></td>
                                 <td><?php echo htmlspecialchars($operation['staff_name']); ?></td>
                                 <td>$<?php echo format_money($operation['opening_balance']); ?></td>
-                                <td>$<?php echo format_money($operation['total_sales']); ?></td>
-                                <td>$<?php echo format_money($operation['total_expenses']); ?></td>
                                 <td>$<?php echo format_money($operation['closing_balance']); ?></td>
+                                <td>$<?php echo format_money($operation['total_expenses']); ?></td>
+                                <td>$<?php echo format_money($operation['total_winnings'] ?? 0); ?></td>
+                                <td><strong>$<?php echo format_money($operation['cash_balance'] ?? 0); ?></strong></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
