@@ -60,6 +60,9 @@ class ShopController {
                 return ['success' => false, 'message' => 'Shop code already exists'];
             }
             
+            // Convert empty string to null for manager_id
+            $manager_id = (!empty($data['manager_id']) && $data['manager_id'] !== '') ? $data['manager_id'] : null;
+            
             // Insert shop
             $stmt = $this->pdo->prepare("
                 INSERT INTO shops (name, code, location, address, phone, manager_id, status)
@@ -71,7 +74,7 @@ class ShopController {
                 $data['location'] ?? null,
                 $data['address'] ?? null,
                 $data['phone'] ?? null,
-                $data['manager_id'] ?? null,
+                $manager_id,
                 $data['status'] ?? 'active'
             ]);
             
