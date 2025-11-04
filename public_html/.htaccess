@@ -1,0 +1,50 @@
+# Security Settings
+Options -Indexes
+ServerSignature Off
+
+# Prevent directory listing
+Options All -Indexes
+
+# Protect sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sql|conf|php~|php#|php.bak)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Protect config and includes
+<FilesMatch "^(config|init|auth|helpers|permissions)\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Force HTTPS (uncomment for production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Protect uploads directory from direct access to PHP files
+RewriteCond %{REQUEST_URI} ^/uploads/.*\.php$ [NC]
+RewriteRule .* - [F,L]
+
+# PHP Settings
+php_flag display_errors Off
+php_flag log_errors On
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value memory_limit 256M
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
