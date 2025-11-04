@@ -97,6 +97,9 @@ class ShopController {
                 }
             }
             
+            // Convert empty string to null for manager_id
+            $manager_id = (!empty($data['manager_id']) && $data['manager_id'] !== '') ? $data['manager_id'] : null;
+            
             $stmt = $this->pdo->prepare("
                 UPDATE shops 
                 SET name = ?, code = ?, location = ?, address = ?, phone = ?, manager_id = ?, status = ?
@@ -108,7 +111,7 @@ class ShopController {
                 $data['location'] ?? null,
                 $data['address'] ?? null,
                 $data['phone'] ?? null,
-                $data['manager_id'] ?? null,
+                $manager_id,
                 $data['status'] ?? 'active',
                 $id
             ]);
