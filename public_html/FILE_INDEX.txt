@@ -1,0 +1,287 @@
+================================================================================
+               DARFIDEN MANAGEMENT SYSTEM - FILE INDEX
+                    Complete List of All Files
+================================================================================
+
+ROOT DIRECTORY FILES:
+---------------------
+✅ .htaccess                    - Apache security & rewrite rules
+✅ index.php                    - Dashboard (main page)
+✅ login.php                    - Login page
+✅ register.php                 - User registration
+✅ logout.php                   - Logout handler
+✅ create_admin.php             - Admin creation script (delete after use!)
+✅ change_password.php          - Password change page
+✅ upload_passport.php          - Passport photo upload
+✅ README.md                    - System documentation
+✅ DEPLOYMENT_GUIDE.txt         - Deployment instructions
+✅ FILE_INDEX.txt              - This file
+
+SHOP MANAGEMENT:
+----------------
+✅ shop_list.php               - List all shops
+✅ shop_create.php             - Create new shop
+✅ shop_edit.php               - Edit shop details
+
+STAFF MANAGEMENT:
+-----------------
+✅ staff_list.php              - List all staff members
+✅ staff_create.php            - Create new staff member
+✅ staff_edit.php              - Edit staff details
+
+DAILY OPERATIONS:
+-----------------
+✅ daily_list.php              - List daily operations
+✅ daily_create.php            - Record new daily operation
+
+EXPENSES:
+---------
+✅ expenses_list.php           - List all expenses
+✅ expenses_create.php         - Create new expense
+✅ expenses_edit.php           - Edit expense details
+
+ASSIGNMENTS:
+------------
+✅ assign_list.php             - List staff assignments
+
+WINNINGS:
+---------
+✅ winning_upload.php          - Upload winning receipts & list
+
+REPORTS:
+--------
+✅ report_staff.php            - Staff performance reports
+
+ASSETS DIRECTORY (assets/):
+----------------------------
+✅ assets/css/styles.css       - Main stylesheet
+✅ assets/js/app.js            - JavaScript functions
+
+INCLUDES DIRECTORY (includes/):
+-------------------------------
+✅ includes/header.php         - Page header template
+✅ includes/sidebar.php        - Navigation sidebar
+✅ includes/messages.php       - Alert messages display
+
+SOURCE DIRECTORY (src/):
+------------------------
+✅ src/config.php              - Configuration settings
+✅ src/init.php                - Initialization & database connection
+✅ src/auth.php                - Authentication functions
+✅ src/helpers.php             - Helper utility functions
+✅ src/permissions.php         - Permission system
+
+CONTROLLERS (src/controllers/):
+-------------------------------
+✅ src/controllers/auth_controller.php    - Authentication logic
+✅ src/controllers/shop.php               - Shop management logic
+✅ src/controllers/user.php               - Staff management logic
+✅ src/controllers/assign.php             - Assignment management
+✅ src/controllers/daily.php              - Daily operations logic
+✅ src/controllers/expenses.php           - Expense management
+✅ src/controllers/winnings.php           - Winning management
+✅ src/controllers/reports.php            - Report generation
+
+DATABASE (sql/):
+----------------
+✅ sql/darfiden_full_schema.sql   - Complete database schema
+
+UPLOAD DIRECTORIES (uploads/):
+------------------------------
+✅ uploads/passports/          - Staff passport photos storage
+✅ uploads/winnings/           - Winning receipt images storage
+
+================================================================================
+FILE COUNT SUMMARY:
+================================================================================
+
+Main Pages:           20 files
+Controllers:          8 files
+Core System:          5 files
+Includes:             3 files
+Assets:               2 files
+Documentation:        3 files
+Database:             1 file
+Upload Directories:   2 directories
+---------------------
+TOTAL FILES:         44 files + 2 directories
+
+================================================================================
+PAGES BY USER ROLE:
+================================================================================
+
+PUBLIC ACCESS:
+--------------
+- login.php
+- register.php
+
+ALL LOGGED-IN USERS:
+--------------------
+- index.php (Dashboard)
+- change_password.php
+- upload_passport.php
+- logout.php
+
+STAFF ROLE:
+-----------
+- daily_list.php
+- daily_create.php
+- expenses_list.php
+- expenses_create.php
+- winning_upload.php
+
+MANAGER ROLE (includes Staff access):
+--------------------------------------
+- staff_list.php
+- staff_create.php
+- staff_edit.php
+- assign_list.php
+- expenses_edit.php (approve/reject)
+- report_staff.php
+
+ADMIN ROLE (includes Manager access):
+--------------------------------------
+- shop_list.php
+- shop_create.php
+- shop_edit.php
+- All manager and staff pages
+
+================================================================================
+DATABASE TABLES:
+================================================================================
+
+1. users                 - User accounts (admin, manager, staff)
+2. shops                 - Shop information
+3. assignments           - Staff-shop assignments
+4. daily_operations      - Daily sales and operations
+5. expenses              - Expense tracking
+6. winnings              - Winning receipts
+7. activity_logs         - System activity logging
+
+================================================================================
+KEY FEATURES BY FILE:
+================================================================================
+
+AUTHENTICATION:
+- login.php              → User login
+- register.php           → New user registration
+- logout.php             → Session termination
+- change_password.php    → Password updates
+
+SHOP MANAGEMENT:
+- shop_list.php          → View, edit, delete shops
+- shop_create.php        → Add new shops
+- shop_edit.php          → Update shop details
+
+STAFF MANAGEMENT:
+- staff_list.php         → View, edit, delete staff
+- staff_create.php       → Add new staff members
+- staff_edit.php         → Update staff details
+- upload_passport.php    → Upload/update passport photos
+
+OPERATIONS:
+- daily_list.php         → View daily operations history
+- daily_create.php       → Record daily sales/expenses
+
+EXPENSES:
+- expenses_list.php      → View all expenses
+- expenses_create.php    → Create expense records
+- expenses_edit.php      → Edit & approve expenses
+
+WINNINGS:
+- winning_upload.php     → Upload winning receipts
+
+REPORTING:
+- report_staff.php       → Generate staff performance reports
+
+================================================================================
+CONFIGURATION FILES:
+================================================================================
+
+MUST EDIT:
+----------
+✓ src/config.php         → Database credentials (DB_HOST, DB_NAME, DB_USER, DB_PASS)
+
+OPTIONAL EDIT:
+--------------
+○ .htaccess              → Enable HTTPS redirect (uncomment lines)
+○ src/config.php         → Adjust file upload limits, timezone
+
+DO NOT EDIT:
+------------
+✗ src/init.php           → Core initialization
+✗ src/auth.php           → Authentication system
+✗ src/helpers.php        → Helper functions
+✗ src/permissions.php    → Permission system
+
+================================================================================
+DEPLOYMENT CHECKLIST:
+================================================================================
+
+[ ] 1. Upload ALL files to web server
+[ ] 2. Create MySQL database
+[ ] 3. Import sql/darfiden_full_schema.sql
+[ ] 4. Edit src/config.php with database credentials
+[ ] 5. Set permissions (755) on uploads/ directories
+[ ] 6. Visit create_admin.php to create admin user
+[ ] 7. DELETE create_admin.php after use
+[ ] 8. Login and change admin password
+[ ] 9. Test all major features
+[ ] 10. Enable HTTPS in production
+
+================================================================================
+IMPORTANT SECURITY FILES:
+================================================================================
+
+1. .htaccess
+   - Protects sensitive files
+   - Blocks direct access to config files
+   - Enables clean URLs
+   - Security headers
+
+2. src/config.php
+   - Contains database credentials
+   - Protected by .htaccess
+   - Should not be web-accessible
+
+3. src/init.php
+   - Session management
+   - Database connection
+   - Protected by .htaccess
+
+================================================================================
+FILE SIZE REFERENCE:
+================================================================================
+
+Typical File Sizes:
+- PHP Pages: 2-10 KB each
+- Controllers: 3-8 KB each
+- CSS: ~15 KB
+- JavaScript: ~5 KB
+- SQL Schema: ~10 KB
+- Documentation: 5-15 KB
+
+Total System Size: ~150-200 KB (excluding uploads)
+
+================================================================================
+MAINTENANCE FILES:
+================================================================================
+
+Regular Monitoring:
+- Check uploads/ directory size
+- Review activity_logs table
+- Backup database regularly
+- Monitor error logs
+
+Periodic Updates:
+- Update passwords
+- Review user permissions
+- Clean old logs
+- Optimize database
+
+================================================================================
+END OF FILE INDEX
+================================================================================
+
+For detailed deployment instructions, see: DEPLOYMENT_GUIDE.txt
+For system documentation, see: README.md
