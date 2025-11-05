@@ -8,7 +8,7 @@ class WinningController {
         $this->pdo = $pdo;
     }
     
-    public function get_all($shop_id = null, $status = null) {
+    public function get_all($shop_id = null, $status = null, $search = null, $date_from = null, $date_to = null, $month = null, $limit = 20, $offset = 0) {
         try {
             $sql = "SELECT w.*, s.name as shop_name, u.full_name as staff_name, 
                            uv.full_name as verified_by_name
@@ -29,7 +29,37 @@ class WinningController {
                 $params[] = $status;
             }
             
+            // Search by ticket number
+            if ($search) {
+                $sql .= " AND w.ticket_number LIKE ?";
+                $params[] = '%' . $search . '%';
+            }
+            
+            // Filter by date range
+            if ($date_from) {
+                $sql .= " AND w.winning_date >= ?";
+                $params[] = $date_from;
+            }
+            
+            if ($date_to) {
+                $sql .= " AND w.winning_date <= ?";
+                $params[] = $date_to;
+            }
+            
+            // Filter by month
+            if ($month) {
+                $sql .= " AND DATE_FORMAT(w.winning_date, '%Y-%m') = ?";
+                $params[] = $month;
+            }
+            
             $sql .= " ORDER BY w.winning_date DESC";
+            
+            // Add pagination
+            if ($limit > 0) {
+                $sql .= " LIMIT ? OFFSET ?";
+                $params[] = $limit;
+                $params[] = $offset;
+            }
             
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -37,6 +67,50 @@ class WinningController {
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             return [];
+        }
+    }
+    
+    public function count_all($shop_id = null, $status = null, $search = null, $date_from = null, $date_to = null, $month = null) {
+        try {
+            $sql = "SELECT COUNT(*) FROM winnings w WHERE 1=1";
+            $params = [];
+            
+            if ($shop_id) {
+                $sql .= " AND w.shop_id = ?";
+                $params[] = $shop_id;
+            }
+            
+            if ($status) {
+                $sql .= " AND w.status = ?";
+                $params[] = $status;
+            }
+            
+            if ($search) {
+                $sql .= " AND w.ticket_number LIKE ?";
+                $params[] = '%' . $search . '%';
+            }
+            
+            if ($date_from) {
+                $sql .= " AND w.winning_date >= ?";
+                $params[] = $date_from;
+            }
+            
+            if ($date_to) {
+                $sql .= " AND w.winning_date <= ?";
+                $params[] = $date_to;
+            }
+            
+            if ($month) {
+                $sql .= " AND DATE_FORMAT(w.winning_date, '%Y-%m') = ?";
+                $params[] = $month;
+            }
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
         }
     }
     
