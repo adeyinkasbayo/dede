@@ -228,7 +228,7 @@ include __DIR__ . '/includes/sidebar.php';
                                 <tr style="background: #f8fafc; font-weight: bold;">
                                     <td colspan="5" style="text-align: right;">Page Total:</td>
                                     <td><strong style="color: var(--success-color);">$<?php echo format_money($total_amount); ?></strong></td>
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
                                 </tr>
                             </tfoot>
                         </table>
