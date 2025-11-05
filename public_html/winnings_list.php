@@ -7,6 +7,21 @@ require_permission(['admin', 'manager']);
 $current_user = get_logged_user();
 $winning_controller = new WinningController($pdo);
 
+// Handle approve/decline actions
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $winning_id = (int)$_GET['id'];
+    
+    if ($_GET['action'] === 'approve') {
+        $result = $winning_controller->approve($winning_id, $current_user['id']);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+        redirect('winnings_list.php');
+    } elseif ($_GET['action'] === 'decline') {
+        $result = $winning_controller->decline($winning_id);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+        redirect('winnings_list.php');
+    }
+}
+
 // Pagination settings
 $per_page = 20;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
