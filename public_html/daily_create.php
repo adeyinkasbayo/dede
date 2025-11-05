@@ -128,7 +128,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <label for="cash_balance">Cash Balance</label>
                         <input type="number" id="cash_balance" name="cash_balance" class="form-control" 
                                step="0.01" value="0.00" readonly>
-                        <small style="color: #64748b;">Auto-calculated: Opening - Closing - Expenses - Winnings</small>
+                        <small style="color: #64748b;">Auto-calculated: Starting Credit - Winnings - Expenses - Closing</small>
                     </div>
                     
                     <div class="form-group">
