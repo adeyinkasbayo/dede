@@ -164,6 +164,7 @@ include __DIR__ . '/includes/sidebar.php';
                                     <th>Amount</th>
                                     <th>Status</th>
                                     <th>Receipt</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
