@@ -65,12 +65,12 @@ class DailyController {
                 return ['success' => false, 'message' => 'Shop, staff, and operation date are required'];
             }
             
-            // Calculate cash balance: Opening - Closing - Expenses - Winnings
+            // Calculate cash balance: Starting Credit - Winnings - Expenses - Closing Balance
             $opening = $data['opening_balance'] ?? 0;
             $closing = $data['closing_balance'] ?? 0;
             $expenses = $data['total_expenses'] ?? 0;
             $winnings = $data['total_winnings'] ?? 0;
-            $cash_balance = $opening - $closing - $expenses - $winnings;
+            $cash_balance = $opening - $winnings - $expenses - $closing;
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO daily_operations 
@@ -99,12 +99,12 @@ class DailyController {
     
     public function update($id, $data) {
         try {
-            // Calculate cash balance: Opening - Closing - Expenses - Winnings
+            // Calculate cash balance: Starting Credit - Winnings - Expenses - Closing Balance
             $opening = $data['opening_balance'] ?? 0;
             $closing = $data['closing_balance'] ?? 0;
             $expenses = $data['total_expenses'] ?? 0;
             $winnings = $data['total_winnings'] ?? 0;
-            $cash_balance = $opening - $closing - $expenses - $winnings;
+            $cash_balance = $opening - $winnings - $expenses - $closing;
             
             $stmt = $this->pdo->prepare("
                 UPDATE daily_operations 
