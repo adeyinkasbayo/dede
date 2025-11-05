@@ -34,8 +34,14 @@
         </a>
         
         <a href="winning_upload.php">
-            <i class="fas fa-trophy"></i> Winnings
+            <i class="fas fa-upload"></i> Upload Winning
         </a>
+        
+        <?php if (is_manager()): ?>
+        <a href="winnings_list.php">
+            <i class="fas fa-trophy"></i> All Winnings
+        </a>
+        <?php endif; ?>
         
         <?php if (is_manager()): ?>
         <a href="report_staff.php">
