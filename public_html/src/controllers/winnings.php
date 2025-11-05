@@ -167,5 +167,35 @@ class WinningController {
             return ['success' => false, 'message' => 'Failed to verify winning: ' . $e->getMessage()];
         }
     }
+    
+    public function approve($id, $approved_by) {
+        try {
+            $stmt = $this->pdo->prepare("
+                UPDATE winnings 
+                SET status = 'verified', verified_by = ?
+                WHERE id = ?
+            ");
+            $stmt->execute([$approved_by, $id]);
+            
+            return ['success' => true, 'message' => 'Winning approved successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to approve winning: ' . $e->getMessage()];
+        }
+    }
+    
+    public function decline($id) {
+        try {
+            $stmt = $this->pdo->prepare("
+                UPDATE winnings 
+                SET status = 'rejected'
+                WHERE id = ?
+            ");
+            $stmt->execute([$id]);
+            
+            return ['success' => true, 'message' => 'Winning declined successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to decline winning: ' . $e->getMessage()];
+        }
+    }
 }
 ?>
