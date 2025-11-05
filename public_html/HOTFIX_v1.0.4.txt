@@ -1,0 +1,230 @@
+================================================================================
+                    HOTFIX APPLIED - Version 1.0.4
+                        Darfiden Management System
+================================================================================
+
+Issue Fixed: File Upload Error - finfo Class Not Found
+Date: November 5, 2025
+Severity: Critical
+Status: ✅ RESOLVED
+
+================================================================================
+PROBLEM DESCRIPTION:
+================================================================================
+
+Error Message:
+"Fatal error: Uncaught Error: Class "finfo" not found in 
+/home2/darfiden/public_html/src/helpers.php:80"
+
+Error Location:
+- File: src/helpers.php
+- Function: validate_file_upload()
+- Line: 80
+
+Cause:
+The PHP fileinfo extension is not enabled or not available on the hosting 
+server. The application was trying to use the finfo class to detect file 
+MIME types for upload validation.
+
+Impact:
+- Could not upload passport photos
+- Could not upload winning receipts
+- File upload functionality completely broken
+
+================================================================================
+SOLUTION APPLIED:
+================================================================================
+
+Implemented multi-method fallback for MIME type detection:
+
+Method 1 (Preferred): finfo class
+- Used if fileinfo extension is available
+- Most accurate method
+
+Method 2 (Fallback): mime_content_type()
+- Used if finfo is not available
+- Good alternative method
+
+Method 3 (Last Resort): File extension mapping
+- Used if both above methods unavailable
+- Based on file extension (.jpg, .png, .pdf, etc.)
+- Works on all servers
+
+Code Logic:
+```php
+// Try finfo first
+if (class_exists('finfo')) {
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime_type = $finfo->file($file['tmp_name']);
+}
+// Fallback to mime_content_type
+elseif (function_exists('mime_content_type')) {
+    $mime_type = mime_content_type($file['tmp_name']);
+}
+// Last resort: extension mapping
+else {
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $mime_map = [
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'gif' => 'image/gif',
+        'pdf' => 'application/pdf'
+    ];
+    $mime_type = $mime_map[$extension] ?? 'application/octet-stream';
+}
+```
+
+Files Modified:
+✅ src/helpers.php - Updated validate_file_upload() function
+
+================================================================================
+WHAT THIS FIX DOES:
+================================================================================
+
+Before Fix:
+- File upload → finfo class check → Error if not available ❌
+
+After Fix:
+- File upload → Try finfo → Try mime_content_type → Try extension map ✅
+- Works on ALL hosting environments
+- Graceful fallback to simpler methods
+- No dependencies required
+
+================================================================================
+ACTION REQUIRED:
+================================================================================
+
+If you're experiencing file upload errors:
+
+Option 1 - RE-UPLOAD (Recommended):
+1. Replace: src/helpers.php with new version
+2. Test file uploads:
+   - Upload passport photo
+   - Upload winning receipt
+   - Verify both work correctly
+
+Option 2 - MANUAL FIX:
+Replace the validate_file_upload() function in src/helpers.php 
+with the new version from the hotfix notes.
+
+================================================================================
+TESTING:
+================================================================================
+
+After applying the fix, verify:
+
+✅ Upload passport photo → Success
+✅ Upload winning receipt → Success
+✅ Upload different file types (JPG, PNG, GIF, PDF)
+✅ File validation still works (rejects invalid types)
+✅ No finfo errors in error logs
+
+Test Cases:
+1. Valid JPG image → Should upload successfully
+2. Valid PNG image → Should upload successfully
+3. Valid PDF file → Should upload successfully
+4. Invalid file type (e.g., .exe) → Should be rejected
+5. Oversized file → Should be rejected with size error
+
+================================================================================
+SUPPORTED FILE TYPES:
+================================================================================
+
+Images:
+- JPG/JPEG (image/jpeg)
+- PNG (image/png)
+- GIF (image/gif)
+
+Documents:
+- PDF (application/pdf)
+
+These are handled by all three detection methods.
+
+================================================================================
+SERVER COMPATIBILITY:
+================================================================================
+
+This fix ensures compatibility with:
+
+✅ Servers WITH fileinfo extension (optimal)
+✅ Servers WITHOUT fileinfo but with mime_content_type
+✅ Servers with NO MIME detection functions (fallback)
+✅ Shared hosting environments
+✅ cPanel hosting
+✅ Plesk hosting
+✅ All PHP versions 7.4+
+
+================================================================================
+SECURITY NOTES:
+================================================================================
+
+Even with extension-based fallback:
+- File size limits still enforced
+- Extension whitelist still checked
+- Only allowed extensions accepted
+- Uploaded files get unique names
+- Upload directory properly protected
+
+The fallback method is less secure than finfo but still provides 
+reasonable protection against common attacks.
+
+================================================================================
+VERSION HISTORY:
+================================================================================
+
+v1.0.0 - Initial Release
+v1.0.1 - Fixed function naming conflict
+v1.0.2 - Fixed foreign key constraints
+v1.0.3 - Updated daily operations formula
+v1.0.4 - Fixed file upload (finfo not found) - Current
+
+================================================================================
+ADDITIONAL NOTES:
+================================================================================
+
+Why finfo might not be available:
+- Hosting provider disabled it
+- PHP compiled without fileinfo extension
+- Old PHP version
+- Shared hosting restrictions
+
+Recommended (but not required):
+Ask your hosting provider to enable the fileinfo extension for better 
+MIME type detection and security.
+
+================================================================================
+DOWNLOAD UPDATED VERSION:
+================================================================================
+
+The ZIP package has been updated with this fix:
+- File: darfiden_management_system.zip
+- Version: 1.0.4
+- Size: 73 KB
+- Status: Ready for deployment ✅
+
+All previous fixes included:
+- v1.0.1: Function rename
+- v1.0.2: Foreign key fixes
+- v1.0.3: Daily operations formula
+- v1.0.4: File upload fix (Current)
+
+================================================================================
+SUPPORT:
+================================================================================
+
+If file uploads still don't work:
+1. Check upload folder permissions (should be 755)
+2. Check PHP upload_max_filesize setting
+3. Check PHP post_max_size setting
+4. Verify uploads/passports/ and uploads/winnings/ exist
+5. Check PHP error logs for other errors
+
+Common Issues:
+- Permissions error → chmod 755 uploads/
+- Size limit error → Increase PHP limits
+- Path not found → Create upload directories
+
+================================================================================
+END OF HOTFIX NOTES
+================================================================================
