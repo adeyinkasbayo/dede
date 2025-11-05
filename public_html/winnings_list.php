@@ -201,6 +201,26 @@ include __DIR__ . '/includes/sidebar.php';
                                             <span style="color: #94a3b8;">-</span>
                                         <?php endif; ?>
                                     </td>
+                                    <td class="table-actions">
+                                        <?php if ($winning['status'] === 'pending'): ?>
+                                            <a href="?action=approve&id=<?php echo $winning['id']; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?><?php echo $month ? '&month=' . urlencode($month) : ''; ?><?php echo $date_from ? '&date_from=' . urlencode($date_from) : ''; ?><?php echo $date_to ? '&date_to=' . urlencode($date_to) : ''; ?><?php echo $status_filter ? '&status=' . urlencode($status_filter) : ''; ?>&page=<?php echo $page; ?>" 
+                                               class="btn btn-sm btn-success" 
+                                               onclick="return confirm('Approve this winning?')" 
+                                               title="Approve">
+                                                <i class="fas fa-check"></i> Approve
+                                            </a>
+                                            <a href="?action=decline&id=<?php echo $winning['id']; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?><?php echo $month ? '&month=' . urlencode($month) : ''; ?><?php echo $date_from ? '&date_from=' . urlencode($date_from) : ''; ?><?php echo $date_to ? '&date_to=' . urlencode($date_to) : ''; ?><?php echo $status_filter ? '&status=' . urlencode($status_filter) : ''; ?>&page=<?php echo $page; ?>" 
+                                               class="btn btn-sm btn-danger" 
+                                               onclick="return confirm('Decline this winning?')" 
+                                               title="Decline">
+                                                <i class="fas fa-times"></i> Decline
+                                            </a>
+                                        <?php elseif ($winning['status'] === 'verified'): ?>
+                                            <span class="badge badge-success">Approved</span>
+                                        <?php elseif ($winning['status'] === 'rejected'): ?>
+                                            <span class="badge badge-danger">Declined</span>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
