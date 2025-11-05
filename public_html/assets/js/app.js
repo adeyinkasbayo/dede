@@ -92,8 +92,8 @@ function calculateDailyTotal() {
     const expenses = parseFloat(document.getElementById('total_expenses')?.value || 0);
     const winnings = parseFloat(document.getElementById('total_winnings')?.value || 0);
     
-    // Cash Balance = Opening - Closing - Expenses - Winnings
-    const cashBalance = opening - closing - expenses - winnings;
+    // Cash Balance = Starting Credit - Winnings - Expenses - Closing Balance
+    const cashBalance = opening - winnings - expenses - closing;
     const cashBalanceField = document.getElementById('cash_balance');
     if (cashBalanceField) {
         cashBalanceField.value = cashBalance.toFixed(2);
