@@ -1,0 +1,306 @@
+================================================================================
+                    FEATURE UPDATE - Version 1.0.5
+                        Darfiden Management System
+================================================================================
+
+New Features: Enhanced Winnings Management
+Date: November 5, 2025
+Type: Feature Enhancement
+Status: ✅ IMPLEMENTED
+
+================================================================================
+NEW FEATURES:
+================================================================================
+
+1. UNIQUE TICKET NUMBER VALIDATION
+   - Ticket numbers cannot be used twice
+   - System checks for duplicates before saving
+   - Error message if ticket already exists
+   - Prevents fraud and duplicate entries
+
+2. COMPREHENSIVE WINNINGS LIST PAGE (NEW)
+   - Dedicated page for Admin and Manager to view all winnings
+   - URL: winnings_list.php
+   - Accessible from sidebar menu
+
+3. PAGINATION SYSTEM
+   - Shows 20 records per page
+   - Navigate between pages easily
+   - Shows current page and total pages
+   - Maintains filters when changing pages
+
+4. ADVANCED FILTERING
+   - Search by Ticket Number (partial match)
+   - Filter by Month (YYYY-MM format)
+   - Filter by Date Range (from/to dates)
+   - Filter by Status (pending/verified/paid)
+   - Multiple filters can be combined
+
+5. SUMMARY STATISTICS
+   - Total records count
+   - Total amount on current page
+   - Current page number
+   - Visual gradient card design
+
+6. ENHANCED TABLE VIEW
+   - Date, Ticket Number, Shop, Staff, Customer
+   - Amount (highlighted in green)
+   - Status with color-coded badges
+   - Receipt image link (view in new tab)
+   - Page total at bottom
+
+7. RECEIPT VIEWING
+   - Click receipt icon to view image
+   - Opens in new browser tab
+   - Quick verification of winning tickets
+
+================================================================================
+FILES ADDED:
+================================================================================
+
+✅ winnings_list.php (NEW) - Comprehensive winnings list page with filters
+
+================================================================================
+FILES MODIFIED:
+================================================================================
+
+✅ src/controllers/winnings.php
+   - Added get_all() with pagination and filters
+   - Added count_all() for pagination
+   - Added duplicate ticket number check in create()
+
+✅ includes/sidebar.php
+   - Added "All Winnings" menu item for Admin/Manager
+   - Renamed "Winnings" to "Upload Winning"
+
+================================================================================
+HOW TO USE:
+================================================================================
+
+For Admin/Manager:
+1. Click "All Winnings" in sidebar
+2. Use filters to find specific winnings:
+   - Search by ticket number
+   - Select month
+   - Pick date range
+   - Filter by status
+3. Click "Filter" to apply
+4. Click "Clear" to reset filters
+5. Navigate pages using Previous/Next buttons
+6. Click receipt icon to view image
+
+For Staff:
+1. Click "Upload Winning" to add new winning
+2. Enter ticket number (must be unique)
+3. If ticket already used, error will show
+4. Upload receipt image
+5. Submit winning record
+
+================================================================================
+TICKET NUMBER VALIDATION:
+================================================================================
+
+When uploading a winning:
+- System checks if ticket number exists
+- If found: Shows error "This ticket number has already been used"
+- If unique: Saves winning successfully
+
+This prevents:
+✅ Duplicate ticket submissions
+✅ Fraudulent winning claims
+✅ Data integrity issues
+✅ Payment of same ticket twice
+
+================================================================================
+SEARCH FUNCTIONALITY:
+================================================================================
+
+Search by Ticket Number:
+- Type partial or full ticket number
+- Search is case-insensitive
+- Matches anywhere in ticket number
+- Example: Search "123" finds "ABC123", "123XYZ", "A123B"
+
+Filter by Month:
+- Select year and month from picker
+- Shows all winnings from that month
+- Format: YYYY-MM (e.g., 2025-11)
+
+Filter by Date Range:
+- Select start date (From Date)
+- Select end date (To Date)
+- Shows all winnings between dates
+- Inclusive of both dates
+
+Filter by Status:
+- All Status (default)
+- Pending - Newly uploaded
+- Verified - Checked by manager
+- Paid - Payment completed
+
+================================================================================
+PAGINATION:
+================================================================================
+
+Settings:
+- 20 records per page
+- Previous/Next navigation
+- Current page indicator
+- Total pages shown
+
+Features:
+- Filters maintained across pages
+- Direct page navigation
+- Shows page summary
+- Responsive on mobile
+
+================================================================================
+ACCESS PERMISSIONS:
+================================================================================
+
+All Winnings Page (winnings_list.php):
+✅ Admin - Can view all shops
+✅ Manager - Can view their shop only
+❌ Staff - No access (use upload page)
+
+Upload Winning Page (winning_upload.php):
+✅ Admin - Can upload
+✅ Manager - Can upload
+✅ Staff - Can upload
+
+================================================================================
+DEPLOYMENT INSTRUCTIONS:
+================================================================================
+
+FOR NEW INSTALLATIONS:
+1. Use updated ZIP package v1.0.5
+2. Deploy normally
+3. All features included ✅
+
+FOR EXISTING INSTALLATIONS:
+1. Upload new file: winnings_list.php
+2. Replace: src/controllers/winnings.php
+3. Replace: includes/sidebar.php
+4. Test winnings functionality
+5. No database changes needed ✅
+
+================================================================================
+TESTING CHECKLIST:
+================================================================================
+
+Test Ticket Number Validation:
+[ ] Upload winning with new ticket number → Should work
+[ ] Try to upload same ticket number again → Should show error
+[ ] Upload different winning with different ticket → Should work
+
+Test Winnings List Page:
+[ ] Access winnings_list.php as Admin → Shows all winnings
+[ ] Access as Manager → Shows shop winnings only
+[ ] Search by ticket number → Finds correct record
+[ ] Filter by month → Shows month's winnings
+[ ] Filter by date range → Shows winnings in range
+[ ] Filter by status → Shows correct status
+[ ] Navigate to page 2 → Shows next 20 records
+[ ] Click receipt icon → Opens image in new tab
+[ ] Check page total → Matches visible records
+[ ] Click "Clear" → Resets all filters
+
+================================================================================
+EXAMPLE USAGE:
+================================================================================
+
+Scenario 1: Find specific ticket
+1. Go to "All Winnings"
+2. Enter ticket number in search: "TKT12345"
+3. Click "Filter"
+4. Result: Shows only that ticket
+
+Scenario 2: Monthly report
+1. Go to "All Winnings"
+2. Select month: "2025-11"
+3. Click "Filter"
+4. Result: Shows all November 2025 winnings
+5. Check page total at bottom
+
+Scenario 3: Verify pending winnings
+1. Go to "All Winnings"
+2. Select status: "Pending"
+3. Click "Filter"
+4. Result: Shows all unverified winnings
+5. Click receipt icons to verify
+6. Process payments accordingly
+
+================================================================================
+BENEFITS:
+================================================================================
+
+For Management:
+✅ Complete visibility of all winnings
+✅ Easy tracking and verification
+✅ Quick search capabilities
+✅ Monthly/weekly reporting
+✅ Fraud prevention (duplicate detection)
+
+For Staff:
+✅ Clear error messages
+✅ Cannot duplicate tickets
+✅ Easy winning upload
+✅ Receipt upload included
+
+For Business:
+✅ Improved data integrity
+✅ Better audit trail
+✅ Faster reconciliation
+✅ Reduced errors
+✅ Enhanced security
+
+================================================================================
+VERSION HISTORY:
+================================================================================
+
+v1.0.0 - Initial Release
+v1.0.1 - Fixed function naming conflict
+v1.0.2 - Fixed foreign key constraints
+v1.0.3 - Updated daily operations formula
+v1.0.4 - Fixed file upload (finfo not found)
+v1.0.5 - Enhanced winnings management (Current)
+
+================================================================================
+DOWNLOAD:
+================================================================================
+
+Updated package includes all features:
+- File: darfiden_management_system.zip
+- Version: 1.0.5
+- Size: 78 KB
+- Status: Ready ✅
+
+All previous fixes and updates included.
+
+================================================================================
+SUPPORT:
+================================================================================
+
+If you encounter issues:
+1. Verify winnings_list.php was uploaded
+2. Check controller file was updated
+3. Clear browser cache
+4. Test with different browsers
+5. Check PHP error logs
+
+Common Questions:
+Q: Can staff see all winnings?
+A: No, only Admin and Manager can access winnings_list.php
+
+Q: What happens if ticket is already used?
+A: Error message shown, winning not saved
+
+Q: How many records per page?
+A: 20 records per page
+
+Q: Can I combine multiple filters?
+A: Yes, all filters work together
+
+================================================================================
+END OF UPDATE NOTES
+================================================================================
