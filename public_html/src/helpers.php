@@ -77,8 +77,30 @@ function validate_file_upload($file, $allowed_types, $max_size = MAX_FILE_SIZE) 
         return ['success' => false, 'message' => 'File size exceeds limit'];
     }
 
-    $finfo = new finfo(FILEINFO_MIME_TYPE);
-    $mime_type = $finfo->file($file['tmp_name']);
+    // Try to detect MIME type with fallback methods
+    $mime_type = null;
+    
+    // Method 1: Use finfo if available
+    if (class_exists('finfo')) {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime_type = $finfo->file($file['tmp_name']);
+    }
+    // Method 2: Use mime_content_type if available
+    elseif (function_exists('mime_content_type')) {
+        $mime_type = mime_content_type($file['tmp_name']);
+    }
+    // Method 3: Fallback to file extension check
+    else {
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $mime_map = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'pdf' => 'application/pdf'
+        ];
+        $mime_type = $mime_map[$extension] ?? 'application/octet-stream';
+    }
 
     if (!in_array($mime_type, $allowed_types)) {
         return ['success' => false, 'message' => 'Invalid file type'];
