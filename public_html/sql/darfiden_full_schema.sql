@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `winnings` (
   `winning_date` date NOT NULL,
   `receipt_image` varchar(255) DEFAULT NULL,
   `notes` text DEFAULT NULL,
-  `status` enum('pending','verified','paid') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','verified','paid','rejected') NOT NULL DEFAULT 'pending',
   `verified_by` int(11) DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
