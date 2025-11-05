@@ -1,0 +1,338 @@
+================================================================================
+                    MAJOR UPDATE - Version 1.0.6
+                        Darfiden Management System
+================================================================================
+
+New Features: Approval Systems & Formula Fix
+Date: November 5, 2025
+Type: Feature Enhancement & Bug Fix
+Status: ✅ IMPLEMENTED
+
+================================================================================
+NEW FEATURES:
+================================================================================
+
+1. STAFF APPROVAL SYSTEM
+   - New staff registrations require approval
+   - Status: pending → active (after approval)
+   - Admin/Manager can approve or decline
+   - Declined registrations are deleted
+   - New page: staff_approve.php
+
+2. WINNING APPROVAL/DECLINE BUTTONS
+   - Approve button for pending winnings
+   - Decline button for pending winnings
+   - Status changes: pending → verified (approved)
+   - Status changes: pending → rejected (declined)
+   - Buttons visible only for pending winnings
+
+3. CASH BALANCE FORMULA FIXED
+   - OLD: Opening - Closing - Expenses - Winnings
+   - NEW: Starting Credit - Winnings - Expenses - Closing
+   - Formula: Opening - Winnings - Expenses - Closing
+   - Auto-calculation updated in JavaScript
+   - Label text updated
+
+================================================================================
+DETAILED CHANGES:
+================================================================================
+
+1. STAFF APPROVAL SYSTEM:
+
+New Registration Flow:
+- User registers → Status = "pending"
+- Message: "Please wait for admin approval"
+- Cannot login until approved
+- Admin/Manager sees in "Approve Staff" page
+- Click "Approve" → Status = "active" → Can login
+- Click "Decline" → User deleted from database
+
+Access:
+- Menu: "Approve Staff" (Admin/Manager only)
+- URL: staff_approve.php
+- Shows: Username, Full Name, Email, Phone, Role, Shop, Date
+
+Actions:
+✅ Approve - Activates the account
+✅ Decline - Deletes the registration
+
+2. WINNING APPROVAL SYSTEM:
+
+In Winnings List (winnings_list.php):
+- New "Actions" column added
+- For pending winnings:
+  * Green "Approve" button
+  * Red "Decline" button
+- For verified winnings:
+  * Shows "Approved" badge
+- For rejected winnings:
+  * Shows "Declined" badge
+
+Actions:
+✅ Approve - Changes status to "verified"
+✅ Decline - Changes status to "rejected"
+✅ Confirmation prompt before action
+
+3. CASH BALANCE FORMULA:
+
+Corrected Formula:
+Cash Balance = Starting Credit - Winnings - Expenses - Closing Balance
+
+Example:
+- Starting Credit: $1000
+- Winnings Paid: $100
+- Expenses: $50
+- Closing Balance: $800
+- Cash Balance = 1000 - 100 - 50 - 800 = $50
+
+Updated in:
+✅ src/controllers/daily.php (create method)
+✅ src/controllers/daily.php (update method)
+✅ assets/js/app.js (calculation function)
+✅ daily_create.php (form label)
+
+================================================================================
+FILES ADDED:
+================================================================================
+
+✅ staff_approve.php (NEW)
+   - Staff approval page for Admin/Manager
+   
+✅ sql/migration_v1.0.6_approval_system.sql (NEW)
+   - Database migration for existing installations
+
+================================================================================
+FILES MODIFIED:
+================================================================================
+
+✅ register.php
+   - Changed success message to mention approval wait
+   
+✅ src/controllers/auth_controller.php
+   - New registrations set as 'pending' status
+   
+✅ src/controllers/user.php
+   - Added get_pending_staff() method
+   - Added approve_user() method
+   - Added decline_user() method
+   
+✅ src/controllers/winnings.php
+   - Added approve() method
+   - Added decline() method
+   
+✅ src/controllers/daily.php
+   - Fixed cash balance formula in create()
+   - Fixed cash balance formula in update()
+   
+✅ includes/sidebar.php
+   - Added "Approve Staff" menu item
+   
+✅ winnings_list.php
+   - Added approve/decline action handlers
+   - Added "Actions" column to table
+   - Added approve/decline buttons
+   
+✅ assets/js/app.js
+   - Updated calculateDailyTotal() function
+   
+✅ daily_create.php
+   - Updated cash balance label text
+   
+✅ sql/darfiden_full_schema.sql
+   - Added 'pending' status to users
+   - Added 'rejected' status to winnings
+
+================================================================================
+DATABASE CHANGES:
+================================================================================
+
+Users Table:
+- Status enum updated: 'active', 'inactive', 'pending'
+- Default changed from 'active' to 'pending'
+
+Winnings Table:
+- Status enum updated: 'pending', 'verified', 'paid', 'rejected'
+- New 'rejected' status for declined winnings
+
+================================================================================
+DEPLOYMENT INSTRUCTIONS:
+================================================================================
+
+FOR NEW INSTALLATIONS:
+1. Use updated schema (sql/darfiden_full_schema.sql)
+2. Deploy normally
+3. All features included ✅
+
+FOR EXISTING INSTALLATIONS:
+
+Step 1 - Backup Database:
+mysqldump -u username -p database_name > backup.sql
+
+Step 2 - Run Migration:
+Import: sql/migration_v1.0.6_approval_system.sql
+OR run manually:
+```sql
+ALTER TABLE `users` 
+MODIFY COLUMN `status` enum('active','inactive','pending') NOT NULL DEFAULT 'pending';
+
+ALTER TABLE `winnings`
+MODIFY COLUMN `status` enum('pending','verified','paid','rejected') NOT NULL DEFAULT 'pending';
+
+UPDATE `users` SET `status` = 'active' WHERE `status` IN ('active', 'inactive');
+```
+
+Step 3 - Upload Files:
+- staff_approve.php (new)
+- register.php
+- src/controllers/auth_controller.php
+- src/controllers/user.php
+- src/controllers/winnings.php
+- src/controllers/daily.php
+- includes/sidebar.php
+- winnings_list.php
+- assets/js/app.js
+- daily_create.php
+
+Step 4 - Test:
+✅ Register new user → Should show "wait for approval"
+✅ Login with pending user → Should fail
+✅ Admin approves → User can login
+✅ Upload winning → Shows as pending
+✅ Click approve → Status changes to verified
+✅ Daily operations → Cash balance calculates correctly
+
+================================================================================
+TESTING CHECKLIST:
+================================================================================
+
+Staff Approval System:
+[ ] Register new staff member
+[ ] Check cannot login (pending status)
+[ ] Go to "Approve Staff" page
+[ ] See pending registration
+[ ] Click "Approve" → User becomes active
+[ ] Login with approved account → Success
+[ ] Register another user and decline
+[ ] Verify user is deleted
+
+Winning Approval System:
+[ ] Upload new winning (pending status)
+[ ] Go to "All Winnings" page
+[ ] See approve/decline buttons
+[ ] Click "Approve" → Status = verified
+[ ] Upload another winning
+[ ] Click "Decline" → Status = rejected
+[ ] Verify approved shows "Approved" badge
+[ ] Verify declined shows "Declined" badge
+
+Cash Balance Formula:
+[ ] Go to "Add Daily Operation"
+[ ] Enter: Opening=1000, Winnings=100, Expenses=50, Closing=800
+[ ] Check Cash Balance = 50 (auto-calculated)
+[ ] Submit and verify saved correctly
+
+================================================================================
+USER WORKFLOWS:
+================================================================================
+
+New Staff Registration:
+1. User registers at register.php
+2. Message: "Please wait for approval"
+3. Admin/Manager goes to "Approve Staff"
+4. Reviews registration details
+5. Clicks "Approve" → User can now login
+6. OR clicks "Decline" → Registration removed
+
+Winning Approval Workflow:
+1. Staff uploads winning
+2. Shows in "All Winnings" as pending
+3. Manager reviews winning details
+4. Clicks receipt image to verify
+5. Clicks "Approve" → Payment can be processed
+6. OR clicks "Decline" → Winning rejected
+
+Daily Operations:
+1. Staff goes to "Add Daily Operation"
+2. Enters starting credit (opening balance)
+3. Enters total winnings paid out
+4. Enters total expenses
+5. Enters closing balance (cash counted)
+6. Cash balance calculates automatically
+7. Shows surplus or shortage
+
+================================================================================
+BENEFITS:
+================================================================================
+
+Staff Approval System:
+✅ Prevents unauthorized access
+✅ Admin control over who joins
+✅ Better security
+✅ Audit trail of registrations
+✅ Can review before activation
+
+Winning Approval System:
+✅ Verification before payment
+✅ Fraud prevention
+✅ Manager oversight
+✅ Clear approval trail
+✅ Can decline suspicious entries
+
+Fixed Cash Balance:
+✅ Accurate cash reconciliation
+✅ Identifies discrepancies
+✅ Better financial tracking
+✅ Automatic calculation
+✅ Reduces human error
+
+================================================================================
+VERSION HISTORY:
+================================================================================
+
+v1.0.0 - Initial Release
+v1.0.1 - Fixed function naming conflict
+v1.0.2 - Fixed foreign key constraints
+v1.0.3 - Updated daily operations formula
+v1.0.4 - Fixed file upload (finfo not found)
+v1.0.5 - Enhanced winnings management
+v1.0.6 - Approval systems & formula fix (Current)
+
+================================================================================
+DOWNLOAD:
+================================================================================
+
+Updated package includes all features:
+- File: darfiden_management_system.zip
+- Version: 1.0.6
+- Size: 84 KB
+- Status: Ready ✅
+
+All previous fixes and features included.
+
+================================================================================
+SUPPORT:
+================================================================================
+
+If you encounter issues:
+1. Verify migration script ran successfully
+2. Check new enum values exist in database
+3. Test with new registrations
+4. Clear browser cache
+5. Check PHP error logs
+
+Common Questions:
+Q: Can existing users login?
+A: Yes, migration sets them to 'active'
+
+Q: What happens to pending users if declined?
+A: They are deleted from the database
+
+Q: Can staff approve their own winnings?
+A: No, only Admin/Manager can approve
+
+Q: Does cash balance update automatically?
+A: Yes, as you type in the form fields
+
+================================================================================
+END OF UPDATE NOTES
+================================================================================
