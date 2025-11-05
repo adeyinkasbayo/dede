@@ -168,5 +168,52 @@ class UserController {
             return ['success' => false, 'message' => 'Failed to delete staff: ' . $e->getMessage()];
         }
     }
+    
+    public function get_pending_staff($shop_id = null) {
+        try {
+            $sql = "SELECT u.*, s.name as shop_name 
+                    FROM users u 
+                    LEFT JOIN shops s ON u.shop_id = s.id 
+                    WHERE u.status = 'pending'";
+            $params = [];
+            
+            if ($shop_id) {
+                $sql .= " AND u.shop_id = ?";
+                $params[] = $shop_id;
+            }
+            
+            $sql .= " ORDER BY u.created_at DESC";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+    
+    public function approve_user($id) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE users SET status = 'active' WHERE id = ?");
+            $stmt->execute([$id]);
+            
+            return ['success' => true, 'message' => 'Staff member approved successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to approve staff: ' . $e->getMessage()];
+        }
+    }
+    
+    public function decline_user($id) {
+        try {
+            // Delete the pending user
+            $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ? AND status = 'pending'");
+            $stmt->execute([$id]);
+            
+            return ['success' => true, 'message' => 'Registration declined and removed'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to decline registration: ' . $e->getMessage()];
+        }
+    }
 }
 ?>
