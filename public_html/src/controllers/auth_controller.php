@@ -25,10 +25,10 @@ class AuthController {
             // Hash password
             $hashed_password = hash_password($data['password']);
             
-            // Insert user
+            // Insert user with pending status for approval
             $stmt = $this->pdo->prepare("
                 INSERT INTO users (username, password, full_name, email, phone, role, shop_id, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'active')
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
             ");
             $stmt->execute([
                 $data['username'],
