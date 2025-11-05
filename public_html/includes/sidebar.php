@@ -20,6 +20,10 @@
             <i class="fas fa-users"></i> Staff Management
         </a>
         
+        <a href="staff_approve.php">
+            <i class="fas fa-user-check"></i> Approve Staff
+        </a>
+        
         <a href="assign_list.php">
             <i class="fas fa-tasks"></i> Assignments
         </a>
