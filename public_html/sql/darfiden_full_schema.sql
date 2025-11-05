@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` enum('admin','manager','staff') NOT NULL DEFAULT 'staff',
   `shop_id` int(11) DEFAULT NULL,
   `passport_photo` varchar(255) DEFAULT NULL,
-  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `status` enum('active','inactive','pending') NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
