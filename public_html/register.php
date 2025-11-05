@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $auth->register($data);
         
         if ($result['success']) {
-            $success = 'Registration successful! You can now login.';
+            $success = 'Registration successful! Please wait for admin approval before you can login.';
         } else {
             $error = $result['message'];
         }
