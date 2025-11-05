@@ -120,6 +120,15 @@ class WinningController {
                 return ['success' => false, 'message' => 'Shop, staff, amount, and date are required'];
             }
             
+            // Check if ticket number already exists (if provided)
+            if (!empty($data['ticket_number'])) {
+                $stmt = $this->pdo->prepare("SELECT id FROM winnings WHERE ticket_number = ?");
+                $stmt->execute([$data['ticket_number']]);
+                if ($stmt->fetch()) {
+                    return ['success' => false, 'message' => 'This ticket number has already been used'];
+                }
+            }
+            
             $stmt = $this->pdo->prepare("
                 INSERT INTO winnings 
                 (shop_id, staff_id, customer_name, ticket_number, amount, winning_date, receipt_image, notes, status, created_by)
