@@ -11,13 +11,17 @@ $user_controller = new UserController($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
-        'shop_id' => $_POST['shop_id'] ?? $current_user['shop_id'],
+        'shop_code' => $_POST['shop_code'] ?? null,
         'staff_id' => $_POST['staff_id'] ?? $current_user['id'],
         'operation_date' => $_POST['operation_date'] ?? date('Y-m-d'),
         'opening_balance' => $_POST['opening_balance'] ?? 0,
-        'total_sales' => $_POST['total_sales'] ?? 0,
+        'transfer_to_staff' => $_POST['transfer_to_staff'] ?? 0,
+        'total_winnings' => $_POST['total_winnings'] ?? 0,
         'total_expenses' => $_POST['total_expenses'] ?? 0,
+        'daily_debt' => $_POST['daily_debt'] ?? 0,
         'closing_balance' => $_POST['closing_balance'] ?? 0,
+        'tips' => $_POST['tips'] ?? 0,
+        'total_sales' => $_POST['total_sales'] ?? 0,
         'notes' => sanitize_input($_POST['notes'] ?? ''),
         'created_by' => $current_user['id']
     ];
