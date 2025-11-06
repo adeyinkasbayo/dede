@@ -173,15 +173,18 @@ backend:
 
   - task: "Staff List - View Button"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/staff_list.php"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added View button (eye icon) to staff list table for easy access to staff details page"
+      - working: true
+        agent: "testing"
+        comment: "Staff list view button verified working. Eye icon button present in staff list table. Links correctly to staff_view.php with proper staff ID parameter. Navigation flow from list to details page functional."
 
   - task: "Guarantor Photo Upload Directory"
     implemented: true
