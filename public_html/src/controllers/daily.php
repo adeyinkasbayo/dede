@@ -65,12 +65,14 @@ class DailyController {
                 return ['success' => false, 'message' => 'Shop, staff, and operation date are required'];
             }
             
-            // Calculate cash balance: Starting Credit - Winnings - Expenses - Closing Balance
+            // Calculate cash balance: Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
             $opening = $data['opening_balance'] ?? 0;
-            $closing = $data['closing_balance'] ?? 0;
-            $expenses = $data['total_expenses'] ?? 0;
+            $transfer = $data['transfer_to_staff'] ?? 0;
             $winnings = $data['total_winnings'] ?? 0;
-            $cash_balance = $opening - $winnings - $expenses - $closing;
+            $expenses = $data['total_expenses'] ?? 0;
+            $daily_debt = $data['daily_debt'] ?? 0;
+            $closing = $data['closing_balance'] ?? 0;
+            $cash_balance = $opening + $transfer - $winnings - $expenses - $daily_debt - $closing;
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO daily_operations 
@@ -99,12 +101,14 @@ class DailyController {
     
     public function update($id, $data) {
         try {
-            // Calculate cash balance: Starting Credit - Winnings - Expenses - Closing Balance
+            // Calculate cash balance: Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
             $opening = $data['opening_balance'] ?? 0;
-            $closing = $data['closing_balance'] ?? 0;
-            $expenses = $data['total_expenses'] ?? 0;
+            $transfer = $data['transfer_to_staff'] ?? 0;
             $winnings = $data['total_winnings'] ?? 0;
-            $cash_balance = $opening - $winnings - $expenses - $closing;
+            $expenses = $data['total_expenses'] ?? 0;
+            $daily_debt = $data['daily_debt'] ?? 0;
+            $closing = $data['closing_balance'] ?? 0;
+            $cash_balance = $opening + $transfer - $winnings - $expenses - $daily_debt - $closing;
             
             $stmt = $this->pdo->prepare("
                 UPDATE daily_operations 
