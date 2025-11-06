@@ -58,8 +58,8 @@
         <?php endif; ?>
         
         <?php if (is_manager()): ?>
-        <a href="report_staff.php">
-            <i class="fas fa-chart-bar"></i> Reports
+        <a href="report_staff_enhanced.php">
+            <i class="fas fa-chart-bar"></i> Staff Reports
         </a>
         <?php endif; ?>
         
