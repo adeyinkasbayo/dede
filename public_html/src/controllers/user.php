@@ -153,6 +153,16 @@ class UserController {
         }
     }
     
+    public function update_guarantor_photo($user_id, $filename) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE users SET guarantor_photo = ? WHERE id = ?");
+            $stmt->execute([$filename, $user_id]);
+            return ['success' => true, 'message' => 'Guarantor photo updated successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Failed to update guarantor photo: ' . $e->getMessage()];
+        }
+    }
+    
     public function delete($id) {
         try {
             // Don't allow deleting admin users
