@@ -77,5 +77,21 @@ class StaffAssignmentController {
             return [];
         }
     }
+    
+    public function get_assigned_shops_for_staff($staff_id) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT s.id, s.name, s.code
+                FROM staff_shop_assignments ssa
+                INNER JOIN shops s ON ssa.shop_id = s.id
+                WHERE ssa.staff_id = ? AND ssa.status = 'active'
+                ORDER BY s.code
+            ");
+            $stmt->execute([$staff_id]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
 ?>
