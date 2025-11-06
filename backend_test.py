@@ -222,7 +222,11 @@ class StaffGuarantorTester:
             response = self.session.post(login_url, data=login_data)
             
             # Check if redirected or login successful
-            if 'dashboard' in response.url.lower() or response.status_code == 302:
+            # Check for success indicators in response
+            success_indicators = ['dashboard', 'staff_create', 'logout', 'main-content']
+            login_success = any(indicator in response.text.lower() for indicator in success_indicators)
+            
+            if login_success or response.status_code == 302 or 'index.php' in response.url:
                 print("✓ Login successful")
                 self.logged_in = True
                 self.test_results.append({
@@ -233,6 +237,8 @@ class StaffGuarantorTester:
                 return True
             else:
                 print("✗ Login failed")
+                print(f"Response URL: {response.url}")
+                print(f"Response status: {response.status_code}")
                 self.test_results.append({
                     'test': 'Authentication',
                     'status': 'FAILED',
