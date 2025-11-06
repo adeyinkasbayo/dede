@@ -29,7 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'phone' => sanitize_input($_POST['phone'] ?? ''),
         'role' => $_POST['role'] ?? 'staff',
         'shop_id' => $_POST['shop_id'] ?? null,
-        'status' => $_POST['status'] ?? 'active'
+        'status' => $_POST['status'] ?? 'active',
+        'guarantor_full_name' => sanitize_input($_POST['guarantor_full_name'] ?? ''),
+        'guarantor_address' => sanitize_input($_POST['guarantor_address'] ?? ''),
+        'guarantor_phone' => sanitize_input($_POST['guarantor_phone'] ?? '')
     ];
     
     // Update password if provided
@@ -38,6 +41,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $result = $user_controller->update($user_id, $data);
+    
+    // Handle guarantor photo upload
+    if ($result['success'] && isset($_FILES['guarantor_photo']) && $_FILES['guarantor_photo']['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = __DIR__ . '/uploads/guarantors/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        $file_info = pathinfo($_FILES['guarantor_photo']['name']);
+        $file_ext = strtolower($file_info['extension']);
+        $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
+        
+        if (in_array($file_ext, $allowed_exts)) {
+            $new_filename = 'guarantor_' . $user_id . '_' . time() . '.' . $file_ext;
+            $upload_path = $upload_dir . $new_filename;
+            
+            if (move_uploaded_file($_FILES['guarantor_photo']['tmp_name'], $upload_path)) {
+                $user_controller->update_guarantor_photo($user_id, $new_filename);
+            }
+        }
+    }
     
     if ($result['success']) {
         set_message($result['message'], 'success');
