@@ -110,7 +110,8 @@ class UserController {
             // Convert empty string to null for shop_id
             $shop_id = (!empty($data['shop_id']) && $data['shop_id'] !== '') ? $data['shop_id'] : null;
             
-            $sql = "UPDATE users SET username = ?, full_name = ?, email = ?, phone = ?, role = ?, shop_id = ?, status = ?";
+            $sql = "UPDATE users SET username = ?, full_name = ?, email = ?, phone = ?, role = ?, shop_id = ?, status = ?, 
+                    guarantor_full_name = ?, guarantor_address = ?, guarantor_phone = ?";
             $params = [
                 $data['username'],
                 $data['full_name'],
@@ -118,7 +119,10 @@ class UserController {
                 $data['phone'] ?? null,
                 $data['role'] ?? 'staff',
                 $shop_id,
-                $data['status'] ?? 'active'
+                $data['status'] ?? 'active',
+                $data['guarantor_full_name'] ?? null,
+                $data['guarantor_address'] ?? null,
+                $data['guarantor_phone'] ?? null
             ];
             
             // Update password if provided
