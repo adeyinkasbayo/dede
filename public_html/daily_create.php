@@ -100,8 +100,15 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="closing_balance">Closing Balance *</label>
-                        <input type="number" id="closing_balance" name="closing_balance" class="form-control" 
+                        <label for="transfer_to_staff">Transfer to Staff</label>
+                        <input type="number" id="transfer_to_staff" name="transfer_to_staff" class="form-control" 
+                               step="0.01" value="0.00" onchange="calculateDailyTotal()">
+                        <small style="color: #64748b;">Money given to staff during the day</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="total_winnings">Total Winnings *</label>
+                        <input type="number" id="total_winnings" name="total_winnings" class="form-control" 
                                step="0.01" required value="0.00" onchange="calculateDailyTotal()">
                     </div>
                     
@@ -112,8 +119,15 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="total_winnings">Total Winnings *</label>
-                        <input type="number" id="total_winnings" name="total_winnings" class="form-control" 
+                        <label for="daily_debt">Daily Debt</label>
+                        <input type="number" id="daily_debt" name="daily_debt" class="form-control" 
+                               step="0.01" value="0.00" onchange="calculateDailyTotal()">
+                        <small style="color: #64748b;">Debt amount for today</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="closing_balance">Closing Balance *</label>
+                        <input type="number" id="closing_balance" name="closing_balance" class="form-control" 
                                step="0.01" required value="0.00" onchange="calculateDailyTotal()">
                     </div>
                     
@@ -128,7 +142,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <label for="cash_balance">Cash Balance</label>
                         <input type="number" id="cash_balance" name="cash_balance" class="form-control" 
                                step="0.01" value="0.00" readonly>
-                        <small style="color: #64748b;">Auto-calculated: Starting Credit - Winnings - Expenses - Closing</small>
+                        <small style="color: #64748b;">Auto-calculated: Opening + Transfer - Winnings - Expenses - Daily Debt - Closing</small>
                     </div>
                     
                     <div class="form-group">
