@@ -115,7 +115,7 @@ class DailyController {
             $stmt = $this->pdo->prepare("
                 UPDATE daily_operations 
                 SET shop_id = ?, staff_id = ?, operation_date = ?, opening_balance = ?, 
-                    closing_balance = ?, total_sales = ?, total_expenses = ?, total_winnings = ?, cash_balance = ?, notes = ?
+                    closing_balance = ?, total_sales = ?, total_expenses = ?, total_winnings = ?, transfer_to_staff = ?, daily_debt = ?, cash_balance = ?, notes = ?
                 WHERE id = ?
             ");
             $stmt->execute([
@@ -127,6 +127,8 @@ class DailyController {
                 $data['total_sales'] ?? 0,
                 $expenses,
                 $winnings,
+                $transfer,
+                $daily_debt,
                 $cash_balance,
                 $data['notes'] ?? null,
                 $id
