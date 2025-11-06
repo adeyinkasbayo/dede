@@ -80,31 +80,42 @@ include __DIR__ . '/includes/sidebar.php';
                                required value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="shop_code">Shop Code *</label>
-                        <select id="shop_code" name="shop_code" class="form-control" required>
-                            <option value="">-- Select Shop Code --</option>
-                            <?php foreach ($shops as $shop): ?>
-                                <option value="<?php echo htmlspecialchars($shop['code']); ?>">
-                                    <?php echo htmlspecialchars($shop['code']); ?> - <?php echo htmlspecialchars($shop['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    
                     <?php if (is_manager()): ?>
                     <div class="form-group">
                         <label for="staff_id">Staff *</label>
                         <select id="staff_id" name="staff_id" class="form-control" required>
+                            <option value="">-- Select Staff --</option>
                             <?php foreach ($staff as $member): ?>
-                                <option value="<?php echo $member['id']; ?>"
-                                    <?php echo ($current_user['id'] == $member['id']) ? 'selected' : ''; ?>>
+                                <option value="<?php echo $member['id']; ?>">
                                     <?php echo htmlspecialchars($member['full_name']); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <?php endif; ?>
+                    
+                    <div class="form-group">
+                        <label for="shop_code">Shop Code * 
+                            <?php if (!is_manager()): ?>
+                                <small style="color: #64748b;">(Only your assigned shops)</small>
+                            <?php endif; ?>
+                        </label>
+                        <select id="shop_code" name="shop_code" class="form-control" required>
+                            <option value="">-- Select Shop Code --</option>
+                            <?php if (empty($shops)): ?>
+                                <option value="" disabled>No shops assigned. Contact your manager.</option>
+                            <?php else: ?>
+                                <?php foreach ($shops as $shop): ?>
+                                    <option value="<?php echo htmlspecialchars($shop['code']); ?>">
+                                        <?php echo htmlspecialchars($shop['code']); ?> - <?php echo htmlspecialchars($shop['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                        <?php if (!is_manager() && empty($shops)): ?>
+                            <small style="color: #ef4444;">You have no shop assignments. Please contact your manager to assign you to shops.</small>
+                        <?php endif; ?>
+                    </div>
                     
                     <div class="form-group">
                         <label for="opening_balance">Opening Balance *</label>
