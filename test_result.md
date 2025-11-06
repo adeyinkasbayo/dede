@@ -128,15 +128,18 @@ backend:
 
   - task: "Staff Guarantor - Controller Update"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/src/controllers/user.php"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated UserController to handle guarantor fields in update() method and added update_guarantor_photo() method for photo uploads"
+      - working: true
+        agent: "testing"
+        comment: "Controller update verified. Guarantor fields (guarantor_full_name, guarantor_address, guarantor_phone) properly handled in update() method. update_guarantor_photo() method working correctly. Data persistence tested and confirmed."
 
   - task: "Staff Guarantor - Edit Form"
     implemented: true
