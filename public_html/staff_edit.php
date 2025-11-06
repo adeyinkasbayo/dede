@@ -166,6 +166,46 @@ include __DIR__ . '/includes/sidebar.php';
                         </select>
                     </div>
                     
+                    <hr style="margin: 30px 0; border-color: #e2e8f0;">
+                    
+                    <h4 style="margin-bottom: 20px; color: #334155;">
+                        <i class="fas fa-user-shield"></i> Guarantor Information
+                    </h4>
+                    
+                    <div class="form-group">
+                        <label for="guarantor_full_name">Guarantor Full Name</label>
+                        <input type="text" id="guarantor_full_name" name="guarantor_full_name" class="form-control" 
+                               placeholder="Enter guarantor's full name"
+                               value="<?php echo htmlspecialchars($user['guarantor_full_name'] ?? ''); ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guarantor_address">Guarantor Address</label>
+                        <textarea id="guarantor_address" name="guarantor_address" class="form-control" 
+                                  placeholder="Enter guarantor's address" rows="3"><?php echo htmlspecialchars($user['guarantor_address'] ?? ''); ?></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guarantor_phone">Guarantor Phone</label>
+                        <input type="tel" id="guarantor_phone" name="guarantor_phone" class="form-control" 
+                               placeholder="Enter guarantor's phone number"
+                               value="<?php echo htmlspecialchars($user['guarantor_phone'] ?? ''); ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guarantor_photo">Guarantor Photo (Optional)</label>
+                        <?php if (!empty($user['guarantor_photo'])): ?>
+                            <div style="margin-bottom: 10px;">
+                                <img src="uploads/guarantors/<?php echo htmlspecialchars($user['guarantor_photo']); ?>" 
+                                     alt="Current Guarantor Photo" style="max-width: 200px; border: 2px solid #e2e8f0; border-radius: 8px;">
+                                <p style="font-size: 12px; color: #64748b; margin-top: 5px;">Current guarantor photo</p>
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" id="guarantor_photo" name="guarantor_photo" class="form-control" 
+                               accept="image/jpeg,image/jpg,image/png,image/gif">
+                        <small style="color: #64748b;">Accepted formats: JPG, JPEG, PNG, GIF. Max 5MB</small>
+                    </div>
+                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Update Staff
