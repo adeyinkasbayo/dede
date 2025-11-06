@@ -98,7 +98,7 @@ include __DIR__ . '/includes/sidebar.php';
                 <h3>Edit Staff Information</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="full_name">Full Name *</label>
                         <input type="text" id="full_name" name="full_name" class="form-control" 
