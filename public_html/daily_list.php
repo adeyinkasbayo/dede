@@ -40,34 +40,40 @@ include __DIR__ . '/includes/sidebar.php';
                         No operations recorded yet. <a href="daily_create.php">Add your first operation</a>
                     </p>
                 <?php else: ?>
+                    <div style="overflow-x: auto;">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Shop</th>
+                                <th>Shop Code</th>
                                 <th>Staff</th>
                                 <th>Opening</th>
                                 <th>Closing</th>
                                 <th>Expenses</th>
                                 <th>Winnings</th>
                                 <th>Cash Balance</th>
+                                <th>Tips</th>
+                                <th style="background: #ecfdf5; color: #10b981;">Tips Calculation</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($operations as $operation): ?>
                             <tr>
                                 <td><?php echo format_date($operation['operation_date']); ?></td>
-                                <td><?php echo htmlspecialchars($operation['shop_name']); ?></td>
+                                <td><strong><?php echo htmlspecialchars($operation['shop_code'] ?? $operation['shop_code_name']); ?></strong></td>
                                 <td><?php echo htmlspecialchars($operation['staff_name']); ?></td>
                                 <td>$<?php echo format_money($operation['opening_balance']); ?></td>
                                 <td>$<?php echo format_money($operation['closing_balance']); ?></td>
                                 <td>$<?php echo format_money($operation['total_expenses']); ?></td>
                                 <td>$<?php echo format_money($operation['total_winnings'] ?? 0); ?></td>
                                 <td><strong>$<?php echo format_money($operation['cash_balance'] ?? 0); ?></strong></td>
+                                <td>$<?php echo format_money($operation['tips'] ?? 0); ?></td>
+                                <td style="background: #ecfdf5;"><strong style="color: #10b981;">$<?php echo format_money($operation['tips_calculation'] ?? 0); ?></strong></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
