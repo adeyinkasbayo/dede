@@ -1,0 +1,323 @@
+====================================================================================================
+DARFIDEN MANAGEMENT SYSTEM - COMPLETE DEPLOYMENT PACKAGE v1.0.8
+====================================================================================================
+
+Package: darfiden_v1.0.8_complete.zip
+Release Date: November 2025
+Package Size: ~101 KB
+Complete System with All Features
+
+====================================================================================================
+PACKAGE CONTENTS
+====================================================================================================
+
+This package contains the COMPLETE Darfiden Management System with ALL features implemented:
+
+1. CORE FEATURES
+   ✓ User Authentication (Login/Logout/Register)
+   ✓ Role-Based Access Control (Admin, Manager, Staff)
+   ✓ Shop Management (CRUD operations)
+   ✓ Staff Management (CRUD operations)
+   ✓ Assignment Management
+   ✓ Daily Operations Management
+   ✓ Expense Management
+   ✓ Winning Management with Approval
+   ✓ Reporting System
+   ✓ Activity Logging
+
+2. ENHANCED FEATURES (v1.0.3 - v1.0.8)
+   ✓ Advanced Cash Balance Calculations
+   ✓ Winning Status Approval System
+   ✓ Staff Registration Approval
+   ✓ Ticket Number Uniqueness
+   ✓ Winning Search & Pagination
+   ✓ Staff Debt Management
+   ✓ Staff Guarantor Information System (NEW in v1.0.8)
+
+3. SQL MIGRATION SCRIPTS INCLUDED
+   - darfiden_full_schema.sql (Complete database schema)
+   - migration_v1.0.3_add_winnings_cashbalance.sql
+   - migration_v1.0.6_approval_system.sql
+   - migration_v1.0.8_add_guarantor_to_staff.sql (NEW)
+   - debts_table.sql
+
+4. DOCUMENTATION FILES
+   - DEPLOYMENT_GUIDE.txt
+   - FILE_INDEX.txt
+   - HOTFIX_v1.0.1.txt
+   - HOTFIX_v1.0.2.txt
+   - HOTFIX_v1.0.3.txt
+   - HOTFIX_v1.0.4.txt
+   - UPDATE_v1.0.5.txt
+   - UPDATE_v1.0.6.txt
+   - UPDATE_v1.0.8.txt (NEW)
+   - README.md
+
+====================================================================================================
+FRESH INSTALLATION INSTRUCTIONS
+====================================================================================================
+
+PREREQUISITES:
+- Web server (Apache/Nginx)
+- PHP 7.4 or higher
+- MySQL 5.7+ or MariaDB 10.3+
+- mod_rewrite enabled (for Apache)
+
+STEP 1: EXTRACT FILES
+   - Extract darfiden_v1.0.8_complete.zip to your web server directory
+   - Recommended: /var/www/html/darfiden/ or your domain's public_html
+
+STEP 2: CREATE DATABASE
+   - Create a new database:
+     CREATE DATABASE darfiden_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   
+   - Create database user and grant privileges:
+     CREATE USER 'darfiden_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+     GRANT ALL PRIVILEGES ON darfiden_db.* TO 'darfiden_user'@'localhost';
+     FLUSH PRIVILEGES;
+
+STEP 3: IMPORT DATABASE SCHEMA
+   - Import the complete schema:
+     mysql -u darfiden_user -p darfiden_db < sql/darfiden_full_schema.sql
+   
+   OR use phpMyAdmin:
+   - Select darfiden_db database
+   - Click Import
+   - Choose sql/darfiden_full_schema.sql
+   - Click Go
+
+STEP 4: CONFIGURE DATABASE CONNECTION
+   - Edit: src/config.php
+   - Update the following:
+     define('DB_HOST', 'localhost');
+     define('DB_NAME', 'darfiden_db');
+     define('DB_USER', 'darfiden_user');
+     define('DB_PASS', 'your_secure_password');
+
+STEP 5: SET FILE PERMISSIONS
+   chmod 755 -R /path/to/darfiden
+   chmod 777 uploads/
+   chmod 777 uploads/passports/
+   chmod 777 uploads/winnings/
+   chmod 777 uploads/guarantors/
+   
+   OR for better security:
+   chown -R www-data:www-data /path/to/darfiden
+   chmod 755 -R /path/to/darfiden
+   chmod 775 uploads/ uploads/passports/ uploads/winnings/ uploads/guarantors/
+
+STEP 6: CREATE ADMIN USER
+   - Run: php create_admin.php
+   OR
+   - Import from phpMyAdmin
+   - Use default: username: admin, password: admin123
+   - IMPORTANT: Change admin password immediately after first login!
+
+STEP 7: TEST INSTALLATION
+   - Access your domain: http://yourdomain.com/darfiden
+   - Login with: admin / admin123
+   - Verify all features are working
+
+====================================================================================================
+UPGRADING FROM PREVIOUS VERSIONS
+====================================================================================================
+
+IF UPGRADING FROM v1.0.7 or earlier:
+
+STEP 1: BACKUP
+   - Backup your database:
+     mysqldump -u username -p darfiden_db > backup_$(date +%Y%m%d).sql
+   - Backup your files (especially uploads/ directory)
+
+STEP 2: REPLACE FILES
+   - Extract new package to temporary location
+   - Copy new/updated files to your installation
+   - DO NOT overwrite src/config.php (keep your settings)
+   - DO NOT overwrite uploads/ directory (keep your files)
+
+STEP 3: RUN MIGRATION (Only if coming from v1.0.7 or earlier)
+   mysql -u username -p darfiden_db < sql/migration_v1.0.8_add_guarantor_to_staff.sql
+
+STEP 4: VERIFY PERMISSIONS
+   - Ensure uploads/guarantors/ directory exists with 775 permissions
+
+STEP 5: TEST
+   - Login and verify all features work
+   - Check Staff Management > Edit Staff for guarantor fields
+   - Test guarantor photo upload
+
+====================================================================================================
+WHAT'S NEW IN v1.0.8
+====================================================================================================
+
+✨ STAFF GUARANTOR INFORMATION SYSTEM
+
+Features Added:
+- Guarantor Full Name field
+- Guarantor Address field (textarea)
+- Guarantor Phone Number field
+- Guarantor Photo Upload (optional, JPG/PNG/GIF)
+- New staff_view.php page to display all staff and guarantor details
+- View button added to staff list for quick access to details
+- Dedicated uploads/guarantors/ directory for guarantor photos
+
+Technical Changes:
+- 4 new columns in users table
+- Enhanced UserController with guarantor methods
+- Updated staff_edit.php with guarantor section
+- Created staff_view.php for detailed staff/guarantor display
+
+====================================================================================================
+COMPLETE FEATURE LIST (v1.0.8)
+====================================================================================================
+
+✓ User Authentication & Authorization
+✓ Role-Based Access Control (Admin, Manager, Staff)
+✓ Shop Management (Create, Edit, Delete, List)
+✓ Staff Management (Create, Edit, Delete, List, View Details)
+✓ Staff Guarantor Information (Full Name, Address, Phone, Photo)
+✓ Staff Registration Approval System
+✓ Assignment Management
+✓ Daily Operations with Advanced Cash Balance Formula
+✓ Expense Management
+✓ Winning Upload with Receipt Images
+✓ Winning Management (Search, Filter, Pagination)
+✓ Winning Status Approval/Decline System
+✓ Ticket Number Uniqueness Validation
+✓ Staff Debt Management
+✓ Comprehensive Reporting
+✓ Passport Photo Upload
+✓ Activity Logging
+✓ Responsive Bootstrap UI
+✓ Security Features (Password Hashing, Input Sanitization, SQL Injection Protection)
+
+====================================================================================================
+DEFAULT CREDENTIALS
+====================================================================================================
+
+Username: admin
+Password: admin123
+
+⚠️ SECURITY WARNING: Change the default password immediately after first login!
+
+====================================================================================================
+FILE STRUCTURE
+====================================================================================================
+
+darfiden/
+├── assets/
+│   ├── css/styles.css
+│   └── js/app.js
+├── uploads/
+│   ├── passports/
+│   ├── winnings/
+│   └── guarantors/ (NEW)
+├── includes/
+│   ├── header.php
+│   ├── sidebar.php
+│   └── messages.php
+├── src/
+│   ├── config.php
+│   ├── init.php
+│   ├── auth.php
+│   ├── helpers.php
+│   ├── permissions.php
+│   └── controllers/
+├── sql/
+│   ├── darfiden_full_schema.sql
+│   ├── migration_v1.0.3_add_winnings_cashbalance.sql
+│   ├── migration_v1.0.6_approval_system.sql
+│   ├── migration_v1.0.8_add_guarantor_to_staff.sql (NEW)
+│   └── debts_table.sql
+├── [Various PHP pages]
+└── [Documentation files]
+
+====================================================================================================
+SYSTEM REQUIREMENTS
+====================================================================================================
+
+Minimum Requirements:
+- PHP: 7.4+
+- MySQL: 5.7+ or MariaDB 10.3+
+- Apache: 2.4+ (with mod_rewrite) or Nginx
+- Disk Space: 50MB minimum
+- Memory: 128MB PHP memory_limit
+
+Recommended Requirements:
+- PHP: 8.0+
+- MySQL: 8.0+ or MariaDB 10.6+
+- Memory: 256MB PHP memory_limit
+- SSL Certificate (for HTTPS)
+
+Required PHP Extensions:
+- PDO
+- PDO_MySQL
+- mbstring
+- fileinfo
+- gd or imagick (for image handling)
+- json
+
+====================================================================================================
+TROUBLESHOOTING
+====================================================================================================
+
+Issue: Cannot login / "Database connection failed"
+Solution: Check src/config.php database credentials
+
+Issue: "Permission denied" on uploads
+Solution: chmod 775 uploads/ and subdirectories
+
+Issue: Blank page after login
+Solution: Check PHP error logs, enable display_errors temporarily
+
+Issue: Images not uploading
+Solution: Check PHP upload_max_filesize and post_max_size in php.ini
+
+Issue: SQL errors during migration
+Solution: Check if migration already applied, review table structure
+
+For detailed troubleshooting, refer to DEPLOYMENT_GUIDE.txt
+
+====================================================================================================
+SUPPORT & VERSION HISTORY
+====================================================================================================
+
+Version History:
+- v1.0.8 (Current): Staff Guarantor Information System
+- v1.0.7: Staff Debt Management
+- v1.0.6: Approval Systems (Staff & Winnings)
+- v1.0.5: Enhanced Winnings Management
+- v1.0.4: Bug Fix (finfo class error)
+- v1.0.3: Daily Operations Cash Balance
+- v1.0.2: Bug Fix (Foreign Key Constraints)
+- v1.0.1: Bug Fix (get_current_user conflict)
+- v1.0.0: Initial Release
+
+For detailed change notes, see individual UPDATE_*.txt and HOTFIX_*.txt files
+
+====================================================================================================
+SECURITY RECOMMENDATIONS
+====================================================================================================
+
+1. Change default admin password immediately
+2. Use strong passwords for all accounts
+3. Keep database credentials secure
+4. Implement HTTPS/SSL for production
+5. Regularly backup database and uploads
+6. Keep PHP and MySQL updated
+7. Restrict file upload types and sizes
+8. Monitor activity logs regularly
+9. Set appropriate file permissions (755 for directories, 644 for files)
+10. Consider implementing rate limiting for login attempts
+
+====================================================================================================
+LICENSE & COPYRIGHT
+====================================================================================================
+
+Darfiden Management System
+Copyright © 2025
+All rights reserved.
+
+====================================================================================================
+END OF DEPLOYMENT PACKAGE DOCUMENTATION v1.0.8
+====================================================================================================
