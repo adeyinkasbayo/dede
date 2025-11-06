@@ -231,15 +231,18 @@ frontend:
 
   - task: "Staff Guarantor UI - View Page"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/staff_view.php"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created responsive two-column layout for staff and guarantor information display"
+      - working: true
+        agent: "testing"
+        comment: "UI verified working correctly. Two-column responsive layout displays staff and guarantor information clearly. Proper styling with color-coded sections. Guarantor section shows appropriate message when no data available. Photo display functionality working."
 
 metadata:
   created_by: "main_agent"
