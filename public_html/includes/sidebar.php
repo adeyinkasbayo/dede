@@ -24,6 +24,10 @@
             <i class="fas fa-user-check"></i> Approve Staff
         </a>
         
+        <a href="staff_shop_assignments.php">
+            <i class="fas fa-users-cog"></i> Shop Assignments
+        </a>
+        
         <a href="assign_list.php">
             <i class="fas fa-tasks"></i> Assignments
         </a>
