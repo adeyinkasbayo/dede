@@ -101,3 +101,167 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: |
+  Build a PHP/MySQL management system with the following features:
+  1. Complete authentication and CRUD operations
+  2. Shop management, staff management, assignments, daily operations, expenses, winnings, and reports
+  3. Staff Guarantor Information: Full name, address, phone number, and optional photo upload
+  4. Staff Debt Management system with updated cash balance calculations
+  5. All features accessible by Admin/Manager with proper role-based access control
+
+backend:
+  - task: "Staff Guarantor - Database Migration"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/sql/migration_v1.0.8_add_guarantor_to_staff.sql"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created migration script to add guarantor_full_name, guarantor_address, guarantor_phone, and guarantor_photo columns to users table"
+
+  - task: "Staff Guarantor - Controller Update"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/src/controllers/user.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated UserController to handle guarantor fields in update() method and added update_guarantor_photo() method for photo uploads"
+
+  - task: "Staff Guarantor - Edit Form"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/staff_edit.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added guarantor fields to staff edit form with file upload capability. Form now includes guarantor_full_name, guarantor_address, guarantor_phone, and guarantor_photo fields"
+
+  - task: "Staff Guarantor - View/Details Page"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/staff_view.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created new staff_view.php page to display all staff information including guarantor details in a two-column layout"
+
+  - task: "Staff List - View Button"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/staff_list.php"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added View button (eye icon) to staff list table for easy access to staff details page"
+
+  - task: "Guarantor Photo Upload Directory"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/uploads/guarantors/"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created uploads/guarantors directory with proper permissions for guarantor photo storage"
+
+  - task: "Staff Debt Management - Sidebar Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/includes/sidebar.php"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Sidebar already contains debt management link from previous implementation"
+
+frontend:
+  - task: "Staff Guarantor UI - Edit Form"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/staff_edit.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Guarantor section added to staff edit form with proper styling and file upload input"
+
+  - task: "Staff Guarantor UI - View Page"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/staff_view.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created responsive two-column layout for staff and guarantor information display"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0.8"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Staff Guarantor - Database Migration"
+    - "Staff Guarantor - Controller Update"
+    - "Staff Guarantor - Edit Form"
+    - "Staff Guarantor - View/Details Page"
+    - "Guarantor Photo Upload Directory"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      I have successfully implemented the Staff Guarantor Information feature (v1.0.8). Here's what was done:
+      
+      IMPLEMENTATION COMPLETE:
+      1. Created database migration script (migration_v1.0.8_add_guarantor_to_staff.sql) to add 4 new columns to users table
+      2. Updated UserController to handle guarantor fields in update operations and photo uploads
+      3. Modified staff_edit.php to include guarantor input fields with file upload
+      4. Created new staff_view.php page to display all staff and guarantor information
+      5. Added "View" button to staff_list.php for easy access to details
+      6. Created /uploads/guarantors/ directory for photo storage
+      7. Generated UPDATE_v1.0.8.txt documentation
+      
+      TESTING NEEDED:
+      - Run database migration and verify columns are added
+      - Test staff edit form with guarantor fields (create/update)
+      - Test guarantor photo upload functionality
+      - Test staff view page displaying guarantor information
+      - Verify file permissions on /uploads/guarantors/
+      - Test role-based access (Admin/Manager only)
+      
+      Please test all guarantor-related functionality thoroughly, including:
+      - Adding guarantor info to existing staff
+      - Updating guarantor info
+      - Uploading guarantor photos (various formats)
+      - Viewing staff details with and without guarantor info
+      - Verifying sidebar navigation for debt management
