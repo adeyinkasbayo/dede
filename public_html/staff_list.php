@@ -89,6 +89,10 @@ include __DIR__ . '/includes/sidebar.php';
                                     <?php endif; ?>
                                 </td>
                                 <td class="table-actions">
+                                    <a href="staff_view.php?id=<?php echo $member['id']; ?>" 
+                                       class="btn btn-sm btn-info" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                     <a href="staff_edit.php?id=<?php echo $member['id']; ?>" 
                                        class="btn btn-sm btn-primary" title="Edit">
                                         <i class="fas fa-edit"></i>
