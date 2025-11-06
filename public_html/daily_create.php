@@ -71,19 +71,19 @@ include __DIR__ . '/includes/sidebar.php';
                                required value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     
-                    <?php if (is_manager()): ?>
                     <div class="form-group">
-                        <label for="shop_id">Shop *</label>
-                        <select id="shop_id" name="shop_id" class="form-control" required>
+                        <label for="shop_code">Shop Code *</label>
+                        <select id="shop_code" name="shop_code" class="form-control" required>
+                            <option value="">-- Select Shop Code --</option>
                             <?php foreach ($shops as $shop): ?>
-                                <option value="<?php echo $shop['id']; ?>"
-                                    <?php echo ($current_user['shop_id'] == $shop['id']) ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($shop['name']); ?>
+                                <option value="<?php echo htmlspecialchars($shop['code']); ?>">
+                                    <?php echo htmlspecialchars($shop['code']); ?> - <?php echo htmlspecialchars($shop['name']); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     
+                    <?php if (is_manager()): ?>
                     <div class="form-group">
                         <label for="staff_id">Staff *</label>
                         <select id="staff_id" name="staff_id" class="form-control" required>
