@@ -143,15 +143,18 @@ backend:
 
   - task: "Staff Guarantor - Edit Form"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/staff_edit.php"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added guarantor fields to staff edit form with file upload capability. Form now includes guarantor_full_name, guarantor_address, guarantor_phone, and guarantor_photo fields"
+      - working: true
+        agent: "testing"
+        comment: "Staff edit form verified working correctly. All guarantor fields present: guarantor_full_name, guarantor_address, guarantor_phone, and guarantor_photo file upload. Form styling and layout proper. Form submission and data processing functional."
 
   - task: "Staff Guarantor - View/Details Page"
     implemented: true
