@@ -88,12 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // Calculate totals in forms
 function calculateDailyTotal() {
     const opening = parseFloat(document.getElementById('opening_balance')?.value || 0);
-    const closing = parseFloat(document.getElementById('closing_balance')?.value || 0);
-    const expenses = parseFloat(document.getElementById('total_expenses')?.value || 0);
+    const transfer = parseFloat(document.getElementById('transfer_to_staff')?.value || 0);
     const winnings = parseFloat(document.getElementById('total_winnings')?.value || 0);
+    const expenses = parseFloat(document.getElementById('total_expenses')?.value || 0);
+    const dailyDebt = parseFloat(document.getElementById('daily_debt')?.value || 0);
+    const closing = parseFloat(document.getElementById('closing_balance')?.value || 0);
     
-    // Cash Balance = Starting Credit - Winnings - Expenses - Closing Balance
-    const cashBalance = opening - winnings - expenses - closing;
+    // Cash Balance = Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
+    const cashBalance = opening + transfer - winnings - expenses - dailyDebt - closing;
     const cashBalanceField = document.getElementById('cash_balance');
     if (cashBalanceField) {
         cashBalanceField.value = cashBalance.toFixed(2);
