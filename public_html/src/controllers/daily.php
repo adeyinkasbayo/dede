@@ -8,9 +8,10 @@ class DailyController {
         $this->pdo = $pdo;
     }
     
-    public function get_all($shop_id = null, $start_date = null, $end_date = null) {
+    public function get_all($shop_id = null, $start_date = null, $end_date = null, $shop_code = null) {
         try {
-            $sql = "SELECT d.*, s.name as shop_name, u.full_name as staff_name
+            $sql = "SELECT d.*, s.name as shop_name, s.code as shop_code_name, u.full_name as staff_name,
+                    (d.cash_balance + d.tips) as tips_calculation
                     FROM daily_operations d
                     LEFT JOIN shops s ON d.shop_id = s.id
                     LEFT JOIN users u ON d.staff_id = u.id
@@ -20,6 +21,11 @@ class DailyController {
             if ($shop_id) {
                 $sql .= " AND d.shop_id = ?";
                 $params[] = $shop_id;
+            }
+            
+            if ($shop_code) {
+                $sql .= " AND d.shop_code = ?";
+                $params[] = $shop_code;
             }
             
             if ($start_date) {
@@ -32,7 +38,7 @@ class DailyController {
                 $params[] = $end_date;
             }
             
-            $sql .= " ORDER BY d.operation_date DESC";
+            $sql .= " ORDER BY d.operation_date DESC, d.shop_code ASC";
             
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
