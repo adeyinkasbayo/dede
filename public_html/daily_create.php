@@ -150,6 +150,20 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
+                        <label for="tips">Tips</label>
+                        <input type="number" id="tips" name="tips" class="form-control" 
+                               step="0.01" value="0.00" onchange="calculateDailyTotal()">
+                        <small style="color: #64748b;">Tips received for this operation</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tips_calculation" style="color: #10b981; font-weight: bold;">Tips Calculation</label>
+                        <input type="number" id="tips_calculation" name="tips_calculation" class="form-control" 
+                               step="0.01" value="0.00" readonly style="background: #ecfdf5; border-color: #10b981; font-weight: bold;">
+                        <small style="color: #10b981;">Auto-calculated: Cash Balance + Tips</small>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="notes">Notes</label>
                         <textarea id="notes" name="notes" class="form-control" 
                                   placeholder="Any additional notes"></textarea>
