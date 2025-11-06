@@ -1,0 +1,166 @@
+====================================================================================================
+DARFIDEN MANAGEMENT SYSTEM - UPDATE v1.0.8
+====================================================================================================
+
+Release Date: November 2025
+Update Type: Feature Addition - Staff Guarantor Information
+
+====================================================================================================
+WHAT'S NEW IN v1.0.8
+====================================================================================================
+
+1. STAFF GUARANTOR MANAGEMENT
+   - Added guarantor information fields to staff records
+   - Guarantor Full Name (text field)
+   - Guarantor Address (textarea field)
+   - Guarantor Phone Number (text field)
+   - Guarantor Photo Upload (optional image upload)
+   
+2. NEW FILES ADDED
+   - /sql/migration_v1.0.8_add_guarantor_to_staff.sql - Database migration script
+   - /staff_view.php - New staff details/view page with guarantor information display
+   
+3. MODIFIED FILES
+   - /src/controllers/user.php - Updated to handle guarantor fields
+   - /staff_edit.php - Added guarantor fields and photo upload capability
+   - /staff_list.php - Added "View" button to see full staff details including guarantor info
+
+4. FEATURES
+   - Admin/Manager can add/edit guarantor information for any staff member
+   - Guarantor information displayed on staff details page (staff_view.php)
+   - Optional guarantor photo upload with preview
+   - Dedicated upload directory for guarantor photos: /uploads/guarantors/
+
+====================================================================================================
+INSTALLATION INSTRUCTIONS
+====================================================================================================
+
+STEP 1: BACKUP YOUR DATABASE
+   Before proceeding, create a backup of your database:
+   - Export your current darfiden_db database
+   - Store it in a safe location
+
+STEP 2: RUN DATABASE MIGRATION
+   Execute the migration script:
+   
+   mysql -u [username] -p darfiden_db < sql/migration_v1.0.8_add_guarantor_to_staff.sql
+   
+   OR import via phpMyAdmin:
+   - Open phpMyAdmin
+   - Select darfiden_db database
+   - Click "Import" tab
+   - Choose file: sql/migration_v1.0.8_add_guarantor_to_staff.sql
+   - Click "Go"
+
+STEP 3: UPLOAD FILES
+   Upload all new and modified files to your server:
+   
+   NEW FILES:
+   - sql/migration_v1.0.8_add_guarantor_to_staff.sql
+   - staff_view.php
+   - UPDATE_v1.0.8.txt
+   
+   MODIFIED FILES:
+   - src/controllers/user.php
+   - staff_edit.php
+   - staff_list.php
+
+STEP 4: CREATE GUARANTOR PHOTOS DIRECTORY
+   Ensure the guarantor photos directory exists with proper permissions:
+   
+   mkdir -p uploads/guarantors
+   chmod 755 uploads/guarantors
+   chown www-data:www-data uploads/guarantors (or your web server user)
+
+STEP 5: VERIFY INSTALLATION
+   1. Login as Admin or Manager
+   2. Go to Staff Management > Staff List
+   3. Click "View" (eye icon) on any staff member
+   4. Click "Edit Staff" and scroll down to see Guarantor Information section
+   5. Add guarantor details and test photo upload
+
+====================================================================================================
+USAGE GUIDE
+====================================================================================================
+
+ADDING GUARANTOR INFORMATION:
+1. Navigate to Staff Management > Staff List
+2. Click "Edit" (pencil icon) on the staff member
+3. Scroll down to "Guarantor Information" section
+4. Fill in:
+   - Guarantor Full Name
+   - Guarantor Address
+   - Guarantor Phone Number
+   - Upload Guarantor Photo (optional)
+5. Click "Update Staff"
+
+VIEWING GUARANTOR INFORMATION:
+1. Navigate to Staff Management > Staff List
+2. Click "View" (eye icon) on the staff member
+3. The right panel shows all guarantor information
+4. If no guarantor info exists, a message will prompt you to add it
+
+====================================================================================================
+TECHNICAL NOTES
+====================================================================================================
+
+DATABASE CHANGES:
+- Added 4 new columns to 'users' table:
+  * guarantor_full_name VARCHAR(100) - Stores guarantor's full name
+  * guarantor_address TEXT - Stores guarantor's address
+  * guarantor_phone VARCHAR(20) - Stores guarantor's phone number
+  * guarantor_photo VARCHAR(255) - Stores guarantor photo filename
+
+FILE UPLOAD SPECIFICATIONS:
+- Accepted formats: JPG, JPEG, PNG, GIF
+- Recommended max size: 5MB
+- Files stored in: /uploads/guarantors/
+- Naming convention: guarantor_{user_id}_{timestamp}.{extension}
+
+PERMISSIONS REQUIRED:
+- Admin: Can add/edit guarantor info for all staff
+- Manager: Can add/edit guarantor info for staff in their shop
+- Staff: Cannot access guarantor management features
+
+====================================================================================================
+COMPATIBILITY
+====================================================================================================
+
+This update is compatible with:
+- v1.0.7 (Staff Debt Management)
+- v1.0.6 (Approval Systems)
+- v1.0.5 (Enhanced Winnings Management)
+- v1.0.4 (Bug Fix - finfo class error)
+- v1.0.3 (Daily Operations - Cash Balance)
+- v1.0.2 (Bug Fix - Foreign Key Constraints)
+- v1.0.1 (Bug Fix - get_current_user conflict)
+
+All previous features remain functional.
+
+====================================================================================================
+ROLLBACK INSTRUCTIONS
+====================================================================================================
+
+If you need to rollback this update:
+
+1. Remove the added columns:
+   ALTER TABLE users 
+   DROP COLUMN guarantor_full_name,
+   DROP COLUMN guarantor_address,
+   DROP COLUMN guarantor_phone,
+   DROP COLUMN guarantor_photo;
+
+2. Restore previous versions of modified files from your backup
+
+====================================================================================================
+SUPPORT
+====================================================================================================
+
+For issues or questions:
+1. Check FILE_INDEX.txt for complete file structure
+2. Review DEPLOYMENT_GUIDE.txt for general setup
+3. Verify file permissions and database connection settings
+
+====================================================================================================
+END OF UPDATE NOTES v1.0.8
+====================================================================================================
