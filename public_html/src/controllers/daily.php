@@ -68,8 +68,28 @@ class DailyController {
     
     public function create($data) {
         try {
-            if (empty($data['shop_id']) || empty($data['staff_id']) || empty($data['operation_date'])) {
-                return ['success' => false, 'message' => 'Shop, staff, and operation date are required'];
+            if (empty($data['shop_code']) || empty($data['staff_id']) || empty($data['operation_date'])) {
+                return ['success' => false, 'message' => 'Shop code, staff, and operation date are required'];
+            }
+            
+            // Get shop_id from shop_code
+            $stmt = $this->pdo->prepare("SELECT id FROM shops WHERE code = ?");
+            $stmt->execute([$data['shop_code']]);
+            $shop = $stmt->fetch();
+            
+            if (!$shop) {
+                return ['success' => false, 'message' => 'Invalid shop code'];
+            }
+            $shop_id = $shop['id'];
+            
+            // Check for duplicate entry (staff + shop_code + date)
+            $stmt = $this->pdo->prepare("
+                SELECT id FROM daily_operations 
+                WHERE staff_id = ? AND shop_code = ? AND operation_date = ?
+            ");
+            $stmt->execute([$data['staff_id'], $data['shop_code'], $data['operation_date']]);
+            if ($stmt->fetch()) {
+                return ['success' => false, 'message' => 'Daily operation already exists for this staff, shop code, and date'];
             }
             
             // Calculate cash balance: Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
@@ -81,13 +101,18 @@ class DailyController {
             $closing = $data['closing_balance'] ?? 0;
             $cash_balance = $opening + $transfer - $winnings - $expenses - $daily_debt - $closing;
             
+            // Calculate tips calculation: Cash Balance + Tips
+            $tips = $data['tips'] ?? 0;
+            $tips_calculation = $cash_balance + $tips;
+            
             $stmt = $this->pdo->prepare("
                 INSERT INTO daily_operations 
-                (shop_id, staff_id, operation_date, opening_balance, closing_balance, total_sales, total_expenses, total_winnings, transfer_to_staff, daily_debt, cash_balance, notes, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (shop_id, shop_code, staff_id, operation_date, opening_balance, closing_balance, total_sales, total_expenses, total_winnings, transfer_to_staff, daily_debt, cash_balance, tips, tips_calculation, notes, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
-                $data['shop_id'],
+                $shop_id,
+                $data['shop_code'],
                 $data['staff_id'],
                 $data['operation_date'],
                 $opening,
@@ -98,6 +123,8 @@ class DailyController {
                 $transfer,
                 $daily_debt,
                 $cash_balance,
+                $tips,
+                $tips_calculation,
                 $data['notes'] ?? null,
                 $data['created_by']
             ]);
