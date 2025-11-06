@@ -71,6 +71,15 @@ include __DIR__ . '/includes/sidebar.php';
         <div class="card" style="max-width: 800px; margin: 0 auto;">
             <div class="card-header">
                 <h3>Daily Operation Details</h3>
+                <?php if (is_manager()): ?>
+                    <p style="margin: 10px 0 0 0; color: #64748b; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> As Admin/Manager, you can create operations for any staff member
+                    </p>
+                <?php else: ?>
+                    <p style="margin: 10px 0 0 0; color: #64748b; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> You can only submit operations for shop codes assigned to you
+                    </p>
+                <?php endif; ?>
             </div>
             <div class="card-body">
                 <form method="POST" action="">
