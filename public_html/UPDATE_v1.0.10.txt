@@ -1,0 +1,256 @@
+====================================================================================================
+DARFIDEN MANAGEMENT SYSTEM - UPDATE v1.0.10
+====================================================================================================
+
+Release Date: November 2025
+Update Type: Enhancement - Shop Code Access Control & Admin Portal Support
+
+====================================================================================================
+WHAT'S NEW IN v1.0.10
+====================================================================================================
+
+1. SHOP CODE ACCESS CONTROL FOR STAFF
+   - Staff members now only see THEIR ASSIGNED shop codes in daily operations
+   - Staff cannot create operations for shops they're not assigned to
+   - Prevents unauthorized data entry
+   - Clear message if staff has no shop assignments
+
+2. ADMIN/MANAGER PORTAL ENHANCEMENTS
+   - Admin/Manager can see ALL shop codes (not limited)
+   - Admin/Manager can select ANY staff member when creating operations
+   - Admin/Manager can create daily operations on behalf of staff
+   - Full visibility and control for administrative tasks
+
+3. IMPROVED USER EXPERIENCE
+   - Clear labels showing "(Only your assigned shops)" for staff
+   - Helpful messages explaining permissions
+   - Dropdown shows "No shops assigned" if staff has no assignments
+   - Better guidance for both staff and admin/manager roles
+
+====================================================================================================
+MODIFIED FILES
+====================================================================================================
+
+1. /src/controllers/staff_assignment.php
+   - Added: get_assigned_shops_for_staff() method
+   - Returns only active shop assignments for a specific staff member
+
+2. /daily_create.php
+   - Added role-based shop filtering
+   - Staff see only their assigned shops
+   - Admin/Manager see all shops
+   - Admin/Manager can select any staff member
+   - Added helpful notes and messages
+
+====================================================================================================
+HOW IT WORKS
+====================================================================================================
+
+FOR STAFF USERS:
+1. Login to system
+2. Navigate to "Daily Operations" > "Add New"
+3. See only the shop codes assigned to them
+4. Select their assigned shop code
+5. Fill in daily operation details
+6. Submit (one entry per shop code per day)
+
+FOR ADMIN/MANAGER:
+1. Login to system
+2. Navigate to "Daily Operations" > "Add New"
+3. Select staff member from dropdown
+4. See ALL shop codes available
+5. Fill in operation details on behalf of staff
+6. Submit operation for the selected staff member
+
+====================================================================================================
+FEATURES & BENEFITS
+====================================================================================================
+
+✅ SECURITY
+   - Staff can only access their assigned shops
+   - Prevents data entry errors
+   - Role-based access control enforced
+
+✅ FLEXIBILITY
+   - Admin/Manager can help staff with data entry
+   - Support for staff who can't access the system
+   - Backup data entry capability
+
+✅ SCALABILITY
+   - Staff can be assigned to multiple shops
+   - Each staff only sees relevant shop codes
+   - Easy to manage as business grows
+
+✅ USER-FRIENDLY
+   - Clear messages about permissions
+   - Helpful guidance in forms
+   - No confusion about which shops to use
+
+====================================================================================================
+USAGE EXAMPLES
+====================================================================================================
+
+EXAMPLE 1: Staff Creating Own Operation
+---------------------------------------
+Staff "John" is assigned to shops: SH001, SH002
+
+1. John logs in
+2. Goes to Daily Operations > Add New
+3. Shop Code dropdown shows:
+   - SH001 - Main Shop
+   - SH002 - Branch Shop
+4. John selects SH001
+5. Fills in data and submits
+6. Success! Operation recorded for SH001
+
+EXAMPLE 2: Manager Helping Staff
+---------------------------------------
+Manager "Sarah" needs to enter data for staff "John"
+
+1. Sarah logs in as Manager
+2. Goes to Daily Operations > Add New
+3. Selects Staff: John
+4. Sees ALL shop codes (not just John's)
+5. Selects shop code: SH001
+6. Fills in data on John's behalf
+7. Submits operation for John
+8. Success! Operation recorded for John at SH001
+
+EXAMPLE 3: Staff with No Assignments
+---------------------------------------
+Staff "Mike" has no shop assignments yet
+
+1. Mike logs in
+2. Goes to Daily Operations > Add New
+3. Shop Code dropdown shows:
+   "No shops assigned. Contact your manager."
+4. Clear message: "You have no shop assignments."
+5. Mike contacts manager to get assigned to shops
+6. Manager assigns Mike to shops
+7. Mike can now create operations
+
+====================================================================================================
+INSTALLATION INSTRUCTIONS
+====================================================================================================
+
+This is a MINOR update. No database changes required.
+
+STEP 1: BACKUP FILES
+   Backup current daily_create.php and staff_assignment.php
+
+STEP 2: UPLOAD FILES
+   Upload modified files:
+   - src/controllers/staff_assignment.php
+   - daily_create.php
+
+STEP 3: TEST
+   1. Login as Staff - verify only assigned shops visible
+   2. Login as Manager - verify all shops visible
+   3. Manager creates operation for staff - verify it works
+   4. Check that staff can't see unassigned shops
+
+STEP 4: TRAIN USERS
+   - Show staff how to check their assigned shops
+   - Train managers on creating operations for staff
+   - Explain the new permission system
+
+====================================================================================================
+COMPATIBILITY
+====================================================================================================
+
+This update is compatible with:
+- v1.0.9 (Multi-Shop Assignments & Tips Management)
+- v1.0.8 (Staff Guarantor Information)
+- v1.0.7 (Staff Debt Management)
+
+All previous features remain functional.
+
+====================================================================================================
+TROUBLESHOOTING
+====================================================================================================
+
+Issue: Staff can't see any shops
+Solution: Manager needs to assign staff to shops via "Shop Assignments" page
+
+Issue: Manager can't select staff member
+Solution: Ensure staff users exist and have role='staff' in database
+
+Issue: Staff sees all shops (not just assigned ones)
+Solution: Clear browser cache and ensure new daily_create.php is uploaded
+
+Issue: Operation submission fails
+Solution: Verify staff is actually assigned to the selected shop code
+
+====================================================================================================
+NOTES FOR MANAGERS
+====================================================================================================
+
+MANAGING STAFF SHOP ASSIGNMENTS:
+1. Go to "Shop Assignments" in sidebar
+2. Click "Assign Staff to Shop"
+3. Select staff member
+4. Select shop
+5. Click "Assign Shop"
+6. Repeat for multiple shops
+
+CREATING OPERATIONS FOR STAFF:
+1. Go to "Daily Operations" > "Add New"
+2. Select the staff member from dropdown
+3. Select shop code (can be any shop, not limited to staff's assignments)
+4. Fill in operation details
+5. Submit
+
+VIEWING REPORTS:
+1. Go to "Staff Reports"
+2. Select staff member
+3. Choose date range
+4. View operations grouped by shop code
+5. See all shop codes the staff worked at
+
+====================================================================================================
+BEST PRACTICES
+====================================================================================================
+
+1. ASSIGN SHOPS FIRST
+   - Before staff can create operations, assign them to shops
+   - Don't wait for staff to report they can't submit
+
+2. REGULAR REVIEW
+   - Periodically review staff assignments
+   - Remove old assignments when staff moves
+   - Keep assignments up to date
+
+3. BACKUP SUPPORT
+   - Managers should help with data entry when needed
+   - Don't rely solely on staff for submissions
+   - Have backup process in place
+
+4. COMMUNICATION
+   - Tell staff which shops they're assigned to
+   - Explain the permission system
+   - Keep staff informed of any changes
+
+====================================================================================================
+FUTURE ENHANCEMENTS
+====================================================================================================
+
+Potential future features (not in this version):
+- Email notifications when staff is assigned/unassigned
+- Bulk shop assignments for multiple staff
+- Temporary shop assignments with expiry dates
+- Assignment approval workflow
+- Staff can request shop assignments
+
+====================================================================================================
+VERSION SUMMARY
+====================================================================================================
+
+v1.0.10: Shop Code Access Control & Admin Portal Support
+- Staff see only assigned shops
+- Admin/Manager can help with data entry
+- Better security and user experience
+- No database changes required
+
+====================================================================================================
+END OF UPDATE NOTES v1.0.10
+====================================================================================================
