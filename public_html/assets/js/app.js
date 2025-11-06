@@ -93,12 +93,20 @@ function calculateDailyTotal() {
     const expenses = parseFloat(document.getElementById('total_expenses')?.value || 0);
     const dailyDebt = parseFloat(document.getElementById('daily_debt')?.value || 0);
     const closing = parseFloat(document.getElementById('closing_balance')?.value || 0);
+    const tips = parseFloat(document.getElementById('tips')?.value || 0);
     
     // Cash Balance = Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
     const cashBalance = opening + transfer - winnings - expenses - dailyDebt - closing;
     const cashBalanceField = document.getElementById('cash_balance');
     if (cashBalanceField) {
         cashBalanceField.value = cashBalance.toFixed(2);
+    }
+    
+    // Tips Calculation = Cash Balance + Tips
+    const tipsCalculation = cashBalance + tips;
+    const tipsCalculationField = document.getElementById('tips_calculation');
+    if (tipsCalculationField) {
+        tipsCalculationField.value = tipsCalculation.toFixed(2);
     }
 }
 
