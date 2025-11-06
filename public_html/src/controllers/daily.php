@@ -52,7 +52,8 @@ class DailyController {
     public function get_by_id($id) {
         try {
             $stmt = $this->pdo->prepare("
-                SELECT d.*, s.name as shop_name, u.full_name as staff_name
+                SELECT d.*, s.name as shop_name, s.code as shop_code_name, u.full_name as staff_name,
+                (d.cash_balance + d.tips) as tips_calculation
                 FROM daily_operations d
                 LEFT JOIN shops s ON d.shop_id = s.id
                 LEFT JOIN users u ON d.staff_id = u.id
