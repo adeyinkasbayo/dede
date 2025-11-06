@@ -3,11 +3,13 @@ $page_title = 'Add Daily Operation';
 require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/daily.php';
 require_once __DIR__ . '/src/controllers/user.php';
+require_once __DIR__ . '/src/controllers/staff_assignment.php';
 require_login();
 
 $current_user = get_logged_user();
 $daily_controller = new DailyController($pdo);
 $user_controller = new UserController($pdo);
+$assignment_controller = new StaffAssignmentController($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
