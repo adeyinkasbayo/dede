@@ -158,15 +158,18 @@ backend:
 
   - task: "Staff Guarantor - View/Details Page"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/staff_view.php"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created new staff_view.php page to display all staff information including guarantor details in a two-column layout"
+      - working: true
+        agent: "testing"
+        comment: "Staff view page verified working correctly. Two-column layout displays staff and guarantor information properly. Guarantor section shows full name, address, phone, and photo when available. Navigation links functional. Responsive design confirmed."
 
   - task: "Staff List - View Button"
     implemented: true
