@@ -76,8 +76,8 @@ class DailyController {
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO daily_operations 
-                (shop_id, staff_id, operation_date, opening_balance, closing_balance, total_sales, total_expenses, total_winnings, cash_balance, notes, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (shop_id, staff_id, operation_date, opening_balance, closing_balance, total_sales, total_expenses, total_winnings, transfer_to_staff, daily_debt, cash_balance, notes, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
                 $data['shop_id'],
@@ -88,6 +88,8 @@ class DailyController {
                 $data['total_sales'] ?? 0,
                 $expenses,
                 $winnings,
+                $transfer,
+                $daily_debt,
                 $cash_balance,
                 $data['notes'] ?? null,
                 $data['created_by']
