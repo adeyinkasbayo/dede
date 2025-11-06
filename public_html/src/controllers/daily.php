@@ -137,6 +137,20 @@ class DailyController {
     
     public function update($id, $data) {
         try {
+            // Get shop_id from shop_code
+            if (!empty($data['shop_code'])) {
+                $stmt = $this->pdo->prepare("SELECT id FROM shops WHERE code = ?");
+                $stmt->execute([$data['shop_code']]);
+                $shop = $stmt->fetch();
+                
+                if (!$shop) {
+                    return ['success' => false, 'message' => 'Invalid shop code'];
+                }
+                $shop_id = $shop['id'];
+            } else {
+                $shop_id = $data['shop_id'];
+            }
+            
             // Calculate cash balance: Opening + Transfer - Winnings - Expenses - Daily Debt - Closing
             $opening = $data['opening_balance'] ?? 0;
             $transfer = $data['transfer_to_staff'] ?? 0;
@@ -146,14 +160,20 @@ class DailyController {
             $closing = $data['closing_balance'] ?? 0;
             $cash_balance = $opening + $transfer - $winnings - $expenses - $daily_debt - $closing;
             
+            // Calculate tips calculation: Cash Balance + Tips
+            $tips = $data['tips'] ?? 0;
+            $tips_calculation = $cash_balance + $tips;
+            
             $stmt = $this->pdo->prepare("
                 UPDATE daily_operations 
-                SET shop_id = ?, staff_id = ?, operation_date = ?, opening_balance = ?, 
-                    closing_balance = ?, total_sales = ?, total_expenses = ?, total_winnings = ?, transfer_to_staff = ?, daily_debt = ?, cash_balance = ?, notes = ?
+                SET shop_id = ?, shop_code = ?, staff_id = ?, operation_date = ?, opening_balance = ?, 
+                    closing_balance = ?, total_sales = ?, total_expenses = ?, total_winnings = ?, 
+                    transfer_to_staff = ?, daily_debt = ?, cash_balance = ?, tips = ?, tips_calculation = ?, notes = ?
                 WHERE id = ?
             ");
             $stmt->execute([
-                $data['shop_id'],
+                $shop_id,
+                $data['shop_code'] ?? null,
                 $data['staff_id'],
                 $data['operation_date'],
                 $opening,
@@ -164,6 +184,8 @@ class DailyController {
                 $transfer,
                 $daily_debt,
                 $cash_balance,
+                $tips,
+                $tips_calculation,
                 $data['notes'] ?? null,
                 $id
             ]);
@@ -171,6 +193,24 @@ class DailyController {
             return ['success' => true, 'message' => 'Daily operation updated successfully'];
         } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Failed to update daily operation: ' . $e->getMessage()];
+        }
+    }
+    
+    public function get_by_staff_and_date_range($staff_id, $start_date, $end_date) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT d.*, s.name as shop_name, s.code as shop_code_name, u.full_name as staff_name,
+                (d.cash_balance + d.tips) as tips_calculation
+                FROM daily_operations d
+                LEFT JOIN shops s ON d.shop_id = s.id
+                LEFT JOIN users u ON d.staff_id = u.id
+                WHERE d.staff_id = ? AND d.operation_date BETWEEN ? AND ?
+                ORDER BY d.operation_date ASC, d.shop_code ASC
+            ");
+            $stmt->execute([$staff_id, $start_date, $end_date]);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
         }
     }
 }
