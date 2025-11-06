@@ -1,0 +1,63 @@
+===============================================================================
+          STAFF DEBT MANAGEMENT SYSTEM - Version 1.0.7
+                  Implementation Guide
+===============================================================================
+
+NEW FEATURES:
+============
+1. Staff Debt Tracking
+2. Debt Payment Recording
+3. View Debts by Date/Date Range
+4. Updated Cash Balance Formula
+
+NEW FORMULA:
+===========
+Cash Balance = Opening Balance + Transfer to Staff - Total Winnings - Total Expenses - Daily Debt - Closing Balance
+
+EXAMPLE:
+- Opening: $1000
+- Transfer to Staff: $200
+- Winnings: $100
+- Expenses: $50
+- Daily Debt: $30
+- Closing: $900
+- Cash Balance = 1000 + 200 - 100 - 50 - 30 - 900 = $120
+
+DATABASE CHANGES:
+================
+Run: sql/debts_table.sql
+
+This creates:
+- debts table
+- debt_payments table
+- Adds transfer_to_staff field to daily_operations
+- Adds daily_debt field to daily_operations
+
+FILES TO UPLOAD:
+===============
+1. src/controllers/debt.php (NEW)
+2. debt_list.php (create this)
+3. debt_create.php (create this)
+4. debt_payment.php (create this)
+5. Update daily_create.php with new fields
+6. Update daily_list.php to show new fields
+7. Update assets/js/app.js with new calculation
+
+DEPLOYMENT:
+==========
+1. Backup database
+2. Run sql/debts_table.sql
+3. Upload all new/modified files
+4. Test debt creation and payment
+
+FEATURES:
+=========
+- Add debts for staff
+- Record debt payments
+- View debts by staff
+- Filter by date range
+- Track paid/unpaid/partially paid status
+- Automatic balance calculation
+- Payment history tracking
+
+===============================================================================
