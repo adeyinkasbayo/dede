@@ -34,8 +34,14 @@
         </a>
         
         <a href="expenses_list.php">
-            <i class="fas fa-money-bill-wave"></i> Expenses
+            <i class="fas fa-receipt"></i> Expenses
         </a>
+        
+        <?php if (is_manager()): ?>
+        <a href="debt_list.php">
+            <i class="fas fa-money-bill-wave"></i> Debt Management
+        </a>
+        <?php endif; ?>
         
         <a href="winning_upload.php">
             <i class="fas fa-upload"></i> Upload Winning
