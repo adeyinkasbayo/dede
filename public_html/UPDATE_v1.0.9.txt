@@ -1,0 +1,290 @@
+====================================================================================================
+DARFIDEN MANAGEMENT SYSTEM - UPDATE v1.0.9
+====================================================================================================
+
+Release Date: November 2025
+Update Type: Major Feature Enhancement - Multi-Shop Assignments & Tips Management
+
+====================================================================================================
+WHAT'S NEW IN v1.0.9
+====================================================================================================
+
+1. MULTI-SHOP STAFF ASSIGNMENT SYSTEM
+   - Staff can now be assigned to MULTIPLE shop codes
+   - New staff_shop_assignments table for many-to-many relationships
+   - New "Shop Assignments" management page
+   - Staff can work at different shops on different days
+   - Each daily operation is now linked to specific shop code
+
+2. SHOP CODE-BASED DAILY OPERATIONS
+   - Daily operations now use shop CODE instead of shop name
+   - Shop code dropdown in daily operations form
+   - Unique constraint: one entry per staff per shop code per day
+   - Automatic validation prevents duplicate entries
+
+3. TIPS CALCULATION FEATURE
+   - New "Tips" input field in daily operations
+   - Auto-calculated "Tips Calculation" = Cash Balance + Tips
+   - Tips displayed in both daily operations list and reports
+   - Highlighted Tips Calculation column for easy visibility
+
+4. ENHANCED STAFF REPORTS
+   - Reports automatically group by shop code when staff + date range selected
+   - Shows cash balance for EACH shop code separately
+   - Shows tips and tips calculation per shop code
+   - Daily totals when staff uses 2+ codes in one day
+   - Summary section showing totals by shop code
+   - Grand totals across all operations
+   - Visual indicators for multi-shop operations
+
+====================================================================================================
+NEW FILES ADDED
+====================================================================================================
+
+1. /sql/migration_v1.0.9_multi_shop_tips.sql - Database migration script
+2. /src/controllers/staff_assignment.php - Staff shop assignment controller
+3. /staff_shop_assignments.php - Multi-shop assignment management page
+4. /report_staff_enhanced.php - Enhanced reports with shop code grouping
+5. /UPDATE_v1.0.9.txt - This file
+
+====================================================================================================
+MODIFIED FILES
+====================================================================================================
+
+1. /src/controllers/daily.php
+   - Added shop_code parameter throughout
+   - Added duplicate entry validation
+   - Added tips and tips_calculation fields
+   - New method: get_by_staff_and_date_range()
+   - Updated create() and update() methods
+
+2. /daily_create.php
+   - Changed from shop dropdown to shop code dropdown
+   - Added Tips input field
+   - Added Tips Calculation display field (read-only)
+   - Updated form submission to handle shop_code
+
+3. /daily_list.php
+   - Added Shop Code column
+   - Added Tips column
+   - Added Tips Calculation column (highlighted)
+   - Responsive table with horizontal scroll
+
+4. /assets/js/app.js
+   - Updated calculateDailyTotal() to include tips calculation
+   - Real-time calculation: Tips Calculation = Cash Balance + Tips
+
+5. /includes/sidebar.php
+   - Added "Shop Assignments" link for managers
+   - Updated Reports link to enhanced version
+
+====================================================================================================
+DATABASE CHANGES
+====================================================================================================
+
+NEW TABLE: staff_shop_assignments
+- Manages many-to-many relationship between staff and shops
+- Fields: id, staff_id, shop_id, assigned_by, assigned_date, status, notes
+- Unique constraint on (staff_id, shop_id, status)
+
+UPDATED TABLE: daily_operations
+- Added: shop_code VARCHAR(20)
+- Added: tips DECIMAL(10,2)
+- Added: tips_calculation DECIMAL(10,2)
+- Added: transfer_to_staff DECIMAL(10,2) (if not already present)
+- Added: daily_debt DECIMAL(10,2) (if not already present)
+- Added unique constraint: (staff_id, shop_code, operation_date)
+
+====================================================================================================
+INSTALLATION INSTRUCTIONS
+====================================================================================================
+
+IMPORTANT: This is a MAJOR update. Please backup your database before proceeding.
+
+STEP 1: BACKUP YOUR DATABASE
+   mysqldump -u username -p darfiden_db > backup_v1.0.8_$(date +%Y%m%d).sql
+
+STEP 2: RUN DATABASE MIGRATION
+   mysql -u username -p darfiden_db < sql/migration_v1.0.9_multi_shop_tips.sql
+   
+   OR via phpMyAdmin:
+   - Open phpMyAdmin
+   - Select darfiden_db database
+   - Click "Import" tab
+   - Choose file: sql/migration_v1.0.9_multi_shop_tips.sql
+   - Click "Go"
+
+STEP 3: UPLOAD NEW/MODIFIED FILES
+   Upload all files from this package, overwriting existing files
+   
+   NEW FILES:
+   - sql/migration_v1.0.9_multi_shop_tips.sql
+   - src/controllers/staff_assignment.php
+   - staff_shop_assignments.php
+   - report_staff_enhanced.php
+   - UPDATE_v1.0.9.txt
+   
+   MODIFIED FILES:
+   - src/controllers/daily.php
+   - daily_create.php
+   - daily_list.php
+   - assets/js/app.js
+   - includes/sidebar.php
+
+STEP 4: VERIFY INSTALLATION
+   1. Login as Admin or Manager
+   2. Go to "Shop Assignments" - verify page loads
+   3. Assign a staff member to multiple shops
+   4. Create a daily operation using shop code dropdown
+   5. Add tips value and verify tips calculation
+   6. Generate a report for staff member with date range
+   7. Verify report shows shop code grouping and totals
+
+====================================================================================================
+USAGE GUIDE
+====================================================================================================
+
+ASSIGNING STAFF TO MULTIPLE SHOPS:
+1. Navigate to "Shop Assignments" (in sidebar)
+2. Click "Assign Staff to Shop"
+3. Select staff member and shop
+4. Click "Assign Shop"
+5. Repeat to assign to multiple shops
+6. Staff can now submit daily operations for any assigned shop
+
+CREATING DAILY OPERATIONS WITH SHOP CODE:
+1. Navigate to "Daily Operations" > "Add New"
+2. Select Shop Code from dropdown (shows CODE - NAME)
+3. Fill in all required fields
+4. Enter Tips amount (if applicable)
+5. Tips Calculation will auto-update: Cash Balance + Tips
+6. Submit form
+Note: Cannot submit duplicate entry for same staff + shop code + date
+
+GENERATING ENHANCED REPORTS:
+1. Navigate to "Staff Reports"
+2. Select staff member
+3. Choose start date and end date
+4. Click "Generate"
+5. Report will show:
+   - Summary by shop code with totals
+   - Daily operations grouped by date
+   - Multiple shop codes per day (if applicable)
+   - Daily totals when using 2+ codes
+   - Grand totals across entire period
+6. Use "Print" button to print report
+
+====================================================================================================
+KEY FEATURES IN DETAIL
+====================================================================================================
+
+1. MULTI-SHOP FLEXIBILITY
+   - Staff members are no longer limited to one shop
+   - Managers can assign/reassign staff to any shop code
+   - Staff can submit operations for any shop they're assigned to
+   - Perfect for staff who rotate between locations
+
+2. TIPS TRACKING
+   - Independent tips field for each operation
+   - Tips Calculation shown separately from cash balance
+   - Can track tips performance per shop code
+   - Included in all reports and summaries
+
+3. SHOP CODE-BASED OPERATIONS
+   - Operations now identified by shop CODE (e.g., "SH001", "SH002")
+   - Easier to track and report
+   - More flexible than shop names
+   - Prevents ambiguity in multi-location scenarios
+
+4. ADVANCED REPORTING
+   - Automatically groups operations by shop code
+   - Shows individual performance per shop
+   - Calculates totals per shop code
+   - Shows combined daily totals
+   - Comprehensive grand totals
+   - Visual color coding for easy reading
+
+====================================================================================================
+BREAKING CHANGES
+====================================================================================================
+
+1. Daily operations form now requires SHOP CODE instead of shop selection
+   - Existing operations will be migrated to include shop codes
+   - Migration script automatically populates shop_code from shop_id
+
+2. Staff report page replaced with enhanced version
+   - Old report_staff.php still available but not linked
+   - New report_staff_enhanced.php is default
+   - Enhanced version provides much more detail
+
+3. Unique constraint added to daily_operations
+   - Prevents duplicate entries for same staff + shop code + date
+   - If you have duplicates, resolve them before running migration
+
+====================================================================================================
+FORMULA REFERENCE
+====================================================================================================
+
+CASH BALANCE (unchanged):
+Opening Balance + Transfer to Staff - Total Winnings - Total Expenses - Daily Debt - Closing Balance = Cash Balance
+
+TIPS CALCULATION (new):
+Cash Balance + Tips = Tips Calculation
+
+====================================================================================================
+COMPATIBILITY
+====================================================================================================
+
+This update is compatible with:
+- v1.0.8 (Staff Guarantor Information)
+- v1.0.7 (Staff Debt Management)
+- v1.0.6 (Approval Systems)
+
+All previous features remain functional.
+Requires PHP 7.4+ and MySQL 5.7+
+
+====================================================================================================
+ROLLBACK INSTRUCTIONS
+====================================================================================================
+
+If you need to rollback this update:
+
+1. Restore database from backup:
+   mysql -u username -p darfiden_db < backup_v1.0.8_YYYYMMDD.sql
+
+2. Restore previous files from v1.0.8 package
+
+Note: Any data entered after upgrade (new assignments, tips) will be lost.
+
+====================================================================================================
+TROUBLESHOOTING
+====================================================================================================
+
+Issue: Migration fails with "Duplicate entry" error
+Solution: Check for duplicate daily operations (same staff + shop + date), manually resolve before running migration
+
+Issue: Shop code dropdown is empty
+Solution: Verify all shops have a 'code' field populated in the shops table
+
+Issue: Cannot create daily operation - "already exists" error
+Solution: Staff already has an operation for that shop code and date. Edit existing one or choose different shop code/date
+
+Issue: Reports not showing tips calculation
+Solution: Clear browser cache and refresh page. Verify migration added tips and tips_calculation columns
+
+====================================================================================================
+SUPPORT & VERSION HISTORY
+====================================================================================================
+
+Version History:
+- v1.0.9 (Current): Multi-Shop Assignments & Tips Management
+- v1.0.8: Staff Guarantor Information System
+- v1.0.7: Staff Debt Management
+- v1.0.6: Approval Systems
+- v1.0.5: Enhanced Winnings Management
+
+For detailed information about previous versions, see respective UPDATE files.
+
+====================================================================================================
+END OF UPDATE NOTES v1.0.9
+====================================================================================================
