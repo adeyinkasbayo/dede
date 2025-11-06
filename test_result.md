@@ -216,15 +216,18 @@ backend:
 frontend:
   - task: "Staff Guarantor UI - Edit Form"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/public_html/staff_edit.php"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Guarantor section added to staff edit form with proper styling and file upload input"
+      - working: true
+        agent: "testing"
+        comment: "UI verified working correctly. Guarantor section properly styled with clear visual separation. Form fields include proper labels, placeholders, and styling. File upload input configured correctly. Responsive design confirmed."
 
   - task: "Staff Guarantor UI - View Page"
     implemented: true
