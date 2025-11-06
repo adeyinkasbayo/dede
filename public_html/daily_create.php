@@ -38,9 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get shops and staff
-$shops = get_accessible_shops($pdo);
-$staff = $user_controller->get_all('staff');
+// Get shops based on role
+if (is_manager()) {
+    // Admin/Manager can see all shops and all staff
+    $shops = get_accessible_shops($pdo);
+    $staff = $user_controller->get_all('staff');
+} else {
+    // Staff can only see their assigned shops
+    $shops = $assignment_controller->get_assigned_shops_for_staff($current_user['id']);
+    $staff = []; // Staff can't select other staff members
+}
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
