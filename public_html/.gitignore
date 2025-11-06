@@ -24,9 +24,6 @@ cookies.txt
 *.backup
 backup_*
 
-# ZIP files (already in releases)
-*.zip
-
 # Environment-specific files (keep sample, ignore actual)
 # Note: config.php should be reviewed before committing
 
