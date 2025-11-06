@@ -1,0 +1,51 @@
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+error.log
+
+# Temporary files
+*.tmp
+*.temp
+cookies.txt
+
+# Backup files
+*.bak
+*.backup
+backup_*
+
+# ZIP files (already in releases)
+*.zip
+
+# Environment-specific files (keep sample, ignore actual)
+# Note: config.php should be reviewed before committing
+
+# Node modules (if any)
+node_modules/
+
+# Vendor directories
+vendor/
+
+# Cache directories
+cache/
+tmp/
+
+# Upload directories - keep structure but not uploaded files
+uploads/*
+!uploads/.gitkeep
+uploads/passports/*
+!uploads/passports/.gitkeep
+uploads/winnings/*
+!uploads/winnings/.gitkeep
+uploads/guarantors/*
+!uploads/guarantors/.gitkeep
