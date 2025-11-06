@@ -80,6 +80,7 @@ class StaffAssignmentController {
     
     public function get_assigned_shops_for_staff($staff_id) {
         try {
+            // First, try to get from staff_shop_assignments table
             $stmt = $this->pdo->prepare("
                 SELECT s.id, s.name, s.code
                 FROM staff_shop_assignments ssa
@@ -88,7 +89,22 @@ class StaffAssignmentController {
                 ORDER BY s.code
             ");
             $stmt->execute([$staff_id]);
-            return $stmt->fetchAll();
+            $shops = $stmt->fetchAll();
+            
+            // FALLBACK: If no assignments found, check user's shop_id (legacy support)
+            if (empty($shops)) {
+                $stmt = $this->pdo->prepare("
+                    SELECT s.id, s.name, s.code
+                    FROM users u
+                    INNER JOIN shops s ON u.shop_id = s.id
+                    WHERE u.id = ? AND u.shop_id IS NOT NULL
+                    ORDER BY s.code
+                ");
+                $stmt->execute([$staff_id]);
+                $shops = $stmt->fetchAll();
+            }
+            
+            return $shops;
         } catch (PDOException $e) {
             return [];
         }
