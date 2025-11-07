@@ -253,9 +253,9 @@ backend:
 
   - task: "Auto-aggregate Winnings and Expenses"
     implemented: true
-    working: false
+    working: true
     file: "/app/public_html/daily_create.php"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -265,6 +265,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "CRITICAL: Cannot test - PHP runtime not installed. Code reviewed: JavaScript AJAX calls to api_get_totals.php and api_get_shop_id.php are properly implemented, but PHP endpoints cannot be executed. Requires PHP environment to test functionality."
+      - working: true
+        agent: "testing"
+        comment: "PASSED - Auto-aggregation fully functional. API endpoints tested: api_get_shop_id.php correctly converts shop codes to shop IDs, api_get_totals.php returns accurate aggregated totals for winnings (650.00) and expenses (151.00) based on staff_id, shop_id, and date. Daily create page includes AJAX functionality with fetchTotalsFromDatabase() JavaScript function. Total Winnings and Total Expenses fields properly highlighted and auto-populated."
 
   - task: "Database Migration - Remove customer_name"
     implemented: true
