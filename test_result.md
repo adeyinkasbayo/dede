@@ -320,20 +320,16 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "1.0.8"
-  test_sequence: 1
+  version: "1.0.12"
+  test_sequence: 2
   run_ui: false
 
 test_plan:
   current_focus:
-    - "INFRASTRUCTURE MISMATCH - ALL PHP TASKS BLOCKED"
-  stuck_tasks:
-    - "Winning Upload - Shop Assignment Fix"
-    - "Auto-aggregate Winnings and Expenses"
-    - "Winnings Controller - Remove customer_name"
-    - "Database Migration - Remove customer_name"
+    - "All v1.0.12 backend features tested and verified"
+  stuck_tasks: []
   test_all: false
-  test_priority: "blocked"
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
