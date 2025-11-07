@@ -2,10 +2,14 @@
 $page_title = 'Upload Winning Receipt';
 require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/winnings.php';
+require_once __DIR__ . '/src/controllers/user.php';
+require_once __DIR__ . '/src/controllers/staff_assignment.php';
 require_login();
 
 $current_user = get_logged_user();
 $winning_controller = new WinningController($pdo);
+$user_controller = new UserController($pdo);
+$assignment_controller = new StaffAssignmentController($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $receipt_filename = null;
