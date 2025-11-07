@@ -65,7 +65,7 @@ include __DIR__ . '/includes/sidebar.php';
 <div class="main-content">
     <div class="header">
         <div class="header-left">
-            <h1><i class="fas fa-trophy"></i> <?php echo $show_all ? 'All Winnings' : 'Daily Winnings (' . date('M d, Y') . ')'; ?></h1>
+            <h1><i class="fas fa-trophy"></i> <?php echo $show_all ? 'All Winnings' : 'Today\'s Approved Winnings (' . date('M d, Y') . ')'; ?></h1>
         </div>
         <div class="header-right">
             <?php if (!$show_all): ?>
