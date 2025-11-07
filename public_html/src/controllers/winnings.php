@@ -197,5 +197,21 @@ class WinningController {
             return ['success' => false, 'message' => 'Failed to decline winning: ' . $e->getMessage()];
         }
     }
+    
+    public function get_total_by_staff_shop_date($staff_id, $shop_id, $date) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT COALESCE(SUM(amount), 0) as total
+                FROM winnings
+                WHERE staff_id = ? AND shop_id = ? AND winning_date = ?
+            ");
+            $stmt->execute([$staff_id, $shop_id, $date]);
+            $result = $stmt->fetch();
+            
+            return $result ? (float)$result['total'] : 0;
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }
 ?>
