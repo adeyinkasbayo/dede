@@ -229,10 +229,14 @@ include __DIR__ . '/includes/sidebar.php';
                                                title="Decline">
                                                 <i class="fas fa-times"></i> Decline
                                             </a>
-                                        <?php elseif ($winning['status'] === 'verified'): ?>
-                                            <span class="badge badge-success">Approved</span>
-                                        <?php elseif ($winning['status'] === 'rejected'): ?>
-                                            <span class="badge badge-danger">Declined</span>
+                                        <?php elseif ($winning['status'] === 'approved'): ?>
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check-circle"></i> Approved
+                                            </span>
+                                        <?php elseif ($winning['status'] === 'declined'): ?>
+                                            <span class="badge badge-danger">
+                                                <i class="fas fa-times-circle"></i> Declined
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
