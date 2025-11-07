@@ -109,6 +109,8 @@ user_problem_statement: |
   3. Staff Guarantor Information: Full name, address, phone number, and optional photo upload
   4. Staff Debt Management system with updated cash balance calculations
   5. All features accessible by Admin/Manager with proper role-based access control
+  6. Fix winning upload bug - staff should see assigned shops, admin/manager can upload for any staff
+  7. Auto-aggregate Total Winnings and Total Expenses in daily operations from uploaded data
 
 backend:
   - task: "Staff Guarantor - Database Migration"
