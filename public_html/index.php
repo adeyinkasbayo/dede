@@ -46,9 +46,9 @@ if (is_admin()) {
     $stmt->execute([$current_user['id']]);
     $stats['operations'] = $stmt->fetchColumn();
     
-    // Get assigned shops for staff
+    // Get assigned shops for staff with notes
     $stmt = $pdo->prepare("
-        SELECT s.id, s.name, s.code, s.address
+        SELECT s.id, s.name, s.code, s.address, ssa.notes
         FROM staff_shop_assignments ssa
         INNER JOIN shops s ON ssa.shop_id = s.id
         WHERE ssa.staff_id = ? AND ssa.status = 'active'
