@@ -167,7 +167,7 @@ include __DIR__ . '/includes/sidebar.php';
                     <div class="form-group">
                         <label for="amount">Winning Amount *</label>
                         <input type="number" id="amount" name="amount" class="form-control" 
-                               step="0.01" placeholder="0.00" required>
+                               step="0.01" placeholder="₦0.00" required>
                     </div>
                     
                     <div class="form-group">

@@ -105,7 +105,7 @@ include __DIR__ . '/includes/sidebar.php';
                     <div class="form-group">
                         <label for="amount">Amount *</label>
                         <input type="number" id="amount" name="amount" class="form-control" 
-                               step="0.01" placeholder="0.00" required 
+                               step="0.01" placeholder="₦0.00" required 
                                max="<?php echo $debt['balance']; ?>">
                         <small style="color: #64748b;">Maximum: ₦<?php echo format_money($debt['balance']); ?></small>
                     </div>
