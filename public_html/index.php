@@ -733,6 +733,36 @@ include __DIR__ . '/includes/sidebar.php';
     </div>
 </div>
 
+<!-- Receipt Image Modal -->
+<div id="receiptModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow: auto;">
+    <span onclick="closeReceiptModal()" style="position: absolute; top: 20px; right: 40px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
+    <img id="receiptImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; margin-top: 50px; border-radius: 8px;">
+</div>
+
 <script src="assets/js/app.js"></script>
+<script>
+function viewReceipt(imagePath) {
+    document.getElementById('receiptModal').style.display = 'block';
+    document.getElementById('receiptImage').src = imagePath;
+}
+
+function closeReceiptModal() {
+    document.getElementById('receiptModal').style.display = 'none';
+}
+
+// Close modal when clicking outside the image
+document.getElementById('receiptModal').onclick = function(event) {
+    if (event.target.id === 'receiptModal') {
+        closeReceiptModal();
+    }
+}
+
+// Close modal with ESC key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeReceiptModal();
+    }
+});
+</script>
 </body>
 </html>
