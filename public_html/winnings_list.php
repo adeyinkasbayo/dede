@@ -29,10 +29,17 @@ $offset = ($page - 1) * $per_page;
 
 // Get filter parameters
 $search = isset($_GET['search']) ? sanitize_input($_GET['search']) : null;
-$date_from = isset($_GET['date_from']) ? $_GET['date_from'] : null;
-$date_to = isset($_GET['date_to']) ? $_GET['date_to'] : null;
+$date_from = isset($_GET['date_from']) ? $_GET['date_from'] : date('Y-m-d'); // Default to today
+$date_to = isset($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d'); // Default to today
 $month = isset($_GET['month']) ? $_GET['month'] : null;
 $status_filter = isset($_GET['status']) ? $_GET['status'] : null;
+
+// Check if user has cleared filters (show all)
+$show_all = isset($_GET['show_all']) && $_GET['show_all'] == '1';
+if ($show_all) {
+    $date_from = null;
+    $date_to = null;
+}
 
 // Get shop_id based on role
 $shop_id = is_admin() ? null : $current_user['shop_id'];
