@@ -213,5 +213,102 @@ include __DIR__ . '/includes/sidebar.php';
 </div>
 
 <script src="assets/js/app.js"></script>
+<script>
+// Auto-fetch totals when staff, shop, or date changes
+function fetchTotalsFromDatabase() {
+    const staffSelect = document.getElementById('staff_id');
+    const shopCodeSelect = document.getElementById('shop_code');
+    const dateInput = document.getElementById('operation_date');
+    
+    // Get current values
+    const staffId = staffSelect ? staffSelect.value : <?php echo $current_user['id']; ?>;
+    const shopCode = shopCodeSelect ? shopCodeSelect.value : '';
+    const date = dateInput ? dateInput.value : '';
+    
+    // Only fetch if we have all required values
+    if (!staffId || !shopCode || !date) {
+        return;
+    }
+    
+    // Get shop_id from shop code
+    const shopOption = shopCodeSelect.options[shopCodeSelect.selectedIndex];
+    if (!shopOption || !shopOption.value) {
+        return;
+    }
+    
+    // Parse shop_id from the select option (we'll need to add data attribute)
+    // For now, we need to convert shop code to shop_id
+    fetch('api_get_shop_id.php?code=' + encodeURIComponent(shopCode))
+        .then(response => response.json())
+        .then(shopData => {
+            if (shopData.success && shopData.shop_id) {
+                // Now fetch totals
+                const url = 'api_get_totals.php?staff_id=' + staffId + '&shop_id=' + shopData.shop_id + '&date=' + date;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the fields
+                            document.getElementById('total_winnings').value = data.total_winnings;
+                            document.getElementById('total_expenses').value = data.total_expenses;
+                            
+                            // Trigger calculation
+                            calculateDailyTotal();
+                            
+                            // Show info message
+                            if (parseFloat(data.total_winnings) > 0 || parseFloat(data.total_expenses) > 0) {
+                                console.log('Auto-loaded: Winnings: $' + data.total_winnings + ', Expenses: $' + data.total_expenses);
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error fetching totals:', error));
+            }
+        })
+        .catch(error => console.error('Error fetching shop ID:', error));
+}
+
+// Attach event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const staffSelect = document.getElementById('staff_id');
+    const shopCodeSelect = document.getElementById('shop_code');
+    const dateInput = document.getElementById('operation_date');
+    
+    if (staffSelect) {
+        staffSelect.addEventListener('change', fetchTotalsFromDatabase);
+    }
+    
+    if (shopCodeSelect) {
+        shopCodeSelect.addEventListener('change', fetchTotalsFromDatabase);
+    }
+    
+    if (dateInput) {
+        dateInput.addEventListener('change', fetchTotalsFromDatabase);
+    }
+    
+    // Auto-fetch on page load if values are pre-filled
+    if (shopCodeSelect && shopCodeSelect.value && dateInput && dateInput.value) {
+        fetchTotalsFromDatabase();
+    }
+});
+
+// Make total_winnings and total_expenses readonly but still allow manual override if needed
+window.addEventListener('load', function() {
+    const winningsInput = document.getElementById('total_winnings');
+    const expensesInput = document.getElementById('total_expenses');
+    
+    if (winningsInput) {
+        winningsInput.style.backgroundColor = '#f0f9ff';
+        winningsInput.style.borderColor = '#3b82f6';
+        winningsInput.title = 'Auto-calculated from uploaded winnings. Change date/shop to refresh.';
+    }
+    
+    if (expensesInput) {
+        expensesInput.style.backgroundColor = '#f0fdf4';
+        expensesInput.style.borderColor = '#10b981';
+        expensesInput.title = 'Auto-calculated from recorded expenses. Change date/shop to refresh.';
+    }
+});
+</script>
 </body>
 </html>
