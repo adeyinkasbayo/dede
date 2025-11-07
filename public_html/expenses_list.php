@@ -21,8 +21,42 @@ if (isset($_GET['delete']) && is_manager()) {
     redirect('expenses_list.php');
 }
 
+// Filter by date - default to today
+$show_all = isset($_GET['show_all']) && $_GET['show_all'] == '1';
+$date_filter = $show_all ? null : date('Y-m-d');
+
 $shop_id = is_admin() ? null : $current_user['shop_id'];
-$expenses = $expense_controller->get_all($shop_id);
+$staff_id_filter = is_manager() ? null : $current_user['id']; // Staff see only their expenses
+
+// Get expenses with date filter
+if ($date_filter && !is_manager()) {
+    // Staff: Filter by date and staff_id
+    $stmt = $pdo->prepare("
+        SELECT e.*, s.name as shop_name, u.full_name as staff_name
+        FROM expenses e
+        LEFT JOIN shops s ON e.shop_id = s.id
+        LEFT JOIN users u ON e.staff_id = u.id
+        WHERE e.staff_id = ? AND e.expense_date = ?
+        ORDER BY e.expense_date DESC
+    ");
+    $stmt->execute([$current_user['id'], $date_filter]);
+    $expenses = $stmt->fetchAll();
+} elseif ($date_filter && is_manager()) {
+    // Manager: Filter by date only (all staff)
+    $stmt = $pdo->prepare("
+        SELECT e.*, s.name as shop_name, u.full_name as staff_name
+        FROM expenses e
+        LEFT JOIN shops s ON e.shop_id = s.id
+        LEFT JOIN users u ON e.staff_id = u.id
+        WHERE e.expense_date = ?
+        ORDER BY e.expense_date DESC
+    ");
+    $stmt->execute([$date_filter]);
+    $expenses = $stmt->fetchAll();
+} else {
+    // Show all expenses (when show_all=1)
+    $expenses = $expense_controller->get_all($shop_id);
+}
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
