@@ -58,17 +58,18 @@ class ExpenseController {
     
     public function create($data) {
         try {
-            if (empty($data['shop_id']) || empty($data['category']) || empty($data['amount']) || empty($data['expense_date'])) {
-                return ['success' => false, 'message' => 'Shop, category, amount, and date are required'];
+            if (empty($data['shop_id']) || empty($data['staff_id']) || empty($data['category']) || empty($data['amount']) || empty($data['expense_date'])) {
+                return ['success' => false, 'message' => 'Shop, staff, category, amount, and date are required'];
             }
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO expenses 
-                (shop_id, category, description, amount, expense_date, receipt_number, paid_to, payment_method, status, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (shop_id, staff_id, category, description, amount, expense_date, receipt_number, paid_to, payment_method, status, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
                 $data['shop_id'],
+                $data['staff_id'],
                 $data['category'],
                 $data['description'],
                 $data['amount'],
