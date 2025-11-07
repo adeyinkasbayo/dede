@@ -68,9 +68,10 @@ if (isset($_POST['bulk_decline']) && isset($_POST['winning_ids'])) {
     redirect('winnings_approve.php');
 }
 
-// Get pending winnings only
-$shop_id = is_admin() ? null : $current_user['shop_id'];
-$pending_winnings = $winning_controller->get_all($shop_id, 'pending', null, null, null, null, 100, 0);
+// Get today's pending winnings only (all staff)
+$shop_id = null; // Don't filter by shop - get all shops
+$today = date('Y-m-d');
+$pending_winnings = $winning_controller->get_all($shop_id, 'pending', null, $today, $today, null, 100, 0);
 
 // Calculate total pending amount
 $total_pending = array_sum(array_column($pending_winnings, 'amount'));
