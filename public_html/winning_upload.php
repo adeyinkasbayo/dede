@@ -61,10 +61,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Get shops based on role
+if (is_manager()) {
+    // Admin/Manager can see all shops
+    $shops = get_accessible_shops($pdo);
+    // Get all staff for selection
+    $staff_list = $user_controller->get_all('staff');
+} else {
+    // Staff can only see their assigned shops
+    $shops = $assignment_controller->get_assigned_shops_for_staff($current_user['id']);
+    $staff_list = []; // Staff can't select other staff members
+}
+
 // Get recent winnings
-$shop_id = is_admin() ? null : $current_user['shop_id'];
+$shop_id = is_manager() ? null : $current_user['shop_id'];
 $winnings = $winning_controller->get_all($shop_id);
-$shops = get_accessible_shops($pdo);
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
