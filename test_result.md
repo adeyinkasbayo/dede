@@ -287,6 +287,30 @@ backend:
         agent: "testing"
         comment: "PASSED - MariaDB 10.11.14 now installed and running. Migration verified: customer_name column does NOT exist in winnings table (successfully removed or never added). ticket_number column has UNIQUE constraint (UNI key) as required. Database schema matches v1.0.12 specifications."
 
+  - task: "Expense Create - Shop Assignment Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/expenses_create.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed expenses_create.php to show assigned shops for staff users. Admin/Manager can now select staff and any shop. Added staff_id field to expenses controller for proper aggregation."
+
+  - task: "Expenses Controller - Add staff_id"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/src/controllers/expenses.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated expenses controller create() and update() methods to include staff_id field. This ensures expenses are properly linked to staff for auto-aggregation."
+
 frontend:
   - task: "Staff Guarantor UI - Edit Form"
     implemented: true
