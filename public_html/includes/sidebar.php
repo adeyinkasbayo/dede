@@ -61,8 +61,13 @@ if (is_manager()) {
         </a>
         
         <?php if (is_manager()): ?>
-        <a href="winnings_approve.php">
+        <a href="winnings_approve.php" style="position: relative;">
             <i class="fas fa-check-circle"></i> Approve Winnings
+            <?php if ($pending_winnings_count > 0): ?>
+                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: #ef4444; color: white; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: bold;">
+                    <?php echo $pending_winnings_count; ?>
+                </span>
+            <?php endif; ?>
         </a>
         <a href="winnings_list.php">
             <i class="fas fa-trophy"></i> All Winnings
