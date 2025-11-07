@@ -59,21 +59,20 @@ if (is_admin()) {
     
     // Get staff debts
     $stmt = $pdo->prepare("
-        SELECT d.*, s.name as shop_name
+        SELECT d.*
         FROM debts d
-        LEFT JOIN shops s ON d.shop_id = s.id
-        WHERE d.staff_id = ? AND d.status = 'pending'
+        WHERE d.staff_id = ? AND d.status IN ('pending', 'partial')
         ORDER BY d.debt_date DESC
         LIMIT 10
     ");
     $stmt->execute([$current_user['id']]);
     $stats['debts'] = $stmt->fetchAll();
     
-    // Get total outstanding debt
+    // Get total outstanding debt (balance column has the remaining amount)
     $stmt = $pdo->prepare("
-        SELECT COALESCE(SUM(amount - paid_amount), 0) as total_debt
+        SELECT COALESCE(SUM(balance), 0) as total_debt
         FROM debts
-        WHERE staff_id = ? AND status = 'pending'
+        WHERE staff_id = ? AND status IN ('pending', 'partial')
     ");
     $stmt->execute([$current_user['id']]);
     $stats['total_debt'] = $stmt->fetchColumn();
