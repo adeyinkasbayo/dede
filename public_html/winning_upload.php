@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = [
             'shop_id' => $shop_id,
             'staff_id' => $staff_id,
-            'customer_name' => sanitize_input($_POST['customer_name'] ?? ''),
             'ticket_number' => sanitize_input($_POST['ticket_number'] ?? ''),
             'amount' => $amount,
             'winning_date' => $winning_date,
