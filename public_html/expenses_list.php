@@ -65,9 +65,18 @@ include __DIR__ . '/includes/sidebar.php';
 <div class="main-content">
     <div class="header">
         <div class="header-left">
-            <h1><i class="fas fa-money-bill-wave"></i> Expenses</h1>
+            <h1><i class="fas fa-money-bill-wave"></i> <?php echo $show_all ? 'All Expenses' : 'Daily Expenses (' . date('M d, Y') . ')'; ?></h1>
         </div>
         <div class="header-right">
+            <?php if (!$show_all): ?>
+                <a href="expenses_list.php?show_all=1" class="btn btn-secondary" style="margin-right: 10px;">
+                    <i class="fas fa-list"></i> View All Expenses
+                </a>
+            <?php else: ?>
+                <a href="expenses_list.php" class="btn btn-secondary" style="margin-right: 10px;">
+                    <i class="fas fa-calendar-day"></i> Today's Expenses
+                </a>
+            <?php endif; ?>
             <a href="expenses_create.php" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Add Expense
             </a>
@@ -79,7 +88,12 @@ include __DIR__ . '/includes/sidebar.php';
         
         <div class="card">
             <div class="card-header">
-                <h3>All Expenses</h3>
+                <h3>
+                    <?php echo $show_all ? 'All Expenses' : 'Daily Expenses'; ?>
+                    <?php if (is_manager() && !$show_all): ?>
+                        <small style="color: #64748b; font-weight: normal;"> - All staff</small>
+                    <?php endif; ?>
+                </h3>
             </div>
             <div class="card-body">
                 <?php if (empty($expenses)): ?>
