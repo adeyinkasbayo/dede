@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
 CREATE TABLE IF NOT EXISTS `daily_operations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shop_id` int(11) NOT NULL,
+  `shop_code` VARCHAR(20) DEFAULT NULL,
   `staff_id` int(11) NOT NULL,
   `operation_date` date NOT NULL,
   `opening_balance` decimal(10,2) DEFAULT 0.00,
@@ -80,7 +81,11 @@ CREATE TABLE IF NOT EXISTS `daily_operations` (
   `total_sales` decimal(10,2) DEFAULT 0.00,
   `total_expenses` decimal(10,2) DEFAULT 0.00,
   `total_winnings` decimal(10,2) DEFAULT 0.00,
+  `transfer_to_staff` DECIMAL(10,2) DEFAULT 0.00,
+  `daily_debt` DECIMAL(10,2) DEFAULT 0.00,
   `cash_balance` decimal(10,2) DEFAULT 0.00,
+  `tips` DECIMAL(10,2) DEFAULT 0.00,
+  `tips_calculation` DECIMAL(10,2) DEFAULT 0.00,
   `notes` text DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -88,7 +93,9 @@ CREATE TABLE IF NOT EXISTS `daily_operations` (
   PRIMARY KEY (`id`),
   KEY `shop_id` (`shop_id`),
   KEY `staff_id` (`staff_id`),
-  KEY `operation_date` (`operation_date`)
+  KEY `shop_code` (`shop_code`),
+  KEY `operation_date` (`operation_date`),
+  UNIQUE KEY `unique_staff_shop_date` (`staff_id`, `shop_code`, `operation_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table: expenses
