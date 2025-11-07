@@ -69,6 +69,28 @@ CREATE TABLE IF NOT EXISTS `assignments` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table: staff_shop_assignments (Multi-shop assignments)
+CREATE TABLE IF NOT EXISTS `staff_shop_assignments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_id` int(11) NOT NULL,
+  `shop_id` int(11) NOT NULL,
+  `assigned_by` int(11) NOT NULL,
+  `assigned_date` date NOT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `staff_id` (`staff_id`),
+  KEY `shop_id` (`shop_id`),
+  KEY `assigned_by` (`assigned_by`),
+  KEY `status` (`status`),
+  UNIQUE KEY `unique_staff_shop` (`staff_id`, `shop_id`, `status`),
+  CONSTRAINT `staff_assignments_staff_fk` FOREIGN KEY (`staff_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `staff_assignments_shop_fk` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `staff_assignments_assigned_by_fk` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Table: daily_operations
 CREATE TABLE IF NOT EXISTS `daily_operations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
