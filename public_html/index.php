@@ -66,6 +66,20 @@ if (is_admin()) {
     $stmt = $pdo->prepare("SELECT SUM(total_sales) FROM daily_operations WHERE shop_id = ? AND operation_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)");
     $stmt->execute([$shop_id]);
     $stats['monthly_sales'] = $stmt->fetchColumn() ?? 0;
+    
+    // Get all winnings for managers with date filter
+    if ($winning_date_filter) {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, $winning_date_filter, $winning_date_filter, null, 100, 0, null);
+    } else {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, null, null, null, 100, 0, null);
+    }
+} elseif (is_admin()) {
+    // Get all winnings for admin with date filter
+    if ($winning_date_filter) {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, $winning_date_filter, $winning_date_filter, null, 100, 0, null);
+    } else {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, null, null, null, 100, 0, null);
+    }
 } else {
     // Staff sees their own statistics
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM daily_operations WHERE staff_id = ?");
