@@ -44,9 +44,10 @@ if ($show_all) {
 
 // Get shop_id based on role
 $shop_id = is_admin() ? null : $current_user['shop_id'];
+$staff_id = null; // Show all staff (no filter by staff)
 
 // Get winnings with filters
-$winnings = $winning_controller->get_all($shop_id, $status_filter, $search, $date_from, $date_to, $month, $per_page, $offset);
+$winnings = $winning_controller->get_all($shop_id, $status_filter, $search, $date_from, $date_to, $month, $per_page, $offset, $staff_id);
 
 // Get total count for pagination
 $total_records = $winning_controller->count_all($shop_id, $status_filter, $search, $date_from, $date_to, $month);
