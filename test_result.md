@@ -215,6 +215,54 @@ backend:
         agent: "main"
         comment: "Sidebar already contains debt management link from previous implementation"
 
+  - task: "Winning Upload - Shop Assignment Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/winning_upload.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed winning_upload.php to show assigned shops for staff users via staff_shop_assignments. Admin/Manager can now select staff and any shop. Removed customer_name field from schema."
+
+  - task: "Winnings Controller - Remove customer_name"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/src/controllers/winnings.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated winnings controller to remove customer_name field and make ticket_number required. Added get_total_by_staff_shop_date method for aggregation."
+
+  - task: "Auto-aggregate Winnings and Expenses"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/daily_create.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added AJAX functionality to auto-fetch and populate Total Winnings and Total Expenses from database when staff/shop/date are selected. Created API endpoints api_get_totals.php and api_get_shop_id.php."
+
+  - task: "Database Migration - Remove customer_name"
+    implemented: true
+    working: "NA"
+    file: "/app/public_html/sql/migration_v1.0.12_remove_customer_name.sql"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created migration script to remove customer_name column from winnings table if it exists."
+
 frontend:
   - task: "Staff Guarantor UI - Edit Form"
     implemented: true
