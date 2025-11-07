@@ -56,6 +56,56 @@ if (is_admin()) {
     ");
     $stmt->execute([$current_user['id']]);
     $stats['assigned_shops'] = $stmt->fetchAll();
+    
+    // Get staff debts
+    $stmt = $pdo->prepare("
+        SELECT d.*, s.name as shop_name
+        FROM debts d
+        LEFT JOIN shops s ON d.shop_id = s.id
+        WHERE d.staff_id = ? AND d.status = 'pending'
+        ORDER BY d.debt_date DESC
+        LIMIT 10
+    ");
+    $stmt->execute([$current_user['id']]);
+    $stats['debts'] = $stmt->fetchAll();
+    
+    // Get total outstanding debt
+    $stmt = $pdo->prepare("
+        SELECT COALESCE(SUM(amount - paid_amount), 0) as total_debt
+        FROM debts
+        WHERE staff_id = ? AND status = 'pending'
+    ");
+    $stmt->execute([$current_user['id']]);
+    $stats['total_debt'] = $stmt->fetchColumn();
+    
+    // Get today's winnings
+    $today = date('Y-m-d');
+    $stmt = $pdo->prepare("
+        SELECT w.*, s.name as shop_name
+        FROM winnings w
+        LEFT JOIN shops s ON w.shop_id = s.id
+        WHERE w.staff_id = ? AND w.winning_date = ?
+        ORDER BY w.created_at DESC
+    ");
+    $stmt->execute([$current_user['id'], $today]);
+    $stats['daily_winnings'] = $stmt->fetchAll();
+    
+    // Calculate total today's winnings
+    $stats['daily_winnings_total'] = array_sum(array_column($stats['daily_winnings'], 'amount'));
+    
+    // Get today's expenses
+    $stmt = $pdo->prepare("
+        SELECT e.*, s.name as shop_name
+        FROM expenses e
+        LEFT JOIN shops s ON e.shop_id = s.id
+        WHERE e.staff_id = ? AND e.expense_date = ?
+        ORDER BY e.created_at DESC
+    ");
+    $stmt->execute([$current_user['id'], $today]);
+    $stats['daily_expenses'] = $stmt->fetchAll();
+    
+    // Calculate total today's expenses
+    $stats['daily_expenses_total'] = array_sum(array_column($stats['daily_expenses'], 'amount'));
 }
 
 include __DIR__ . '/includes/header.php';
