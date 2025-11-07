@@ -7,6 +7,21 @@ require_permission(['admin', 'manager']);
 $current_user = get_logged_user();
 $winning_controller = new WinningController($pdo);
 
+// Handle single approve/decline
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $winning_id = (int)$_GET['id'];
+    
+    if ($_GET['action'] === 'approve') {
+        $result = $winning_controller->approve($winning_id, $current_user['id']);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+        redirect('winnings_approve.php');
+    } elseif ($_GET['action'] === 'decline') {
+        $result = $winning_controller->decline($winning_id);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+        redirect('winnings_approve.php');
+    }
+}
+
 // Handle bulk approve
 if (isset($_POST['bulk_approve']) && isset($_POST['winning_ids'])) {
     $success_count = 0;
