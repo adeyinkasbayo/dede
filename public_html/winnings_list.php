@@ -32,13 +32,14 @@ $search = isset($_GET['search']) ? sanitize_input($_GET['search']) : null;
 $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : date('Y-m-d'); // Default to today
 $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : date('Y-m-d'); // Default to today
 $month = isset($_GET['month']) ? $_GET['month'] : null;
-$status_filter = isset($_GET['status']) ? $_GET['status'] : null;
+$status_filter = isset($_GET['status']) ? $_GET['status'] : 'approved'; // Default to approved only
 
 // Check if user has cleared filters (show all)
 $show_all = isset($_GET['show_all']) && $_GET['show_all'] == '1';
 if ($show_all) {
     $date_from = null;
     $date_to = null;
+    $status_filter = null;
 }
 
 // Get shop_id based on role
