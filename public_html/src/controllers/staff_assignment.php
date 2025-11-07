@@ -51,7 +51,9 @@ class StaffAssignmentController {
     
     public function remove_assignment($assignment_id) {
         try {
-            $stmt = $this->pdo->prepare("UPDATE staff_shop_assignments SET status = 'inactive' WHERE id = ?");
+            // Delete the assignment record instead of setting to inactive
+            // This prevents duplicate inactive records in the unique constraint
+            $stmt = $this->pdo->prepare("DELETE FROM staff_shop_assignments WHERE id = ?");
             $stmt->execute([$assignment_id]);
             return ['success' => true, 'message' => 'Assignment removed successfully'];
         } catch (PDOException $e) {
