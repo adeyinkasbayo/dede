@@ -271,9 +271,9 @@ backend:
 
   - task: "Database Migration - Remove customer_name"
     implemented: true
-    working: false
+    working: true
     file: "/app/public_html/sql/migration_v1.0.12_remove_customer_name.sql"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -283,6 +283,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "CRITICAL: Cannot test - MySQL/MariaDB not installed in container. Migration SQL reviewed and appears correct (uses conditional DROP COLUMN with INFORMATION_SCHEMA check), but cannot be executed. Container only has MongoDB, not MySQL."
+      - working: true
+        agent: "testing"
+        comment: "PASSED - MariaDB 10.11.14 now installed and running. Migration verified: customer_name column does NOT exist in winnings table (successfully removed or never added). ticket_number column has UNIQUE constraint (UNI key) as required. Database schema matches v1.0.12 specifications."
 
 frontend:
   - task: "Staff Guarantor UI - Edit Form"
