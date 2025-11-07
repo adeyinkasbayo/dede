@@ -174,7 +174,7 @@ class WinningController {
         try {
             $stmt = $this->pdo->prepare("
                 UPDATE winnings 
-                SET status = 'verified', verified_by = ?
+                SET status = 'approved', approved_by = ?, approved_at = NOW()
                 WHERE id = ?
             ");
             $stmt->execute([$approved_by, $id]);
@@ -189,7 +189,7 @@ class WinningController {
         try {
             $stmt = $this->pdo->prepare("
                 UPDATE winnings 
-                SET status = 'rejected'
+                SET status = 'declined'
                 WHERE id = ?
             ");
             $stmt->execute([$id]);
