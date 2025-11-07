@@ -81,10 +81,15 @@ include __DIR__ . '/includes/sidebar.php';
                                 <?php foreach ($staff_assignments as $assignment): ?>
                                     <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
                                         <div style="display: flex; justify-content: space-between; align-items: start;">
-                                            <div>
+                                            <div style="flex: 1;">
                                                 <p style="margin: 0; font-weight: bold; color: #3b82f6;">
                                                     <?php echo htmlspecialchars($assignment['shop_code']); ?>
                                                 </p>
+                                                <?php if (!empty($assignment['notes'])): ?>
+                                                    <p style="margin: 5px 0; padding: 5px 10px; background: #fef3c7; border-left: 3px solid #f59e0b; font-size: 13px; color: #92400e; border-radius: 4px;">
+                                                        <i class="fas fa-sticky-note"></i> <?php echo htmlspecialchars($assignment['notes']); ?>
+                                                    </p>
+                                                <?php endif; ?>
                                                 <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;">
                                                     <?php echo htmlspecialchars($assignment['shop_name']); ?>
                                                 </p>
