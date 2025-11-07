@@ -232,8 +232,8 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td>
                                     <?php 
                                     $status_badge = 'secondary';
-                                    if ($winning['status'] === 'verified') $status_badge = 'success';
-                                    elseif ($winning['status'] === 'paid') $status_badge = 'info';
+                                    if ($winning['status'] === 'approved') $status_badge = 'success';
+                                    elseif ($winning['status'] === 'declined') $status_badge = 'danger';
                                     elseif ($winning['status'] === 'pending') $status_badge = 'warning';
                                     ?>
                                     <span class="badge badge-<?php echo $status_badge; ?>">
