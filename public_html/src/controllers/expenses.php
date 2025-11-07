@@ -64,8 +64,8 @@ class ExpenseController {
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO expenses 
-                (shop_id, staff_id, category, description, amount, expense_date, receipt_number, paid_to, payment_method, status, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (shop_id, staff_id, category, description, amount, expense_date, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
                 $data['shop_id'],
@@ -74,10 +74,6 @@ class ExpenseController {
                 $data['description'],
                 $data['amount'],
                 $data['expense_date'],
-                $data['receipt_number'] ?? null,
-                $data['paid_to'] ?? null,
-                $data['payment_method'] ?? 'cash',
-                $data['status'] ?? 'pending',
                 $data['created_by']
             ]);
             
