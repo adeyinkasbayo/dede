@@ -232,15 +232,18 @@ backend:
 
   - task: "Winnings Controller - Remove customer_name"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/public_html/src/controllers/winnings.php"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated winnings controller to remove customer_name field and make ticket_number required. Added get_total_by_staff_shop_date method for aggregation."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL: Cannot test - PHP runtime not installed. Controller code reviewed and appears correct (ticket_number validation, get_total_by_staff_shop_date method present), but cannot be instantiated or tested without PHP environment."
 
   - task: "Auto-aggregate Winnings and Expenses"
     implemented: true
