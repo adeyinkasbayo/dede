@@ -166,16 +166,22 @@ class UserController {
     public function delete($id) {
         try {
             // Don't allow deleting admin users
-            $stmt = $this->pdo->prepare("SELECT role FROM users WHERE id = ?");
-            $stmt->execute([$id]);
-            $user = $stmt->fetch();
+            $check_stmt = $this->pdo->prepare("SELECT role FROM users WHERE id = ?");
+            $check_stmt->execute([$id]);
+            $user = $check_stmt->fetch();
+            $check_stmt->closeCursor(); // Close cursor to prevent statement conflict
             
             if ($user && $user['role'] === 'admin') {
                 return ['success' => false, 'message' => 'Cannot delete admin users'];
             }
             
-            $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
-            $stmt->execute([$id]);
+            // Delete related records first to prevent foreign key constraint issues
+            $this->pdo->prepare("DELETE FROM staff_shop_assignments WHERE staff_id = ?")->execute([$id]);
+            
+            // Now delete the user
+            $delete_stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
+            $delete_stmt->execute([$id]);
+            $delete_stmt->closeCursor();
             
             return ['success' => true, 'message' => 'Staff member deleted successfully'];
         } catch (PDOException $e) {
