@@ -155,15 +155,10 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="customer_name">Customer Name</label>
-                        <input type="text" id="customer_name" name="customer_name" class="form-control" 
-                               placeholder="Enter customer name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ticket_number">Ticket Number</label>
+                        <label for="ticket_number">Ticket Number *</label>
                         <input type="text" id="ticket_number" name="ticket_number" class="form-control" 
-                               placeholder="Enter ticket number">
+                               placeholder="Enter ticket number" required>
+                        <small style="color: #64748b;">Must be unique for each winning entry</small>
                     </div>
                     
                     <div class="form-group">
