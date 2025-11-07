@@ -2,36 +2,59 @@
 $page_title = 'Add Expense';
 require_once __DIR__ . '/src/init.php';
 require_once __DIR__ . '/src/controllers/expenses.php';
+require_once __DIR__ . '/src/controllers/user.php';
+require_once __DIR__ . '/src/controllers/staff_assignment.php';
 require_login();
 
 $current_user = get_logged_user();
 $expense_controller = new ExpenseController($pdo);
+$user_controller = new UserController($pdo);
+$assignment_controller = new StaffAssignmentController($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'shop_id' => $_POST['shop_id'] ?? $current_user['shop_id'],
-        'category' => sanitize_input($_POST['category'] ?? ''),
-        'description' => sanitize_input($_POST['description'] ?? ''),
-        'amount' => $_POST['amount'] ?? 0,
-        'expense_date' => $_POST['expense_date'] ?? date('Y-m-d'),
-        'receipt_number' => sanitize_input($_POST['receipt_number'] ?? ''),
-        'paid_to' => sanitize_input($_POST['paid_to'] ?? ''),
-        'payment_method' => $_POST['payment_method'] ?? 'cash',
-        'status' => 'pending',
-        'created_by' => $current_user['id']
-    ];
+    // Get shop_id and staff_id properly
+    $shop_id = isset($_POST['shop_id']) ? $_POST['shop_id'] : $current_user['shop_id'];
+    $staff_id = isset($_POST['staff_id']) ? $_POST['staff_id'] : $current_user['id'];
     
-    $result = $expense_controller->create($data);
-    
-    if ($result['success']) {
-        set_message($result['message'], 'success');
-        redirect('expenses_list.php');
+    // Validate required fields
+    if (empty($shop_id) || empty($staff_id) || empty($_POST['category']) || empty($_POST['amount']) || empty($_POST['expense_date'])) {
+        set_message('Shop, staff, category, amount, and date are required', 'danger');
     } else {
-        set_message($result['message'], 'danger');
+        $data = [
+            'shop_id' => $shop_id,
+            'staff_id' => $staff_id,
+            'category' => sanitize_input($_POST['category'] ?? ''),
+            'description' => sanitize_input($_POST['description'] ?? ''),
+            'amount' => $_POST['amount'] ?? 0,
+            'expense_date' => $_POST['expense_date'] ?? date('Y-m-d'),
+            'receipt_number' => sanitize_input($_POST['receipt_number'] ?? ''),
+            'paid_to' => sanitize_input($_POST['paid_to'] ?? ''),
+            'payment_method' => $_POST['payment_method'] ?? 'cash',
+            'status' => 'pending',
+            'created_by' => $current_user['id']
+        ];
+        
+        $result = $expense_controller->create($data);
+        
+        if ($result['success']) {
+            set_message($result['message'], 'success');
+            redirect('expenses_list.php');
+        } else {
+            set_message($result['message'], 'danger');
+        }
     }
 }
 
-$shops = get_accessible_shops($pdo);
+// Get shops based on role
+if (is_manager()) {
+    // Admin/Manager can see all shops and all staff
+    $shops = get_accessible_shops($pdo);
+    $staff_list = $user_controller->get_all('staff');
+} else {
+    // Staff can only see their assigned shops
+    $shops = $assignment_controller->get_assigned_shops_for_staff($current_user['id']);
+    $staff_list = []; // Staff can't select other staff members
+}
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
