@@ -1,7 +1,33 @@
 <?php
 $page_title = 'Dashboard';
 require_once __DIR__ . '/src/init.php';
+require_once __DIR__ . '/src/controllers/winnings.php';
 require_login();
+
+$current_user = get_logged_user();
+$winning_controller = new WinningController($pdo);
+
+// Handle winning approval/decline from dashboard
+if (is_manager() && isset($_GET['action']) && isset($_GET['winning_id'])) {
+    $winning_id = (int)$_GET['winning_id'];
+    
+    if ($_GET['action'] === 'approve') {
+        $result = $winning_controller->approve($winning_id, $current_user['id']);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+    } elseif ($_GET['action'] === 'decline') {
+        $result = $winning_controller->decline($winning_id);
+        set_message($result['message'], $result['success'] ? 'success' : 'danger');
+    }
+    redirect('index.php');
+}
+
+// Get date filter for winnings (default to today)
+$winning_date_filter = isset($_GET['winning_date']) ? $_GET['winning_date'] : date('Y-m-d');
+$show_all_winnings = isset($_GET['show_all_winnings']) && $_GET['show_all_winnings'] == '1';
+
+if ($show_all_winnings) {
+    $winning_date_filter = null;
+}
 
 $current_user = get_logged_user();
 
