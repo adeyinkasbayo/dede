@@ -70,8 +70,14 @@ if (isset($_POST['bulk_decline']) && isset($_POST['winning_ids'])) {
 
 // Get today's pending winnings only (all staff)
 $shop_id = null; // Don't filter by shop - get all shops
+$status = 'pending'; // Only pending
+$search = null; // No search
 $today = date('Y-m-d');
-$pending_winnings = $winning_controller->get_all($shop_id, 'pending', null, $today, $today, null, 100, 0);
+$month = null;
+$limit = 100;
+$offset = 0;
+$staff_id = null; // All staff
+$pending_winnings = $winning_controller->get_all($shop_id, $status, $search, $today, $today, $month, $limit, $offset, $staff_id);
 
 // Calculate total pending amount
 $total_pending = array_sum(array_column($pending_winnings, 'amount'));
