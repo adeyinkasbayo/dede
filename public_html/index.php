@@ -269,6 +269,150 @@ include __DIR__ . '/includes/sidebar.php';
                         </div>
                     <?php endif; ?>
                 </div>
+                
+                <!-- Staff Debts Section -->
+                <div style="margin-top: 20px; padding: 15px; background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 6px;">
+                    <h4 style="margin-bottom: 15px;">
+                        <i class="fas fa-exclamation-triangle"></i> My Outstanding Debts
+                        <?php if ($stats['total_debt'] > 0): ?>
+                            <span style="float: right; font-size: 18px; color: #ef4444;">
+                                $<?php echo format_money($stats['total_debt']); ?>
+                            </span>
+                        <?php endif; ?>
+                    </h4>
+                    <?php if (empty($stats['debts'])): ?>
+                        <p style="color: #10b981;">
+                            <i class="fas fa-check-circle"></i> No outstanding debts. You're all clear!
+                        </p>
+                    <?php else: ?>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            <table class="table" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Shop</th>
+                                        <th>Amount</th>
+                                        <th>Paid</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($stats['debts'] as $debt): ?>
+                                        <tr>
+                                            <td><?php echo format_date($debt['debt_date']); ?></td>
+                                            <td><?php echo htmlspecialchars($debt['shop_name'] ?? 'N/A'); ?></td>
+                                            <td>$<?php echo format_money($debt['amount']); ?></td>
+                                            <td style="color: #10b981;">$<?php echo format_money($debt['paid_amount']); ?></td>
+                                            <td style="color: #ef4444; font-weight: bold;">$<?php echo format_money($debt['amount'] - $debt['paid_amount']); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 13px; color: #64748b;">
+                            <a href="debt_list.php">View all debts →</a>
+                        </p>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Today's Winnings Section -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+                    <h4 style="margin-bottom: 15px;">
+                        <i class="fas fa-trophy"></i> Today's Winnings (<?php echo date('M d, Y'); ?>)
+                        <?php if ($stats['daily_winnings_total'] > 0): ?>
+                            <span style="float: right; font-size: 18px; color: #10b981;">
+                                $<?php echo format_money($stats['daily_winnings_total']); ?>
+                            </span>
+                        <?php endif; ?>
+                    </h4>
+                    <?php if (empty($stats['daily_winnings'])): ?>
+                        <p style="color: #64748b;">
+                            <i class="fas fa-info-circle"></i> No winnings uploaded today. <a href="winning_upload.php">Upload a winning</a>
+                        </p>
+                    <?php else: ?>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            <table class="table" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Shop</th>
+                                        <th>Ticket #</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($stats['daily_winnings'] as $winning): ?>
+                                        <tr>
+                                            <td><?php echo date('h:i A', strtotime($winning['created_at'])); ?></td>
+                                            <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($winning['ticket_number']); ?></td>
+                                            <td style="color: #10b981; font-weight: bold;">$<?php echo format_money($winning['amount']); ?></td>
+                                            <td>
+                                                <?php 
+                                                $badge_color = $winning['status'] === 'pending' ? '#f59e0b' : '#10b981';
+                                                ?>
+                                                <span style="padding: 3px 8px; background: <?php echo $badge_color; ?>; color: white; border-radius: 4px; font-size: 11px;">
+                                                    <?php echo ucfirst($winning['status']); ?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 13px; color: #64748b;">
+                            <a href="winning_upload.php">Upload more winnings →</a>
+                        </p>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Today's Expenses Section -->
+                <div style="margin-top: 20px; padding: 15px; background: #fef9c3; border-left: 4px solid #eab308; border-radius: 6px;">
+                    <h4 style="margin-bottom: 15px;">
+                        <i class="fas fa-money-bill-wave"></i> Today's Expenses (<?php echo date('M d, Y'); ?>)
+                        <?php if ($stats['daily_expenses_total'] > 0): ?>
+                            <span style="float: right; font-size: 18px; color: #eab308;">
+                                $<?php echo format_money($stats['daily_expenses_total']); ?>
+                            </span>
+                        <?php endif; ?>
+                    </h4>
+                    <?php if (empty($stats['daily_expenses'])): ?>
+                        <p style="color: #64748b;">
+                            <i class="fas fa-info-circle"></i> No expenses recorded today. <a href="expenses_create.php">Add an expense</a>
+                        </p>
+                    <?php else: ?>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            <table class="table" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Shop</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($stats['daily_expenses'] as $expense): ?>
+                                        <tr>
+                                            <td><?php echo date('h:i A', strtotime($expense['created_at'])); ?></td>
+                                            <td><?php echo htmlspecialchars($expense['shop_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($expense['category']); ?></td>
+                                            <td style="color: #eab308; font-weight: bold;">$<?php echo format_money($expense['amount']); ?></td>
+                                            <td style="font-size: 12px; color: #64748b;">
+                                                <?php echo htmlspecialchars(substr($expense['description'], 0, 30)) . (strlen($expense['description']) > 30 ? '...' : ''); ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 13px; color: #64748b;">
+                            <a href="expenses_list.php">View all expenses →</a>
+                        </p>
+                    <?php endif; ?>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
