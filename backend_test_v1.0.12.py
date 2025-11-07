@@ -348,10 +348,10 @@ class WinningUploadTester:
                 assignment = cursor.fetchone()
                 
                 if not assignment:
-                    # Create assignment
+                    # Create assignment (use assigned_date, not assigned_at)
                     cursor.execute("""
-                        INSERT INTO staff_shop_assignments (staff_id, shop_id, assigned_by, assigned_at)
-                        VALUES (%s, %s, 1, NOW())
+                        INSERT INTO staff_shop_assignments (staff_id, shop_id, assigned_by, assigned_date)
+                        VALUES (%s, %s, 1, CURDATE())
                     """, (self.test_staff_id, self.test_shop_id))
                     connection.commit()
                     
