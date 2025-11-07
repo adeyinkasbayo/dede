@@ -375,3 +375,54 @@ agent_communication:
       
       SYSTEM STATUS: FULLY FUNCTIONAL ✅
       All guarantor-related features are working as expected. The implementation is complete and ready for production use.
+
+  - agent: "main"
+    message: |
+      IMPLEMENTATION COMPLETE - Winning Upload Fix & Auto-aggregation (v1.0.12)
+      
+      CHANGES IMPLEMENTED:
+      
+      1. WINNING UPLOAD FIX (winning_upload.php):
+         - Staff users now see their assigned shops from staff_shop_assignments table
+         - Admin/Manager can select any staff and any shop
+         - Removed customer_name field (not in latest schema)
+         - Made ticket_number required field with uniqueness validation
+         - Added proper shop code display in dropdown
+      
+      2. WINNINGS CONTROLLER UPDATES (src/controllers/winnings.php):
+         - Removed customer_name from INSERT query
+         - Made ticket_number mandatory (not optional)
+         - Added get_total_by_staff_shop_date() method for aggregation
+         - Enhanced validation to include ticket_number requirement
+      
+      3. AUTO-AGGREGATION FEATURE (daily_create.php):
+         - Added AJAX functionality to auto-fetch totals when staff/shop/date changes
+         - Total Winnings field now auto-populates from winnings table
+         - Total Expenses field now auto-populates from expenses table
+         - Fields highlighted in blue/green to indicate auto-calculation
+         - Maintains manual override capability
+      
+      4. NEW API ENDPOINTS:
+         - api_get_totals.php: Returns aggregated winnings and expenses
+         - api_get_shop_id.php: Converts shop_code to shop_id for API calls
+      
+      5. EXPENSES CONTROLLER UPDATE (src/controllers/expenses.php):
+         - Added get_total_by_staff_shop_date() method for aggregation
+      
+      6. DATABASE MIGRATION (migration_v1.0.12_remove_customer_name.sql):
+         - Safely removes customer_name column if it exists
+      
+      7. UI UPDATES:
+         - winnings_list.php: Removed customer column from table
+         - winning_upload.php: Removed customer column from recent winnings table
+         - daily_create.php: Added visual indicators for auto-calculated fields
+      
+      TESTING NEEDED:
+      - Test winning upload as staff user with assigned shops
+      - Test winning upload as admin/manager selecting different staff
+      - Test unique ticket_number validation
+      - Test auto-aggregation when creating daily operations
+      - Test that Total Winnings auto-populates correctly
+      - Test that Total Expenses auto-populates correctly
+      - Verify database migration runs without errors
+      - Test full flow: Upload winning → Create daily operation → Verify totals
