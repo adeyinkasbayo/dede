@@ -47,6 +47,13 @@ if (is_admin()) {
     
     $stmt = $pdo->query("SELECT COUNT(*) FROM winnings WHERE status = 'pending'");
     $stats['pending_winnings'] = $stmt->fetchColumn();
+    
+    // Get all winnings for admin with date filter
+    if ($winning_date_filter) {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, $winning_date_filter, $winning_date_filter, null, 100, 0, null);
+    } else {
+        $stats['dashboard_winnings'] = $winning_controller->get_all(null, null, null, null, null, null, 100, 0, null);
+    }
 } elseif (is_manager()) {
     // Manager sees shop-specific statistics
     $shop_id = $current_user['shop_id'];
