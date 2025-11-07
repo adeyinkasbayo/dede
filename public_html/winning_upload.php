@@ -77,12 +77,12 @@ if (is_manager()) {
 }
 
 // Get today's winnings only (for staff: their winnings, for manager: all winnings)
-$shop_id = is_manager() ? null : $current_user['shop_id'];
-$staff_id_filter = is_manager() ? null : $current_user['id'];
+$shop_id_filter = null;  // Don't filter by shop
+$staff_id_filter = is_manager() ? null : $current_user['id']; // Staff see only their winnings
 
 // Get today's winnings with date filter
 $today = date('Y-m-d');
-$winnings = $winning_controller->get_all($shop_id, null, null, $today, $today, null, 50, 0);
+$winnings = $winning_controller->get_all($shop_id_filter, null, null, $today, $today, null, 50, 0, $staff_id_filter);
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
