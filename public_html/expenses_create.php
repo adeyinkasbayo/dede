@@ -170,28 +170,6 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="paid_to">Paid To</label>
-                        <input type="text" id="paid_to" name="paid_to" class="form-control" 
-                               placeholder="Recipient/vendor name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="receipt_number">Receipt Number</label>
-                        <input type="text" id="receipt_number" name="receipt_number" class="form-control" 
-                               placeholder="Receipt/invoice number">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="payment_method">Payment Method *</label>
-                        <select id="payment_method" name="payment_method" class="form-control" required>
-                            <option value="cash">Cash</option>
-                            <option value="bank">Bank Transfer</option>
-                            <option value="mobile_money">Mobile Money</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Save Expense
                         </button>
