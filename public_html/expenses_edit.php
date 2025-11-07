@@ -22,6 +22,7 @@ if (!$expense) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
         'shop_id' => $_POST['shop_id'] ?? $expense['shop_id'],
+        'staff_id' => $_POST['staff_id'] ?? $expense['staff_id'],
         'category' => sanitize_input($_POST['category'] ?? ''),
         'description' => sanitize_input($_POST['description'] ?? ''),
         'amount' => $_POST['amount'] ?? 0,
