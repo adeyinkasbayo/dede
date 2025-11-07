@@ -51,8 +51,9 @@ function format_datetime($datetime) {
     return date('M d, Y H:i', strtotime($datetime));
 }
 
-function format_money($amount) {
-    return number_format($amount, 2);
+function format_money($amount, $include_symbol = false) {
+    $formatted = number_format($amount, 2);
+    return $include_symbol ? '₦' . $formatted : $formatted;
 }
 
 function get_user_role_name($role) {
