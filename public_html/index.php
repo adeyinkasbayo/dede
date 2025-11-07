@@ -289,20 +289,29 @@ include __DIR__ . '/includes/sidebar.php';
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Shop</th>
+                                        <th>Description</th>
                                         <th>Amount</th>
                                         <th>Paid</th>
                                         <th>Balance</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($stats['debts'] as $debt): ?>
                                         <tr>
                                             <td><?php echo format_date($debt['debt_date']); ?></td>
-                                            <td><?php echo htmlspecialchars($debt['shop_name'] ?? 'N/A'); ?></td>
+                                            <td style="font-size: 12px;"><?php echo htmlspecialchars(substr($debt['description'] ?? 'Debt', 0, 30)); ?></td>
                                             <td>$<?php echo format_money($debt['amount']); ?></td>
-                                            <td style="color: #10b981;">$<?php echo format_money($debt['paid_amount']); ?></td>
-                                            <td style="color: #ef4444; font-weight: bold;">$<?php echo format_money($debt['amount'] - $debt['paid_amount']); ?></td>
+                                            <td style="color: #10b981;">$<?php echo format_money($debt['amount_paid']); ?></td>
+                                            <td style="color: #ef4444; font-weight: bold;">$<?php echo format_money($debt['balance']); ?></td>
+                                            <td>
+                                                <?php 
+                                                $badge_color = $debt['status'] === 'pending' ? '#ef4444' : '#f59e0b';
+                                                ?>
+                                                <span style="padding: 3px 8px; background: <?php echo $badge_color; ?>; color: white; border-radius: 4px; font-size: 11px;">
+                                                    <?php echo ucfirst($debt['status']); ?>
+                                                </span>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
