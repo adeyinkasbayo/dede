@@ -113,9 +113,9 @@ include __DIR__ . '/includes/sidebar.php';
         
         <div class="card">
             <div class="card-header">
-                <h3>Pending Winnings Requiring Approval</h3>
+                <h3>Today's Pending Winnings from All Staff</h3>
                 <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">
-                    Review and approve or decline winning submissions from staff
+                    Review and approve or decline today's winning submissions from all staff members
                 </p>
             </div>
             <div class="card-body">
