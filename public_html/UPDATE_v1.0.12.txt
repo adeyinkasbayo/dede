@@ -1,0 +1,202 @@
+================================================================================
+UPDATE v1.0.12 - Winning Upload Fix & Auto-Aggregation Feature
+================================================================================
+Date: 2024
+Status: IMPLEMENTED - NEEDS TESTING
+
+================================================================================
+OVERVIEW
+================================================================================
+This update addresses the critical bug in winning upload functionality and 
+implements the requested auto-aggregation feature for daily operations.
+
+================================================================================
+FEATURES IMPLEMENTED
+================================================================================
+
+1. WINNING UPLOAD BUG FIX
+   - Fixed "Shop, staff, amount, and date are required" error
+   - Staff users now see their assigned shops (via staff_shop_assignments)
+   - Admin/Manager can upload winnings for any staff member
+   - Added proper shop selection with shop codes displayed
+   - Removed deprecated customer_name field
+   - Made ticket_number a required field
+   
+   Files Changed:
+   - /app/public_html/winning_upload.php
+   - /app/public_html/src/controllers/winnings.php
+
+2. AUTO-AGGREGATION FEATURE
+   - Total Winnings in daily operations now auto-calculated from winnings table
+   - Total Expenses in daily operations now auto-calculated from expenses table
+   - Real-time AJAX updates when staff/shop/date changes
+   - Visual indicators (blue/green highlights) for auto-calculated fields
+   - Maintains ability to manually override if needed
+   
+   Files Changed:
+   - /app/public_html/daily_create.php
+   - /app/public_html/src/controllers/winnings.php (added get_total_by_staff_shop_date)
+   - /app/public_html/src/controllers/expenses.php (added get_total_by_staff_shop_date)
+
+3. NEW API ENDPOINTS
+   - api_get_totals.php: Returns aggregated winnings and expenses for staff/shop/date
+   - api_get_shop_id.php: Converts shop_code to shop_id for API calls
+   
+   Files Created:
+   - /app/public_html/api_get_totals.php
+   - /app/public_html/api_get_shop_id.php
+
+4. DATABASE SCHEMA UPDATE
+   - Migration to remove customer_name column from winnings table
+   - Safe migration that checks for column existence first
+   
+   Files Created:
+   - /app/public_html/sql/migration_v1.0.12_remove_customer_name.sql
+
+5. UI IMPROVEMENTS
+   - Removed customer_name column from winnings list displays
+   - Enhanced visual feedback for auto-calculated fields
+   - Improved form labels and help text
+   
+   Files Changed:
+   - /app/public_html/winnings_list.php
+   - /app/public_html/winning_upload.php
+
+================================================================================
+INSTALLATION STEPS
+================================================================================
+
+1. BACKUP YOUR DATABASE
+   mysqldump -u root -p darfiden_db > backup_before_v1.0.12.sql
+
+2. RUN DATABASE MIGRATION
+   mysql -u root -p darfiden_db < sql/migration_v1.0.12_remove_customer_name.sql
+
+3. VERIFY FILES ARE UPDATED
+   - Check that all modified files are in place
+   - Ensure new API endpoints exist
+
+4. TEST THE FEATURES
+   - Test winning upload as staff user
+   - Test winning upload as admin/manager
+   - Test daily operations auto-aggregation
+   - Verify totals are correctly calculated
+
+================================================================================
+USER WORKFLOW
+================================================================================
+
+FOR STAFF USERS:
+1. Go to "Upload Winning Receipt"
+2. Select from your assigned shops (shown in dropdown)
+3. Enter ticket number (required), amount, date
+4. Upload receipt image (optional)
+5. Submit winning
+
+FOR ADMIN/MANAGER:
+1. Go to "Upload Winning Receipt"
+2. Select staff member from dropdown
+3. Select shop from all available shops
+4. Enter ticket number (required), amount, date
+5. Upload receipt image (optional)
+6. Submit winning
+
+FOR DAILY OPERATIONS:
+1. Go to "Add Daily Operation"
+2. Select operation date
+3. Select staff (admin/manager) or auto-filled (staff)
+4. Select shop code
+5. Total Winnings and Total Expenses will auto-populate!
+6. Enter other fields (opening balance, closing balance, etc.)
+7. Submit operation
+
+================================================================================
+TECHNICAL DETAILS
+================================================================================
+
+Auto-Aggregation Logic:
+- When staff_id, shop_code, and date are selected, JavaScript triggers AJAX call
+- API endpoint api_get_shop_id.php converts shop_code to shop_id
+- API endpoint api_get_totals.php queries database for totals:
+  * SUM(amount) FROM winnings WHERE staff_id, shop_id, date match
+  * SUM(amount) FROM expenses WHERE staff_id, shop_id, date match
+- Totals are populated in the form fields
+- Cash balance calculation automatically updates
+
+Database Queries Added:
+```sql
+-- Winnings aggregation
+SELECT COALESCE(SUM(amount), 0) as total
+FROM winnings
+WHERE staff_id = ? AND shop_id = ? AND winning_date = ?
+
+-- Expenses aggregation
+SELECT COALESCE(SUM(amount), 0) as total
+FROM expenses
+WHERE staff_id = ? AND shop_id = ? AND expense_date = ?
+```
+
+================================================================================
+VALIDATION RULES
+================================================================================
+
+Winning Upload:
+- Shop ID: Required
+- Staff ID: Required
+- Ticket Number: Required, must be unique
+- Amount: Required, must be numeric
+- Winning Date: Required
+
+Daily Operations (unchanged):
+- Shop Code: Required
+- Staff ID: Required
+- Operation Date: Required
+- Total Winnings: Required (auto-populated)
+- Total Expenses: Required (auto-populated)
+
+================================================================================
+KNOWN ISSUES / LIMITATIONS
+================================================================================
+
+1. Auto-aggregation requires JavaScript enabled
+2. If database has customer_name data, it will be lost when column is dropped
+3. Manual override of auto-calculated totals is still possible (by design)
+
+================================================================================
+TESTING CHECKLIST
+================================================================================
+
+[ ] Staff user can upload winning with assigned shops
+[ ] Admin/Manager can upload winning for any staff
+[ ] Ticket number uniqueness is enforced
+[ ] Daily operations auto-populates Total Winnings
+[ ] Daily operations auto-populates Total Expenses
+[ ] Auto-aggregation works when changing staff/shop/date
+[ ] Cash balance calculation includes aggregated totals
+[ ] Database migration runs without errors
+[ ] No customer_name references remain in code
+
+================================================================================
+ROLLBACK PROCEDURE
+================================================================================
+
+If issues occur:
+1. Restore database backup:
+   mysql -u root -p darfiden_db < backup_before_v1.0.12.sql
+
+2. Revert file changes (if using git):
+   git checkout <previous_commit_hash>
+
+================================================================================
+SUPPORT
+================================================================================
+
+For issues or questions about this update, please check:
+- Database connection and credentials
+- JavaScript console for AJAX errors
+- PHP error logs for server-side issues
+- Verify staff_shop_assignments table has data
+
+================================================================================
+END OF UPDATE NOTES
+================================================================================
