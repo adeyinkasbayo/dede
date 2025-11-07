@@ -91,12 +91,13 @@ class ExpenseController {
         try {
             $stmt = $this->pdo->prepare("
                 UPDATE expenses 
-                SET shop_id = ?, category = ?, description = ?, amount = ?, expense_date = ?, 
+                SET shop_id = ?, staff_id = ?, category = ?, description = ?, amount = ?, expense_date = ?, 
                     receipt_number = ?, paid_to = ?, payment_method = ?, status = ?
                 WHERE id = ?
             ");
             $stmt->execute([
                 $data['shop_id'],
+                $data['staff_id'],
                 $data['category'],
                 $data['description'],
                 $data['amount'],
