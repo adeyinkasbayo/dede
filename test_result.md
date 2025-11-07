@@ -217,9 +217,9 @@ backend:
 
   - task: "Winning Upload - Shop Assignment Fix"
     implemented: true
-    working: false
+    working: true
     file: "/app/public_html/winning_upload.php"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -229,6 +229,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "CRITICAL: Cannot test - PHP runtime not installed in container. Environment is configured for FastAPI/React/MongoDB, but application is implemented in PHP/MySQL. PHP files exist but cannot be executed. Requires infrastructure change to test."
+      - working: true
+        agent: "testing"
+        comment: "PASSED - PHP/MySQL environment now installed and running. Admin flow verified: staff dropdown present, shop dropdown shows all shops with codes, ticket_number field is required, customer_name field removed. Winning submission successful with unique ticket_number validation working correctly. Duplicate ticket_number properly rejected."
 
   - task: "Winnings Controller - Remove customer_name"
     implemented: true
