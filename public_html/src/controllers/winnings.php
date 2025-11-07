@@ -8,7 +8,7 @@ class WinningController {
         $this->pdo = $pdo;
     }
     
-    public function get_all($shop_id = null, $status = null, $search = null, $date_from = null, $date_to = null, $month = null, $limit = 20, $offset = 0) {
+    public function get_all($shop_id = null, $status = null, $search = null, $date_from = null, $date_to = null, $month = null, $limit = 20, $offset = 0, $staff_id = null) {
         try {
             $sql = "SELECT w.*, s.name as shop_name, u.full_name as staff_name, 
                            uv.full_name as verified_by_name
@@ -22,6 +22,11 @@ class WinningController {
             if ($shop_id) {
                 $sql .= " AND w.shop_id = ?";
                 $params[] = $shop_id;
+            }
+            
+            if ($staff_id) {
+                $sql .= " AND w.staff_id = ?";
+                $params[] = $staff_id;
             }
             
             if ($status) {
