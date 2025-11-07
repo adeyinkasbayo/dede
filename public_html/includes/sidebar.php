@@ -1,3 +1,12 @@
+<?php
+// Get pending winnings count for managers
+$pending_winnings_count = 0;
+if (is_manager()) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM winnings WHERE status = 'pending'");
+    $stmt->execute();
+    $pending_winnings_count = $stmt->fetchColumn();
+}
+?>
 <aside class="sidebar">
     <div class="sidebar-header">
         <h3><?php echo APP_NAME; ?></h3>
