@@ -342,15 +342,79 @@ frontend:
         agent: "testing"
         comment: "UI verified working correctly. Two-column responsive layout displays staff and guarantor information clearly. Proper styling with color-coded sections. Guarantor section shows appropriate message when no data available. Photo display functionality working."
 
+  - task: "Staff Dashboard - Assigned Shops Display"
+    implemented: false
+    working: "NA"
+    file: "/app/public_html/index.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "CRITICAL: Cannot test v1.0.13 features - PHP/MySQL environment not running. PHP and MySQL binaries not found in container. Container only has FastAPI/React/MongoDB stack. Main agent did not update test_result.md with v1.0.13 tasks before calling testing agent (protocol violation)."
+
+  - task: "Winnings List - Daily View"
+    implemented: false
+    working: "NA"
+    file: "/app/public_html/winnings_list.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "CRITICAL: Cannot test v1.0.13 features - PHP/MySQL environment not running."
+
+  - task: "Winning Upload - Daily Recent Winnings"
+    implemented: false
+    working: "NA"
+    file: "/app/public_html/winning_upload.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "CRITICAL: Cannot test v1.0.13 features - PHP/MySQL environment not running."
+
+  - task: "Expenses List - Daily View"
+    implemented: false
+    working: "NA"
+    file: "/app/public_html/expenses_list.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "CRITICAL: Cannot test v1.0.13 features - PHP/MySQL environment not running."
+
+  - task: "Expense Create Fix - Staff ID Column"
+    implemented: false
+    working: "NA"
+    file: "/app/public_html/expenses_create.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "CRITICAL: Cannot test v1.0.13 features - PHP/MySQL environment not running."
+
 metadata:
   created_by: "main_agent"
-  version: "1.0.12"
-  test_sequence: 2
+  version: "1.0.13"
+  test_sequence: 3
   run_ui: false
 
 test_plan:
   current_focus:
-    - "All v1.0.12 backend features tested and verified"
+    - "Staff Dashboard - Assigned Shops Display"
+    - "Winnings List - Daily View"
+    - "Winning Upload - Daily Recent Winnings"
+    - "Expenses List - Daily View"
+    - "Expense Create Fix - Staff ID Column"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
