@@ -358,7 +358,10 @@ include __DIR__ . '/includes/sidebar.php';
                                             <td style="color: #10b981; font-weight: bold;">$<?php echo format_money($winning['amount']); ?></td>
                                             <td>
                                                 <?php 
-                                                $badge_color = $winning['status'] === 'pending' ? '#f59e0b' : '#10b981';
+                                                $badge_color = '#64748b'; // default
+                                                if ($winning['status'] === 'pending') $badge_color = '#f59e0b';
+                                                elseif ($winning['status'] === 'approved') $badge_color = '#10b981';
+                                                elseif ($winning['status'] === 'declined') $badge_color = '#ef4444';
                                                 ?>
                                                 <span style="padding: 3px 8px; background: <?php echo $badge_color; ?>; color: white; border-radius: 4px; font-size: 11px;">
                                                     <?php echo ucfirst($winning['status']); ?>
