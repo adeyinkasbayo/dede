@@ -79,7 +79,7 @@ OPTION D: Download and push from your local machine
 If you can't push directly from this workspace, you can:
 
 1. Download the ZIP files from the download page:
-   https://darfiden-mgmt.preview.emergentagent.com/downloads.html
+   https://multitrack-cash.preview.emergentagent.com/downloads.html
 
 2. Extract on your local machine
 
