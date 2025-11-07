@@ -1,9 +1,10 @@
 <?php
-// Get pending winnings count for managers
+// Get today's pending winnings count for managers
 $pending_winnings_count = 0;
 if (is_manager()) {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM winnings WHERE status = 'pending'");
-    $stmt->execute();
+    $today = date('Y-m-d');
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM winnings WHERE status = 'pending' AND winning_date = ?");
+    $stmt->execute([$today]);
     $pending_winnings_count = $stmt->fetchColumn();
 }
 ?>
