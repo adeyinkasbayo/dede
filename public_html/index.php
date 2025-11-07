@@ -253,11 +253,16 @@ include __DIR__ . '/includes/sidebar.php';
                                         <div style="background: #3b82f6; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                                             <?php echo strtoupper(substr($shop['code'], 0, 1)); ?>
                                         </div>
-                                        <div>
+                                        <div style="flex: 1;">
                                             <strong style="color: #1e293b; display: block;"><?php echo htmlspecialchars($shop['code']); ?></strong>
                                             <small style="color: #64748b;"><?php echo htmlspecialchars($shop['name']); ?></small>
                                         </div>
                                     </div>
+                                    <?php if (!empty($shop['notes'])): ?>
+                                        <div style="margin: 10px 0; padding: 8px 10px; background: #fef3c7; border-left: 3px solid #f59e0b; font-size: 12px; color: #92400e; border-radius: 4px;">
+                                            <i class="fas fa-sticky-note"></i> <?php echo htmlspecialchars($shop['notes']); ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <?php if ($shop['address']): ?>
                                         <p style="font-size: 12px; color: #64748b; margin: 5px 0 0 0;">
                                             <i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($shop['address']); ?>
