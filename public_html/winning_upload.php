@@ -76,9 +76,13 @@ if (is_manager()) {
     $staff_list = []; // Staff can't select other staff members
 }
 
-// Get recent winnings
+// Get today's winnings only (for staff: their winnings, for manager: all winnings)
 $shop_id = is_manager() ? null : $current_user['shop_id'];
-$winnings = $winning_controller->get_all($shop_id);
+$staff_id_filter = is_manager() ? null : $current_user['id'];
+
+// Get today's winnings with date filter
+$today = date('Y-m-d');
+$winnings = $winning_controller->get_all($shop_id, null, null, $today, $today, null, 50, 0);
 
 include __DIR__ . '/includes/header.php';
 include __DIR__ . '/includes/sidebar.php';
