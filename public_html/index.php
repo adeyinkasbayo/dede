@@ -45,6 +45,17 @@ if (is_admin()) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM daily_operations WHERE staff_id = ?");
     $stmt->execute([$current_user['id']]);
     $stats['operations'] = $stmt->fetchColumn();
+    
+    // Get assigned shops for staff
+    $stmt = $pdo->prepare("
+        SELECT s.id, s.name, s.code, s.address
+        FROM staff_shop_assignments ssa
+        INNER JOIN shops s ON ssa.shop_id = s.id
+        WHERE ssa.staff_id = ? AND ssa.status = 'active'
+        ORDER BY s.code
+    ");
+    $stmt->execute([$current_user['id']]);
+    $stats['assigned_shops'] = $stmt->fetchAll();
 }
 
 include __DIR__ . '/includes/header.php';
