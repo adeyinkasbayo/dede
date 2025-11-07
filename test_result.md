@@ -301,7 +301,11 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Winning Upload - Shop Assignment Fix"
+    - "Auto-aggregate Winnings and Expenses"
+    - "Winnings Controller - Remove customer_name"
+    - "Database Migration - Remove customer_name"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
