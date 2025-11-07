@@ -16,7 +16,7 @@ if (is_admin()) {
     $stmt = $pdo->query("SELECT COUNT(*) FROM users WHERE status = 'active'");
     $stats['staff'] = $stmt->fetchColumn();
     
-    $stmt = $pdo->query("SELECT COUNT(*) FROM expenses WHERE status = 'pending'");
+    $stmt = $pdo->query("SELECT COUNT(*) FROM expenses");
     $stats['pending_expenses'] = $stmt->fetchColumn();
     
     $stmt = $pdo->query("SELECT COUNT(*) FROM winnings WHERE status = 'pending'");
