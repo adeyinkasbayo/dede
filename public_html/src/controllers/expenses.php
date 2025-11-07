@@ -138,5 +138,21 @@ class ExpenseController {
             return ['success' => false, 'message' => 'Failed to delete expense: ' . $e->getMessage()];
         }
     }
+    
+    public function get_total_by_staff_shop_date($staff_id, $shop_id, $date) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT COALESCE(SUM(amount), 0) as total
+                FROM expenses
+                WHERE staff_id = ? AND shop_id = ? AND expense_date = ?
+            ");
+            $stmt->execute([$staff_id, $shop_id, $date]);
+            $result = $stmt->fetch();
+            
+            return $result ? (float)$result['total'] : 0;
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }
 ?>
