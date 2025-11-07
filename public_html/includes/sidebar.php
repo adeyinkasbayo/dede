@@ -52,6 +52,9 @@
         </a>
         
         <?php if (is_manager()): ?>
+        <a href="winnings_approve.php">
+            <i class="fas fa-check-circle"></i> Approve Winnings
+        </a>
         <a href="winnings_list.php">
             <i class="fas fa-trophy"></i> All Winnings
         </a>
