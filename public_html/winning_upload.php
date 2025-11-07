@@ -196,7 +196,14 @@ include __DIR__ . '/includes/sidebar.php';
         
         <div class="card">
             <div class="card-header">
-                <h3>Recent Winnings</h3>
+                <h3>Daily Winnings - <?php echo date('M d, Y'); ?></h3>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">
+                    <?php if (is_manager()): ?>
+                        Showing all winnings uploaded today by any staff
+                    <?php else: ?>
+                        Showing your winnings uploaded today
+                    <?php endif; ?>
+                </p>
             </div>
             <div class="card-body">
                 <?php if (empty($winnings)): ?>
