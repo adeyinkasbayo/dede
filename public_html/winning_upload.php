@@ -206,7 +206,6 @@ include __DIR__ . '/includes/sidebar.php';
                             <tr>
                                 <th>Date</th>
                                 <th>Shop</th>
-                                <th>Customer</th>
                                 <th>Ticket</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -217,7 +216,6 @@ include __DIR__ . '/includes/sidebar.php';
                             <tr>
                                 <td><?php echo format_date($winning['winning_date']); ?></td>
                                 <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
-                                <td><?php echo htmlspecialchars($winning['customer_name'] ?? '-'); ?></td>
                                 <td><?php echo htmlspecialchars($winning['ticket_number'] ?? '-'); ?></td>
                                 <td><strong>$<?php echo format_money($winning['amount']); ?></strong></td>
                                 <td>
