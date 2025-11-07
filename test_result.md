@@ -314,13 +314,14 @@ metadata:
 
 test_plan:
   current_focus:
+    - "INFRASTRUCTURE MISMATCH - ALL PHP TASKS BLOCKED"
+  stuck_tasks:
     - "Winning Upload - Shop Assignment Fix"
     - "Auto-aggregate Winnings and Expenses"
     - "Winnings Controller - Remove customer_name"
     - "Database Migration - Remove customer_name"
-  stuck_tasks: []
   test_all: false
-  test_priority: "high_first"
+  test_priority: "blocked"
 
 agent_communication:
   - agent: "main"
