@@ -183,7 +183,41 @@ include __DIR__ . '/includes/sidebar.php';
                         <a href="winning_upload.php" class="btn btn-success btn-sm">
                             <i class="fas fa-trophy"></i> Upload Winning
                         </a>
+                        <a href="expenses_create.php" class="btn btn-warning btn-sm">
+                            <i class="fas fa-receipt"></i> Add Expense
+                        </a>
                     </div>
+                </div>
+                
+                <!-- Assigned Shops Section for Staff -->
+                <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px;">
+                    <h4 style="margin-bottom: 15px;"><i class="fas fa-store"></i> My Assigned Shops</h4>
+                    <?php if (empty($stats['assigned_shops'])): ?>
+                        <p style="color: #64748b;">
+                            <i class="fas fa-info-circle"></i> No shops assigned yet. Please contact your manager.
+                        </p>
+                    <?php else: ?>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
+                            <?php foreach ($stats['assigned_shops'] as $shop): ?>
+                                <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                        <div style="background: #3b82f6; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                            <?php echo strtoupper(substr($shop['code'], 0, 1)); ?>
+                                        </div>
+                                        <div>
+                                            <strong style="color: #1e293b; display: block;"><?php echo htmlspecialchars($shop['code']); ?></strong>
+                                            <small style="color: #64748b;"><?php echo htmlspecialchars($shop['name']); ?></small>
+                                        </div>
+                                    </div>
+                                    <?php if ($shop['address']): ?>
+                                        <p style="font-size: 12px; color: #64748b; margin: 5px 0 0 0;">
+                                            <i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($shop['address']); ?>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <?php endif; ?>
             </div>
