@@ -85,7 +85,6 @@ CREATE TABLE IF NOT EXISTS `staff_shop_assignments` (
   KEY `shop_id` (`shop_id`),
   KEY `assigned_by` (`assigned_by`),
   KEY `status` (`status`),
-  UNIQUE KEY `unique_staff_shop` (`staff_id`, `shop_id`, `status`),
   CONSTRAINT `staff_assignments_staff_fk` FOREIGN KEY (`staff_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `staff_assignments_shop_fk` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE CASCADE,
   CONSTRAINT `staff_assignments_assigned_by_fk` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE CASCADE
