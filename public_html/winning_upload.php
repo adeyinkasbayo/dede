@@ -27,14 +27,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    if ($receipt_filename || !isset($_FILES['receipt_image'])) {
+    // Prepare data
+    $shop_id = isset($_POST['shop_id']) ? $_POST['shop_id'] : $current_user['shop_id'];
+    $staff_id = isset($_POST['staff_id']) ? $_POST['staff_id'] : $current_user['id'];
+    $amount = isset($_POST['amount']) ? $_POST['amount'] : 0;
+    $winning_date = isset($_POST['winning_date']) ? $_POST['winning_date'] : date('Y-m-d');
+    
+    // Validate required fields
+    if (empty($shop_id) || empty($staff_id) || empty($amount) || empty($winning_date)) {
+        set_message('Shop, staff, amount, and date are required', 'danger');
+    } else {
         $data = [
-            'shop_id' => $_POST['shop_id'] ?? $current_user['shop_id'],
-            'staff_id' => $_POST['staff_id'] ?? $current_user['id'],
+            'shop_id' => $shop_id,
+            'staff_id' => $staff_id,
             'customer_name' => sanitize_input($_POST['customer_name'] ?? ''),
             'ticket_number' => sanitize_input($_POST['ticket_number'] ?? ''),
-            'amount' => $_POST['amount'] ?? 0,
-            'winning_date' => $_POST['winning_date'] ?? date('Y-m-d'),
+            'amount' => $amount,
+            'winning_date' => $winning_date,
             'receipt_image' => $receipt_filename,
             'notes' => sanitize_input($_POST['notes'] ?? ''),
             'status' => 'pending',
