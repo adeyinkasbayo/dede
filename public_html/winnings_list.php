@@ -160,7 +160,6 @@ include __DIR__ . '/includes/sidebar.php';
                                     <th>Ticket Number</th>
                                     <th>Shop</th>
                                     <th>Staff</th>
-                                    <th>Customer</th>
                                     <th>Amount</th>
                                     <th>Status</th>
                                     <th>Receipt</th>
@@ -178,7 +177,6 @@ include __DIR__ . '/includes/sidebar.php';
                                     </td>
                                     <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
                                     <td><?php echo htmlspecialchars($winning['staff_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($winning['customer_name'] ?? '-'); ?></td>
                                     <td><strong style="color: var(--success-color);">$<?php echo format_money($winning['amount']); ?></strong></td>
                                     <td>
                                         <?php 
