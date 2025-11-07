@@ -247,6 +247,135 @@ include __DIR__ . '/includes/sidebar.php';
                         </a>
                     </div>
                 </div>
+                
+                <!-- Winnings Management Section for Admin -->
+                <div style="margin-top: 20px;">
+                    <?php include __DIR__ . '/includes/messages.php'; ?>
+                    
+                    <div style="background: #fefce8; padding: 20px; border-left: 4px solid #eab308; border-radius: 6px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="margin: 0;">
+                                <i class="fas fa-trophy"></i> 
+                                <?php echo $show_all_winnings ? 'All Winnings Uploaded by Staff' : 'Today\'s Winnings from All Staff (' . date('M d, Y', strtotime($winning_date_filter)) . ')'; ?>
+                            </h4>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <form method="GET" style="display: flex; gap: 10px; margin: 0;">
+                                    <input type="date" name="winning_date" value="<?php echo $winning_date_filter ?: date('Y-m-d'); ?>" 
+                                           class="form-control" style="width: 180px;">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-filter"></i> Filter
+                                    </button>
+                                </form>
+                                <?php if (!$show_all_winnings): ?>
+                                    <a href="?show_all_winnings=1" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-list"></i> Show All
+                                    </a>
+                                <?php else: ?>
+                                    <a href="index.php" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-calendar-day"></i> Today Only
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <?php if (empty($stats['dashboard_winnings'])): ?>
+                            <p style="text-align: center; padding: 40px; color: #64748b;">
+                                <i class="fas fa-inbox" style="font-size: 48px; opacity: 0.5;"></i><br><br>
+                                No winnings uploaded for the selected date.
+                            </p>
+                        <?php else: ?>
+                            <div style="overflow-x: auto;">
+                                <table class="table" style="background: white;">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Staff</th>
+                                            <th>Shop</th>
+                                            <th>Ticket #</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Receipt</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $total_amount = 0;
+                                        $pending_count = 0;
+                                        $approved_count = 0;
+                                        foreach ($stats['dashboard_winnings'] as $winning): 
+                                            $total_amount += $winning['amount'];
+                                            if ($winning['status'] === 'pending') $pending_count++;
+                                            if ($winning['status'] === 'approved') $approved_count++;
+                                        ?>
+                                            <tr>
+                                                <td><?php echo date('h:i A', strtotime($winning['created_at'])); ?></td>
+                                                <td>
+                                                    <strong><?php echo htmlspecialchars($winning['staff_name']); ?></strong>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
+                                                <td style="color: #3b82f6; font-weight: bold;">
+                                                    <?php echo htmlspecialchars($winning['ticket_number']); ?>
+                                                </td>
+                                                <td><strong style="color: #10b981;">₦<?php echo format_money($winning['amount']); ?></strong></td>
+                                                <td>
+                                                    <?php 
+                                                    $badge_color = 'secondary';
+                                                    if ($winning['status'] === 'approved') $badge_color = 'success';
+                                                    elseif ($winning['status'] === 'declined') $badge_color = 'danger';
+                                                    elseif ($winning['status'] === 'pending') $badge_color = 'warning';
+                                                    ?>
+                                                    <span class="badge badge-<?php echo $badge_color; ?>">
+                                                        <?php echo ucfirst($winning['status']); ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <?php if ($winning['receipt_image']): ?>
+                                                        <button class="btn btn-sm btn-info" onclick="viewReceipt('uploads/winnings/<?php echo htmlspecialchars($winning['receipt_image']); ?>')" title="View Receipt">
+                                                            <i class="fas fa-image"></i> View
+                                                        </button>
+                                                    <?php else: ?>
+                                                        <span style="color: #94a3b8; font-size: 12px;">No receipt</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($winning['status'] === 'pending'): ?>
+                                                        <a href="?action=approve&winning_id=<?php echo $winning['id']; ?>" 
+                                                           class="btn btn-sm btn-success" 
+                                                           onclick="return confirm('Approve this winning?')"
+                                                           title="Approve">
+                                                            <i class="fas fa-check"></i>
+                                                        </a>
+                                                        <a href="?action=decline&winning_id=<?php echo $winning['id']; ?>" 
+                                                           class="btn btn-sm btn-danger"
+                                                           onclick="return confirm('Decline this winning?')"
+                                                           title="Decline">
+                                                            <i class="fas fa-times"></i>
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <span style="color: #94a3b8; font-size: 12px;">
+                                                            <?php echo ucfirst($winning['status']); ?>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="background: #f8fafc; font-weight: bold;">
+                                            <td colspan="4" style="text-align: right;">
+                                                Total: <?php echo count($stats['dashboard_winnings']); ?> winnings
+                                                (<?php echo $pending_count; ?> pending, <?php echo $approved_count; ?> approved)
+                                            </td>
+                                            <td><strong style="color: #10b981;">₦<?php echo format_money($total_amount); ?></strong></td>
+                                            <td colspan="3"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
                 <?php elseif (is_manager()): ?>
                 <div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-left: 4px solid #10b981; border-radius: 6px;">
                     <h4 style="margin-bottom: 10px;"><i class="fas fa-briefcase"></i> Manager Quick Links</h4>
