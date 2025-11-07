@@ -64,9 +64,18 @@ include __DIR__ . '/includes/sidebar.php';
 <div class="main-content">
     <div class="header">
         <div class="header-left">
-            <h1><i class="fas fa-trophy"></i> All Winnings</h1>
+            <h1><i class="fas fa-trophy"></i> <?php echo $show_all ? 'All Winnings' : 'Daily Winnings (' . date('M d, Y') . ')'; ?></h1>
         </div>
         <div class="header-right">
+            <?php if (!$show_all): ?>
+                <a href="winnings_list.php?show_all=1" class="btn btn-secondary" style="margin-right: 10px;">
+                    <i class="fas fa-list"></i> View All Winnings
+                </a>
+            <?php else: ?>
+                <a href="winnings_list.php" class="btn btn-secondary" style="margin-right: 10px;">
+                    <i class="fas fa-calendar-day"></i> Today's Winnings
+                </a>
+            <?php endif; ?>
             <a href="winning_upload.php" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Upload New Winning
             </a>
