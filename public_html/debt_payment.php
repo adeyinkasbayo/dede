@@ -77,13 +77,13 @@ include __DIR__ . '/includes/sidebar.php';
                         <strong>Date:</strong> <?php echo format_date($debt['debt_date']); ?>
                     </div>
                     <div>
-                        <strong>Original Amount:</strong> <span style="color: var(--danger-color);">$<?php echo format_money($debt['amount']); ?></span>
+                        <strong>Original Amount:</strong> <span style="color: var(--danger-color);">₦<?php echo format_money($debt['amount']); ?></span>
                     </div>
                     <div>
-                        <strong>Total Paid:</strong> <span style="color: var(--success-color);">$<?php echo format_money($debt['total_paid']); ?></span>
+                        <strong>Total Paid:</strong> <span style="color: var(--success-color);">₦<?php echo format_money($debt['total_paid']); ?></span>
                     </div>
                     <div>
-                        <strong>Balance:</strong> <span style="color: var(--warning-color); font-size: 18px; font-weight: bold;">$<?php echo format_money($debt['balance']); ?></span>
+                        <strong>Balance:</strong> <span style="color: var(--warning-color); font-size: 18px; font-weight: bold;">₦<?php echo format_money($debt['balance']); ?></span>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <input type="number" id="amount" name="amount" class="form-control" 
                                step="0.01" placeholder="0.00" required 
                                max="<?php echo $debt['balance']; ?>">
-                        <small style="color: #64748b;">Maximum: $<?php echo format_money($debt['balance']); ?></small>
+                        <small style="color: #64748b;">Maximum: ₦<?php echo format_money($debt['balance']); ?></small>
                     </div>
                     
                     <div class="form-group">
@@ -148,7 +148,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <?php foreach ($payments as $payment): ?>
                         <tr>
                             <td><?php echo format_date($payment['payment_date']); ?></td>
-                            <td style="color: var(--success-color); font-weight: bold;">$<?php echo format_money($payment['amount']); ?></td>
+                            <td style="color: var(--success-color); font-weight: bold;">₦<?php echo format_money($payment['amount']); ?></td>
                             <td><?php echo htmlspecialchars($payment['recorded_by_name']); ?></td>
                             <td><?php echo htmlspecialchars($payment['notes'] ?? '-'); ?></td>
                         </tr>

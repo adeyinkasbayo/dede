@@ -228,7 +228,7 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td><?php echo format_date($winning['winning_date']); ?></td>
                                 <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
                                 <td><?php echo htmlspecialchars($winning['ticket_number'] ?? '-'); ?></td>
-                                <td><strong>$<?php echo format_money($winning['amount']); ?></strong></td>
+                                <td><strong>₦<?php echo format_money($winning['amount']); ?></strong></td>
                                 <td>
                                     <?php 
                                     $status_badge = 'secondary';

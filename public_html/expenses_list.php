@@ -121,7 +121,7 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td><?php echo htmlspecialchars($expense['shop_name']); ?></td>
                                 <td><strong><?php echo htmlspecialchars($expense['category']); ?></strong></td>
                                 <td><?php echo htmlspecialchars(substr($expense['description'], 0, 50)) . '...'; ?></td>
-                                <td><strong>$<?php echo format_money($expense['amount']); ?></strong></td>
+                                <td><strong>₦<?php echo format_money($expense['amount']); ?></strong></td>
                                 <td>
                                     <?php 
                                     $status_badge = 'secondary';

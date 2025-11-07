@@ -107,7 +107,7 @@ include __DIR__ . '/includes/sidebar.php';
             
             <div class="stat-card" style="border-left-color: #ef4444;">
                 <h4>Total Amount Pending</h4>
-                <div class="stat-value">$<?php echo format_money($total_pending); ?></div>
+                <div class="stat-value">₦<?php echo format_money($total_pending); ?></div>
             </div>
         </div>
         
@@ -174,7 +174,7 @@ include __DIR__ . '/includes/sidebar.php';
                                         </td>
                                         <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
                                         <td><?php echo htmlspecialchars($winning['staff_name']); ?></td>
-                                        <td><strong style="color: #10b981;">$<?php echo format_money($winning['amount']); ?></strong></td>
+                                        <td><strong style="color: #10b981;">₦<?php echo format_money($winning['amount']); ?></strong></td>
                                         <td>
                                             <?php if ($winning['receipt_image']): ?>
                                                 <a href="uploads/winnings/<?php echo htmlspecialchars($winning['receipt_image']); ?>" 
@@ -208,7 +208,7 @@ include __DIR__ . '/includes/sidebar.php';
                                 <tfoot>
                                     <tr style="background: #f8fafc; font-weight: bold;">
                                         <td colspan="6" style="text-align: right;">Total Pending:</td>
-                                        <td><strong style="color: #ef4444;">$<?php echo format_money($total_pending); ?></strong></td>
+                                        <td><strong style="color: #ef4444;">₦<?php echo format_money($total_pending); ?></strong></td>
                                         <td colspan="3"></td>
                                     </tr>
                                 </tfoot>

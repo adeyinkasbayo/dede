@@ -147,7 +147,7 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     <div>
                         <h4 style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 5px;">Total Amount (This Page)</h4>
-                        <div style="font-size: 32px; font-weight: bold;">$<?php echo format_money($total_amount); ?></div>
+                        <div style="font-size: 32px; font-weight: bold;">₦<?php echo format_money($total_amount); ?></div>
                     </div>
                     <div>
                         <h4 style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 5px;">Page</h4>
@@ -194,7 +194,7 @@ include __DIR__ . '/includes/sidebar.php';
                                     </td>
                                     <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
                                     <td><?php echo htmlspecialchars($winning['staff_name']); ?></td>
-                                    <td><strong style="color: var(--success-color);">$<?php echo format_money($winning['amount']); ?></strong></td>
+                                    <td><strong style="color: var(--success-color);">₦<?php echo format_money($winning['amount']); ?></strong></td>
                                     <td>
                                         <?php 
                                         $status_badge = 'secondary';
@@ -246,7 +246,7 @@ include __DIR__ . '/includes/sidebar.php';
                             <tfoot>
                                 <tr style="background: #f8fafc; font-weight: bold;">
                                     <td colspan="5" style="text-align: right;">Page Total:</td>
-                                    <td><strong style="color: var(--success-color);">$<?php echo format_money($total_amount); ?></strong></td>
+                                    <td><strong style="color: var(--success-color);">₦<?php echo format_money($total_amount); ?></strong></td>
                                     <td colspan="3"></td>
                                 </tr>
                             </tfoot>

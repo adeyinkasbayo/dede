@@ -62,13 +62,13 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td><?php echo format_date($operation['operation_date']); ?></td>
                                 <td><strong><?php echo htmlspecialchars($operation['shop_code'] ?? $operation['shop_code_name']); ?></strong></td>
                                 <td><?php echo htmlspecialchars($operation['staff_name']); ?></td>
-                                <td>$<?php echo format_money($operation['opening_balance']); ?></td>
-                                <td>$<?php echo format_money($operation['closing_balance']); ?></td>
-                                <td>$<?php echo format_money($operation['total_expenses']); ?></td>
-                                <td>$<?php echo format_money($operation['total_winnings'] ?? 0); ?></td>
-                                <td><strong>$<?php echo format_money($operation['cash_balance'] ?? 0); ?></strong></td>
-                                <td>$<?php echo format_money($operation['tips'] ?? 0); ?></td>
-                                <td style="background: #ecfdf5;"><strong style="color: #10b981;">$<?php echo format_money($operation['tips_calculation'] ?? 0); ?></strong></td>
+                                <td>₦<?php echo format_money($operation['opening_balance']); ?></td>
+                                <td>₦<?php echo format_money($operation['closing_balance']); ?></td>
+                                <td>₦<?php echo format_money($operation['total_expenses']); ?></td>
+                                <td>₦<?php echo format_money($operation['total_winnings'] ?? 0); ?></td>
+                                <td><strong>₦<?php echo format_money($operation['cash_balance'] ?? 0); ?></strong></td>
+                                <td>₦<?php echo format_money($operation['tips'] ?? 0); ?></td>
+                                <td style="background: #ecfdf5;"><strong style="color: #10b981;">₦<?php echo format_money($operation['tips_calculation'] ?? 0); ?></strong></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

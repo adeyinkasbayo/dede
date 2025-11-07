@@ -99,15 +99,15 @@ include __DIR__ . '/includes/sidebar.php';
         <div class="stats-grid" style="margin-bottom: 20px;">
             <div class="stat-card" style="border-left-color: #ef4444;">
                 <h4>Total Debt</h4>
-                <div class="stat-value">$<?php echo format_money($total_debt); ?></div>
+                <div class="stat-value">₦<?php echo format_money($total_debt); ?></div>
             </div>
             <div class="stat-card" style="border-left-color: #10b981;">
                 <h4>Total Paid</h4>
-                <div class="stat-value">$<?php echo format_money($total_paid); ?></div>
+                <div class="stat-value">₦<?php echo format_money($total_paid); ?></div>
             </div>
             <div class="stat-card" style="border-left-color: #f59e0b;">
                 <h4>Total Balance</h4>
-                <div class="stat-value">$<?php echo format_money($total_balance); ?></div>
+                <div class="stat-value">₦<?php echo format_money($total_balance); ?></div>
             </div>
         </div>
         
@@ -141,9 +141,9 @@ include __DIR__ . '/includes/sidebar.php';
                                 <td><?php echo format_date($debt['debt_date']); ?></td>
                                 <td><strong><?php echo htmlspecialchars($debt['staff_name']); ?></strong></td>
                                 <td><?php echo htmlspecialchars($debt['shop_name']); ?></td>
-                                <td>$<?php echo format_money($debt['amount']); ?></td>
-                                <td style="color: var(--success-color);">$<?php echo format_money($debt['total_paid']); ?></td>
-                                <td style="color: var(--danger-color);"><strong>$<?php echo format_money($debt['balance']); ?></strong></td>
+                                <td>₦<?php echo format_money($debt['amount']); ?></td>
+                                <td style="color: var(--success-color);">₦<?php echo format_money($debt['total_paid']); ?></td>
+                                <td style="color: var(--danger-color);"><strong>₦<?php echo format_money($debt['balance']); ?></strong></td>
                                 <td>
                                     <?php 
                                     $badge = 'danger';

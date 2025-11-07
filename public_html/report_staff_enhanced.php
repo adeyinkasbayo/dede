@@ -162,13 +162,13 @@ include __DIR__ . '/includes/sidebar.php';
                                     Operations: <?php echo $totals['count']; ?>
                                 </p>
                                 <p style="margin: 5px 0 0 0; font-size: 14px;">
-                                    Cash Balance: <strong>$<?php echo format_money($totals['cash_balance']); ?></strong>
+                                    Cash Balance: <strong>₦<?php echo format_money($totals['cash_balance']); ?></strong>
                                 </p>
                                 <p style="margin: 5px 0 0 0; font-size: 14px;">
-                                    Tips: <strong>$<?php echo format_money($totals['tips']); ?></strong>
+                                    Tips: <strong>₦<?php echo format_money($totals['tips']); ?></strong>
                                 </p>
                                 <p style="margin: 5px 0 0 0; font-size: 14px; color: #10b981;">
-                                    Tips Calc: <strong>$<?php echo format_money($totals['tips_calculation']); ?></strong>
+                                    Tips Calc: <strong>₦<?php echo format_money($totals['tips_calculation']); ?></strong>
                                 </p>
                             </div>
                         <?php endforeach; ?>
@@ -211,13 +211,13 @@ include __DIR__ . '/includes/sidebar.php';
                                     ?>
                                         <tr>
                                             <td><strong><?php echo htmlspecialchars($op['shop_code']); ?></strong></td>
-                                            <td>$<?php echo format_money($op['opening_balance']); ?></td>
-                                            <td>$<?php echo format_money($op['closing_balance']); ?></td>
-                                            <td>$<?php echo format_money($op['total_expenses']); ?></td>
-                                            <td>$<?php echo format_money($op['total_winnings'] ?? 0); ?></td>
-                                            <td><strong>$<?php echo format_money($op['cash_balance'] ?? 0); ?></strong></td>
-                                            <td>$<?php echo format_money($op['tips'] ?? 0); ?></td>
-                                            <td style="background: #ecfdf5;"><strong style="color: #10b981;">$<?php echo format_money($op['tips_calculation'] ?? 0); ?></strong></td>
+                                            <td>₦<?php echo format_money($op['opening_balance']); ?></td>
+                                            <td>₦<?php echo format_money($op['closing_balance']); ?></td>
+                                            <td>₦<?php echo format_money($op['total_expenses']); ?></td>
+                                            <td>₦<?php echo format_money($op['total_winnings'] ?? 0); ?></td>
+                                            <td><strong>₦<?php echo format_money($op['cash_balance'] ?? 0); ?></strong></td>
+                                            <td>₦<?php echo format_money($op['tips'] ?? 0); ?></td>
+                                            <td style="background: #ecfdf5;"><strong style="color: #10b981;">₦<?php echo format_money($op['tips_calculation'] ?? 0); ?></strong></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     
@@ -225,9 +225,9 @@ include __DIR__ . '/includes/sidebar.php';
                                         <tr style="background: #fef3c7; font-weight: bold;">
                                             <td>DAILY TOTAL</td>
                                             <td colspan="4"></td>
-                                            <td>$<?php echo format_money($daily_total_cash); ?></td>
-                                            <td>$<?php echo format_money($daily_total_tips); ?></td>
-                                            <td style="background: #ecfdf5; color: #10b981;">$<?php echo format_money($daily_total_tips_calc); ?></td>
+                                            <td>₦<?php echo format_money($daily_total_cash); ?></td>
+                                            <td>₦<?php echo format_money($daily_total_tips); ?></td>
+                                            <td style="background: #ecfdf5; color: #10b981;">₦<?php echo format_money($daily_total_tips_calc); ?></td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
@@ -243,38 +243,38 @@ include __DIR__ . '/includes/sidebar.php';
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 14px;">Total Cash Balance</p>
                             <p style="margin: 5px 0 0 0; font-size: 24px; font-weight: bold;">
-                                $<?php echo format_money($grand_totals['cash_balance']); ?>
+                                ₦<?php echo format_money($grand_totals['cash_balance']); ?>
                             </p>
                         </div>
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 14px;">Total Tips</p>
                             <p style="margin: 5px 0 0 0; font-size: 24px; font-weight: bold;">
-                                $<?php echo format_money($grand_totals['tips']); ?>
+                                ₦<?php echo format_money($grand_totals['tips']); ?>
                             </p>
                         </div>
                         <div style="background: #10b981; padding: 15px; border-radius: 8px;">
                             <p style="margin: 0; opacity: 0.9; font-size: 14px;">Total Tips Calculation</p>
                             <p style="margin: 5px 0 0 0; font-size: 24px; font-weight: bold;">
-                                $<?php echo format_money($grand_totals['tips_calculation']); ?>
+                                ₦<?php echo format_money($grand_totals['tips_calculation']); ?>
                             </p>
                         </div>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 12px;">Total Opening</p>
-                            <p style="margin: 5px 0 0 0; font-size: 16px;">$<?php echo format_money($grand_totals['opening']); ?></p>
+                            <p style="margin: 5px 0 0 0; font-size: 16px;">₦<?php echo format_money($grand_totals['opening']); ?></p>
                         </div>
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 12px;">Total Closing</p>
-                            <p style="margin: 5px 0 0 0; font-size: 16px;">$<?php echo format_money($grand_totals['closing']); ?></p>
+                            <p style="margin: 5px 0 0 0; font-size: 16px;">₦<?php echo format_money($grand_totals['closing']); ?></p>
                         </div>
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 12px;">Total Expenses</p>
-                            <p style="margin: 5px 0 0 0; font-size: 16px;">$<?php echo format_money($grand_totals['expenses']); ?></p>
+                            <p style="margin: 5px 0 0 0; font-size: 16px;">₦<?php echo format_money($grand_totals['expenses']); ?></p>
                         </div>
                         <div>
                             <p style="margin: 0; opacity: 0.8; font-size: 12px;">Total Winnings</p>
-                            <p style="margin: 5px 0 0 0; font-size: 16px;">$<?php echo format_money($grand_totals['winnings']); ?></p>
+                            <p style="margin: 5px 0 0 0; font-size: 16px;">₦<?php echo format_money($grand_totals['winnings']); ?></p>
                         </div>
                     </div>
                 </div>

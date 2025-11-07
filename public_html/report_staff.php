@@ -125,17 +125,17 @@ include __DIR__ . '/includes/sidebar.php';
                     
                     <div class="stat-card" style="border-left-color: #10b981;">
                         <h4>Total Sales</h4>
-                        <div class="stat-value">$<?php echo format_money($report_data['summary']['total_sales']); ?></div>
+                        <div class="stat-value">₦<?php echo format_money($report_data['summary']['total_sales']); ?></div>
                     </div>
                     
                     <div class="stat-card" style="border-left-color: #ef4444;">
                         <h4>Total Expenses</h4>
-                        <div class="stat-value">$<?php echo format_money($report_data['summary']['total_expenses']); ?></div>
+                        <div class="stat-value">₦<?php echo format_money($report_data['summary']['total_expenses']); ?></div>
                     </div>
                     
                     <div class="stat-card" style="border-left-color: #8b5cf6;">
                         <h4>Net Amount</h4>
-                        <div class="stat-value">$<?php echo format_money($report_data['summary']['net']); ?></div>
+                        <div class="stat-value">₦<?php echo format_money($report_data['summary']['net']); ?></div>
                     </div>
                 </div>
                 
@@ -160,10 +160,10 @@ include __DIR__ . '/includes/sidebar.php';
                             <?php foreach ($report_data['operations'] as $operation): ?>
                             <tr>
                                 <td><?php echo format_date($operation['operation_date']); ?></td>
-                                <td>$<?php echo format_money($operation['opening_balance']); ?></td>
-                                <td>$<?php echo format_money($operation['total_sales']); ?></td>
-                                <td>$<?php echo format_money($operation['total_expenses']); ?></td>
-                                <td>$<?php echo format_money($operation['closing_balance']); ?></td>
+                                <td>₦<?php echo format_money($operation['opening_balance']); ?></td>
+                                <td>₦<?php echo format_money($operation['total_sales']); ?></td>
+                                <td>₦<?php echo format_money($operation['total_expenses']); ?></td>
+                                <td>₦<?php echo format_money($operation['closing_balance']); ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

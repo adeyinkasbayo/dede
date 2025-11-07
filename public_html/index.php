@@ -169,7 +169,7 @@ include __DIR__ . '/includes/sidebar.php';
                 
                 <div class="stat-card" style="border-left-color: #06b6d4;">
                     <h4>Monthly Sales</h4>
-                    <div class="stat-value">$<?php echo format_money($stats['monthly_sales']); ?></div>
+                    <div class="stat-value">₦<?php echo format_money($stats['monthly_sales']); ?></div>
                 </div>
             <?php else: ?>
                 <div class="stat-card" style="border-left-color: #2563eb;">
@@ -275,7 +275,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <i class="fas fa-exclamation-triangle"></i> My Outstanding Debts
                         <?php if ($stats['total_debt'] > 0): ?>
                             <span style="float: right; font-size: 18px; color: #ef4444;">
-                                $<?php echo format_money($stats['total_debt']); ?>
+                                ₦<?php echo format_money($stats['total_debt']); ?>
                             </span>
                         <?php endif; ?>
                     </h4>
@@ -301,9 +301,9 @@ include __DIR__ . '/includes/sidebar.php';
                                         <tr>
                                             <td><?php echo format_date($debt['debt_date']); ?></td>
                                             <td style="font-size: 12px;"><?php echo htmlspecialchars(substr($debt['description'] ?? 'Debt', 0, 30)); ?></td>
-                                            <td>$<?php echo format_money($debt['amount']); ?></td>
-                                            <td style="color: #10b981;">$<?php echo format_money($debt['amount_paid']); ?></td>
-                                            <td style="color: #ef4444; font-weight: bold;">$<?php echo format_money($debt['balance']); ?></td>
+                                            <td>₦<?php echo format_money($debt['amount']); ?></td>
+                                            <td style="color: #10b981;">₦<?php echo format_money($debt['amount_paid']); ?></td>
+                                            <td style="color: #ef4444; font-weight: bold;">₦<?php echo format_money($debt['balance']); ?></td>
                                             <td>
                                                 <?php 
                                                 $badge_color = $debt['status'] === 'pending' ? '#ef4444' : '#f59e0b';
@@ -329,7 +329,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <i class="fas fa-trophy"></i> Today's Winnings (<?php echo date('M d, Y'); ?>)
                         <?php if ($stats['daily_winnings_total'] > 0): ?>
                             <span style="float: right; font-size: 18px; color: #10b981;">
-                                $<?php echo format_money($stats['daily_winnings_total']); ?>
+                                ₦<?php echo format_money($stats['daily_winnings_total']); ?>
                             </span>
                         <?php endif; ?>
                     </h4>
@@ -355,7 +355,7 @@ include __DIR__ . '/includes/sidebar.php';
                                             <td><?php echo date('h:i A', strtotime($winning['created_at'])); ?></td>
                                             <td><?php echo htmlspecialchars($winning['shop_name']); ?></td>
                                             <td><?php echo htmlspecialchars($winning['ticket_number']); ?></td>
-                                            <td style="color: #10b981; font-weight: bold;">$<?php echo format_money($winning['amount']); ?></td>
+                                            <td style="color: #10b981; font-weight: bold;">₦<?php echo format_money($winning['amount']); ?></td>
                                             <td>
                                                 <?php 
                                                 $badge_color = '#64748b'; // default
@@ -384,7 +384,7 @@ include __DIR__ . '/includes/sidebar.php';
                         <i class="fas fa-money-bill-wave"></i> Today's Expenses (<?php echo date('M d, Y'); ?>)
                         <?php if ($stats['daily_expenses_total'] > 0): ?>
                             <span style="float: right; font-size: 18px; color: #eab308;">
-                                $<?php echo format_money($stats['daily_expenses_total']); ?>
+                                ₦<?php echo format_money($stats['daily_expenses_total']); ?>
                             </span>
                         <?php endif; ?>
                     </h4>
@@ -410,7 +410,7 @@ include __DIR__ . '/includes/sidebar.php';
                                             <td><?php echo date('h:i A', strtotime($expense['created_at'])); ?></td>
                                             <td><?php echo htmlspecialchars($expense['shop_name']); ?></td>
                                             <td><?php echo htmlspecialchars($expense['category']); ?></td>
-                                            <td style="color: #eab308; font-weight: bold;">$<?php echo format_money($expense['amount']); ?></td>
+                                            <td style="color: #eab308; font-weight: bold;">₦<?php echo format_money($expense['amount']); ?></td>
                                             <td style="font-size: 12px; color: #64748b;">
                                                 <?php echo htmlspecialchars(substr($expense['description'], 0, 30)) . (strlen($expense['description']) > 30 ? '...' : ''); ?>
                                             </td>
