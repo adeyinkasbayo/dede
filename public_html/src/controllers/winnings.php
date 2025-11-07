@@ -116,29 +116,26 @@ class WinningController {
     
     public function create($data) {
         try {
-            if (empty($data['shop_id']) || empty($data['staff_id']) || empty($data['amount']) || empty($data['winning_date'])) {
-                return ['success' => false, 'message' => 'Shop, staff, amount, and date are required'];
+            if (empty($data['shop_id']) || empty($data['staff_id']) || empty($data['amount']) || empty($data['winning_date']) || empty($data['ticket_number'])) {
+                return ['success' => false, 'message' => 'Shop, staff, ticket number, amount, and date are required'];
             }
             
-            // Check if ticket number already exists (if provided)
-            if (!empty($data['ticket_number'])) {
-                $stmt = $this->pdo->prepare("SELECT id FROM winnings WHERE ticket_number = ?");
-                $stmt->execute([$data['ticket_number']]);
-                if ($stmt->fetch()) {
-                    return ['success' => false, 'message' => 'This ticket number has already been used'];
-                }
+            // Check if ticket number already exists
+            $stmt = $this->pdo->prepare("SELECT id FROM winnings WHERE ticket_number = ?");
+            $stmt->execute([$data['ticket_number']]);
+            if ($stmt->fetch()) {
+                return ['success' => false, 'message' => 'This ticket number has already been used'];
             }
             
             $stmt = $this->pdo->prepare("
                 INSERT INTO winnings 
-                (shop_id, staff_id, customer_name, ticket_number, amount, winning_date, receipt_image, notes, status, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (shop_id, staff_id, ticket_number, amount, winning_date, receipt_image, notes, status, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
                 $data['shop_id'],
                 $data['staff_id'],
-                $data['customer_name'] ?? null,
-                $data['ticket_number'] ?? null,
+                $data['ticket_number'],
                 $data['amount'],
                 $data['winning_date'],
                 $data['receipt_image'] ?? null,
