@@ -83,7 +83,10 @@ include __DIR__ . '/includes/sidebar.php';
 <div class="main-content">
     <div class="header">
         <div class="header-left">
-            <h1><i class="fas fa-check-circle"></i> Approve Winnings</h1>
+            <h1><i class="fas fa-check-circle"></i> Approve Today's Winnings</h1>
+            <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">
+                <?php echo date('l, F d, Y'); ?>
+            </p>
         </div>
         <div class="header-right">
             <a href="winnings_list.php" class="btn btn-secondary">
