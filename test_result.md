@@ -217,15 +217,18 @@ backend:
 
   - task: "Winning Upload - Shop Assignment Fix"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/public_html/winning_upload.php"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Fixed winning_upload.php to show assigned shops for staff users via staff_shop_assignments. Admin/Manager can now select staff and any shop. Removed customer_name field from schema."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL: Cannot test - PHP runtime not installed in container. Environment is configured for FastAPI/React/MongoDB, but application is implemented in PHP/MySQL. PHP files exist but cannot be executed. Requires infrastructure change to test."
 
   - task: "Winnings Controller - Remove customer_name"
     implemented: true
