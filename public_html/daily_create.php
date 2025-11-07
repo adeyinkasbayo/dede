@@ -140,15 +140,21 @@ include __DIR__ . '/includes/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="total_winnings">Total Winnings *</label>
+                        <label for="total_winnings" style="color: #3b82f6;">Total Winnings * 
+                            <small style="font-weight: normal;">(Auto-calculated from winning uploads)</small>
+                        </label>
                         <input type="number" id="total_winnings" name="total_winnings" class="form-control" 
                                step="0.01" required value="0.00" onchange="calculateDailyTotal()">
+                        <small style="color: #3b82f6;">Automatically loaded from winnings uploaded for this staff, shop & date</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="total_expenses">Total Expenses *</label>
+                        <label for="total_expenses" style="color: #10b981;">Total Expenses * 
+                            <small style="font-weight: normal;">(Auto-calculated from expense records)</small>
+                        </label>
                         <input type="number" id="total_expenses" name="total_expenses" class="form-control" 
                                step="0.01" required value="0.00" onchange="calculateDailyTotal()">
+                        <small style="color: #10b981;">Automatically loaded from expenses recorded for this staff, shop & date</small>
                     </div>
                     
                     <div class="form-group">
